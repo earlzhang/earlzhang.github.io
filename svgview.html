@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG 预览工具</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: #f5f5f5;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .container {
+            display: flex;
+            flex: 1;
+            padding: 1rem;
+            gap: 1rem;
+            height: calc(100vh - 60px);
+        }
+        
+        .editor-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .editor-controls {
+            margin-top: 10px;
+            display: flex;
+            justify-content: flex-start;
+        }
+        
+        .preview-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        #svg-editor {
+            width: 100%;
+            height: 100%;
+            padding: 1rem;
+            font-family: monospace;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: none;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .preview-area {
+            flex: 1;
+            padding: 1rem;
+            overflow: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+            border-radius: 5px 5px 0 0;
+        }
+        
+        .button-container {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background-color: #f0f0f0;
+            border-radius: 0 0 5px 5px;
+        }
+        
+        button {
+            padding: 0.5rem 1rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.2s;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        button svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .error-message {
+            color: red;
+            margin-top: 0.5rem;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>SVG 预览工具</h1>
+    </div>
+    
+    <div class="container">
+        <div class="editor-container">
+            <textarea id="svg-editor" placeholder="在此输入 SVG 代码..."><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="100" cy="100" r="80" fill="#3498db" />
+  <rect x="60" y="60" width="80" height="80" fill="#e74c3c" />
+  <polygon points="100,40 120,70 150,70 125,90 135,120 100,105 65,120 75,90 50,70 80,70" fill="#f1c40f" />
+</svg></textarea>
+            <div class="editor-controls">
+                <button id="paste-button">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                    </svg>
+                    粘贴
+                </button>
+            </div>
+        </div>
+        
+        <div class="preview-container">
+            <div class="preview-area" id="svg-preview"></div>
+            <div class="button-container">
+                <button id="download-svg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    下载 SVG
+                </button>
+                <button id="download-png">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    下载 PNG
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const svgEditor = document.getElementById('svg-editor');
+            const svgPreview = document.getElementById('svg-preview');
+            const downloadSvgBtn = document.getElementById('download-svg');
+            const downloadPngBtn = document.getElementById('download-png');
+            const pasteButton = document.getElementById('paste-button');
+            
+            // 初始化预览
+            updatePreview();
+            
+            // 监听编辑器内容变化
+            svgEditor.addEventListener('input', updatePreview);
+            
+            // 更新预览
+            function updatePreview() {
+                try {
+                    // 清除之前的错误消息
+                    const errorMsg = document.querySelector('.error-message');
+                    if (errorMsg) {
+                        errorMsg.remove();
+                    }
+                    
+                    // 获取编辑器内容
+                    const svgCode = svgEditor.value.trim();
+                    
+                    // 更新预览区域
+                    svgPreview.innerHTML = svgCode;
+                    
+                    // 确保SVG元素适应预览区域
+                    const svgElement = svgPreview.querySelector('svg');
+                    if (svgElement) {
+                        svgElement.style.maxWidth = '100%';
+                        svgElement.style.maxHeight = '100%';
+                    }
+                } catch (error) {
+                    // 显示错误消息
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'error-message';
+                    errorDiv.textContent = `SVG 解析错误: ${error.message}`;
+                    svgPreview.innerHTML = '';
+                    svgPreview.appendChild(errorDiv);
+                }
+            }
+            
+            // 下载 SVG 文件
+            downloadSvgBtn.addEventListener('click', function() {
+                try {
+                    const svgCode = svgEditor.value.trim();
+                    const blob = new Blob([svgCode], { type: 'image/svg+xml' });
+                    downloadFile(blob, 'image.svg');
+                } catch (error) {
+                    alert(`下载 SVG 失败: ${error.message}`);
+                }
+            });
+            
+            // 下载 PNG 文件
+            downloadPngBtn.addEventListener('click', function() {
+                try {
+                    const svgElement = svgPreview.querySelector('svg');
+                    if (!svgElement) {
+                        throw new Error('没有找到有效的 SVG 元素');
+                    }
+                    
+                    // 创建一个新的 SVG 元素，以确保尺寸正确
+                    const svgClone = svgElement.cloneNode(true);
+                    
+                    // 获取 SVG 的实际尺寸
+                    let width, height;
+                    
+                    // 尝试从 viewBox 获取尺寸
+                    const viewBox = svgElement.getAttribute('viewBox');
+                    if (viewBox) {
+                        const viewBoxValues = viewBox.split(' ');
+                        if (viewBoxValues.length >= 4) {
+                            width = parseFloat(viewBoxValues[2]);
+                            height = parseFloat(viewBoxValues[3]);
+                        }
+                    }
+                    
+                    // 如果没有 viewBox 或解析失败，尝试从 width/height 属性获取
+                    if (!width || !height) {
+                        width = svgElement.getAttribute('width');
+                        height = svgElement.getAttribute('height');
+                        
+                        // 处理带单位的尺寸 (如 '100px', '10em' 等)
+                        if (width && typeof width === 'string') {
+                            width = parseFloat(width.replace(/[^0-9.]/g, ''));
+                        }
+                        if (height && typeof height === 'string') {
+                            height = parseFloat(height.replace(/[^0-9.]/g, ''));
+                        }
+                    }
+                    
+                    // 如果仍然没有有效尺寸，使用 SVG 的 getBBox 或 getBoundingClientRect
+                    if (!width || !height || isNaN(width) || isNaN(height) || width <= 0 || height <= 0) {
+                        try {
+                            // 尝试使用 getBBox (仅适用于 SVG 元素)
+                            const bbox = svgElement.getBBox();
+                            width = bbox.width;
+                            height = bbox.height;
+                        } catch (e) {
+                            // 如果 getBBox 失败，使用 getBoundingClientRect
+                            const rect = svgElement.getBoundingClientRect();
+                            width = rect.width;
+                            height = rect.height;
+                        }
+                    }
+                    
+                    // 最后的后备方案：使用默认尺寸
+                    width = (width && width > 0) ? width : 800;
+                    height = (height && height > 0) ? height : 600;
+                    
+                    // 应用 DPI=200 的缩放比例（标准 DPI 为 96）
+                    const dpiScale = 200 / 96;
+                    const scaledWidth = Math.round(width * dpiScale);
+                    const scaledHeight = Math.round(height * dpiScale);
+                    
+                    // 设置 SVG 字符串
+                    const svgString = new XMLSerializer().serializeToString(svgClone);
+                    const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+                    const svgUrl = URL.createObjectURL(svgBlob);
+                    
+                    // 创建图像并转换为 Canvas
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = scaledWidth;
+                        canvas.height = scaledHeight;
+                        const ctx = canvas.getContext('2d');
+                        
+                        // 设置白色背景
+                        ctx.fillStyle = '#ffffff';
+                        ctx.fillRect(0, 0, scaledWidth, scaledHeight);
+                        
+                        // 绘制 SVG，应用缩放
+                        ctx.drawImage(img, 0, 0, scaledWidth, scaledHeight);
+                        
+                        // 转换 Canvas 为 PNG
+                        canvas.toBlob(function(blob) {
+                            downloadFile(blob, 'image.png');
+                            URL.revokeObjectURL(svgUrl);
+                        }, 'image/png');
+                    };
+                    
+                    img.onerror = function() {
+                        alert('PNG 转换失败，请检查 SVG 代码是否有效');
+                        URL.revokeObjectURL(svgUrl);
+                    };
+                    
+                    img.src = svgUrl;
+                } catch (error) {
+                    alert(`下载 PNG 失败: ${error.message}`);
+                }
+            });
+            
+            // 通用下载文件函数
+            function downloadFile(blob, filename) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(function() {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 0);
+            }
+            
+            // 粘贴按钮功能
+            pasteButton.addEventListener('click', async function() {
+                try {
+                    // 请求剪贴板权限并读取文本
+                    const text = await navigator.clipboard.readText();
+                    if (text) {
+                        svgEditor.value = text;
+                        updatePreview(); // 更新预览
+                    }
+                } catch (error) {
+                    alert(`粘贴失败: ${error.message}\n\n请注意：浏览器安全限制可能会阻止直接访问剪贴板。\n如果您使用的是本地文件（file://），请尝试在Web服务器上运行此页面。`);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

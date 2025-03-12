@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文本整理器 by 张翼轸</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: "SourceHanSans","思源黑体", "PingFang SC", sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            min-height: 80vh;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .sidebar {
+            width: 25%;
+            padding: 20px;
+            background-color: #f0f8ff;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .punctuation-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+        }
+        .punctuation-row button {
+            flex: 1;
+            padding: 10px 5px;
+        }
+        .content {
+            width: 75%;
+            padding: 20px;
+        }
+        .mini-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .mini-button {
+            padding: 5px 15px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .mini-button:hover {
+            background-color: #357ae8;
+        }
+        button {
+            padding: 10px;
+            border: none;
+            background-color: #4a90e2;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #357ae8;
+        }
+        textarea {
+            width: 100%;
+            height: 400px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+            font-size: 16px;
+            line-height: 1.5;
+            font-family: "SourceHanSans","思源黑体", "PingFang SC", sans-serif;
+            
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>文本整理器</h1>
+    <div class="container">
+        <div class="sidebar">
+            <div class="punctuation-row">
+                <button id="trimParagraphs">去除段落首尾空格</button>
+                <button id="indentParagraphs">段首缩进两个全角空格</button>
+            </div>
+            <div class="punctuation-row">
+                <button id="mergeEmptyLines">合并段落之间空行</button>
+                <button id="singleEmptyLine">只空一行</button>
+            </div>
+            <div class="punctuation-row">
+                <button id="convertComma">，</button>
+                <button id="convertPeriod">。</button>
+                <button id="convertColon">：</button>
+                <button id="convertQuestion">？</button>
+                <button id="convertExclamation">！</button>
+            </div>
+            <button id="convertAllPunctuation">同时整理以上五种</button>
+            <div class="punctuation-row">
+                <button id="convertQuotes">双引号半转全</button>
+                <button id="convertSingleQuotes">单引号半转全</button>
+            </div>
+            <div class="punctuation-row">
+                <button id="convertBracketsFullToHalf">括号全转半</button>
+                <button id="convertBracketsHalfToFull">括号半转全</button>
+            </div>
+        </div>
+        <div class="content">
+            <textarea id="textArea" rows="20" placeholder="请在此处输入需要整理的文本..."></textarea>
+            <div class="mini-buttons">
+                <button id="copyButton" class="mini-button">复制</button>
+                <button id="pasteButton" class="mini-button">粘贴</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取DOM元素
+            const textArea = document.getElementById('textArea');
+            
+            // 去除段落首尾空格
+            document.getElementById('trimParagraphs').addEventListener('click', function() {
+                const text = textArea.value;
+                const paragraphs = text.split('\n');
+                const trimmedParagraphs = paragraphs.map(p => p.trim());
+                textArea.value = trimmedParagraphs.join('\n');
+            });
+            
+            // 段首缩进两个全角空格
+            document.getElementById('indentParagraphs').addEventListener('click', function() {
+                const text = textArea.value;
+                const paragraphs = text.split('\n');
+                const indentedParagraphs = paragraphs.map(p => {
+                    if (p.trim().length > 0) {
+                        return '　　' + p.trim();
+                    }
+                    return p;
+                });
+                textArea.value = indentedParagraphs.join('\n');
+            });
+            
+            // 合并段落之间空行
+            document.getElementById('mergeEmptyLines').addEventListener('click', function() {
+                const text = textArea.value;
+                // 将连续的空行替换为单个空行，然后移除所有空行
+                const processedText = text.replace(/\n\s*\n/g, '\n');
+                textArea.value = processedText;
+            });
+            
+            // 只空一行
+            document.getElementById('singleEmptyLine').addEventListener('click', function() {
+                const text = textArea.value;
+                // 首先确保每个非空段落后面有一个空行
+                let processedText = text.replace(/([^\s][^\n]*)(\n)([^\s])/g, '$1\n\n$3');
+                // 然后将连续的空行替换为单个空行
+                processedText = processedText.replace(/\n\s*\n/g, '\n\n');
+                textArea.value = processedText;
+            });
+            
+            // 定义可复用的标点转换函数
+            // 半角逗号转全角逗号
+            function convertComma(text) {
+                return text.replace(/,/g, '，');
+            }
+            
+            // 半角句号转全角句号，保持数字之间的半角句号不变
+            function convertPeriod(text) {
+                let result = '';
+                let i = 0;
+                
+                while (i < text.length) {
+                    if (text[i] === '.' && 
+                        i > 0 && /\d/.test(text[i-1]) && 
+                        i < text.length - 1 && /\d/.test(text[i+1])) {
+                        // 如果句号前后都是数字，保持原样
+                        result += '.';
+                    } else if (text[i] === '.') {
+                        // 其他情况下转换为全角句号
+                        result += '。';
+                    } else {
+                        result += text[i];
+                    }
+                    i++;
+                }
+                
+                return result;
+            }
+            
+            // 半角冒号转全角冒号
+            function convertColon(text) {
+                return text.replace(/:/g, '：');
+            }
+            
+            // 半角问号转全角问号
+            function convertQuestion(text) {
+                return text.replace(/\?/g, '？');
+            }
+            
+            // 半角感叹号转全角感叹号
+            function convertExclamation(text) {
+                return text.replace(/!/g, '！');
+            }
+            
+            // 半角双引号转全角双引号
+            function convertQuotes(text) {
+                let processedText = text;
+                let isOpen = true;
+                
+                // 查找所有双引号并替换
+                processedText = processedText.replace(/"/g, function() {
+                    const quote = isOpen ? '“' : '”';
+                    isOpen = !isOpen;
+                    return quote;
+                });
+                
+                return processedText;
+            }
+            
+            // 半角单引号转全角单引号
+            function convertSingleQuotes(text) {
+                let processedText = text;
+                let isOpen = true;
+                
+                // 查找所有单引号并替换
+                processedText = processedText.replace(/'/g, function() {
+                    const quote = isOpen ? '‘' : '’';
+                    isOpen = !isOpen;
+                    return quote;
+                });
+                
+                return processedText;
+            }
+            
+            // 全角括号转半角括号
+            function convertBracketsFullToHalf(text) {
+                return text
+                    .replace(/（/g, '(')
+                    .replace(/）/g, ')')
+                    .replace(/【/g, '[')
+                    .replace(/】/g, ']')
+                    .replace(/〈/g, '<')
+                    .replace(/〉/g, '>')
+                    .replace(/《/g, '<<')
+                    .replace(/》/g, '>>')
+                    .replace(/「/g, '{')
+                    .replace(/」/g, '}');
+            }
+            
+            // 半角括号转全角括号
+            function convertBracketsHalfToFull(text) {
+                return text
+                    .replace(/\(/g, '（')
+                    .replace(/\)/g, '）')
+                    .replace(/\[/g, '【')
+                    .replace(/\]/g, '】')
+                    .replace(/</g, '〈')
+                    .replace(/>/g, '〉')
+                    .replace(/<</g, '《')
+                    .replace(/>>/g, '》')
+                    .replace(/\{/g, '「')
+                    .replace(/\}/g, '」');
+            }
+            
+            // 绑定按钮事件
+            document.getElementById('convertComma').addEventListener('click', function() {
+                textArea.value = convertComma(textArea.value);
+            });
+            
+            document.getElementById('convertPeriod').addEventListener('click', function() {
+                textArea.value = convertPeriod(textArea.value);
+            });
+            
+            document.getElementById('convertColon').addEventListener('click', function() {
+                textArea.value = convertColon(textArea.value);
+            });
+            
+            document.getElementById('convertQuestion').addEventListener('click', function() {
+                textArea.value = convertQuestion(textArea.value);
+            });
+            
+            document.getElementById('convertExclamation').addEventListener('click', function() {
+                textArea.value = convertExclamation(textArea.value);
+            });
+            
+            document.getElementById('convertQuotes').addEventListener('click', function() {
+                textArea.value = convertQuotes(textArea.value);
+            });
+            
+            document.getElementById('convertSingleQuotes').addEventListener('click', function() {
+                textArea.value = convertSingleQuotes(textArea.value);
+            });
+            
+            // 括号转换按钮事件
+            document.getElementById('convertBracketsFullToHalf').addEventListener('click', function() {
+                textArea.value = convertBracketsFullToHalf(textArea.value);
+            });
+            
+            document.getElementById('convertBracketsHalfToFull').addEventListener('click', function() {
+                textArea.value = convertBracketsHalfToFull(textArea.value);
+            });
+            
+            // 同时整理以上五种标点符号
+            document.getElementById('convertAllPunctuation').addEventListener('click', function() {
+                let text = textArea.value;
+                text = convertComma(text);
+                text = convertColon(text);
+                text = convertQuestion(text);
+                text = convertExclamation(text);
+                text = convertPeriod(text); // 最后处理句号，因为它的逻辑比较复杂
+                textArea.value = text;
+            });
+            
+            // 复制和粘贴功能
+            document.getElementById('copyButton').addEventListener('click', function() {
+                textArea.select();
+                document.execCommand('copy');
+                // 现代方法，兼容性更好
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(textArea.value)
+                        .then(() => {
+                            // 复制成功，可以添加一些反馈
+                            const originalText = document.getElementById('copyButton').textContent;
+                            document.getElementById('copyButton').textContent = '已复制';
+                            setTimeout(() => {
+                                document.getElementById('copyButton').textContent = originalText;
+                            }, 1000);
+                        })
+                        .catch(err => {
+                            console.error('复制失败: ', err);
+                        });
+                }
+            });
+            
+            document.getElementById('pasteButton').addEventListener('click', function() {
+                if (navigator.clipboard && navigator.clipboard.readText) {
+                    navigator.clipboard.readText()
+                        .then(text => {
+                            textArea.value = text;
+                            // 粘贴成功，可以添加一些反馈
+                            const originalText = document.getElementById('pasteButton').textContent;
+                            document.getElementById('pasteButton').textContent = '已粘贴';
+                            setTimeout(() => {
+                                document.getElementById('pasteButton').textContent = originalText;
+                            }, 1000);
+                        })
+                        .catch(err => {
+                            console.error('粘贴失败: ', err);
+                            alert('无法访问剪贴板，请手动粘贴或检查浏览器权限。');
+                        });
+                } else {
+                    alert('您的浏览器不支持剪贴板访问，请手动粘贴。');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
