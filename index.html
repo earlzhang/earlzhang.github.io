@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>张翼轸的个人主页</title>
+    <!-- TailwindCSS 3.0+ -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background-color: #f6f8fa;
+        }
+        .github-card {
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            transition: all 0.2s ease-in-out;
+        }
+        .github-card:hover {
+            box-shadow: 0 8px 24px rgba(149, 157, 165, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <div class="flex flex-col md:flex-row gap-6">
+            <!-- 左侧：个人信息 -->
+            <div class="w-full md:w-1/4">
+                <div class="github-card bg-white p-6 mb-6">
+                    <div class="flex flex-col items-center">
+                        <img src="earl.jpg" alt="张翼轸" class="w-40 h-40 rounded-full mb-4 border-2 border-gray-200">
+                        <h1 class="text-2xl font-bold mb-2">张翼轸</h1>
+                        <div class="text-gray-600 w-full mt-4">
+                            <div class="flex items-center mb-3">
+                                <i class="fas fa-envelope w-6 text-gray-500"></i>
+                                <a href="mailto:earlzhang@163.com" class="ml-2 text-blue-600 hover:underline transition duration-300 hover:text-blue-800">earlzhang@163.com</a>
+                            </div>
+                            <div class="flex items-center mb-3">
+                                <i class="fas fa-comment w-6 text-gray-500"></i>
+                                <span class="ml-2">微信公众号: <span class="text-blue-600 hover:text-blue-800 transition duration-300">EarlETF</span></span>
+                            </div>
+                            <div class="flex items-center mb-3">
+                                <i class="fas fa-podcast w-6 text-gray-500"></i>
+                                <span class="ml-2">小宇宙播客: <a target="_blank" href="https://www.xiaoyuzhoufm.com/podcast/66922f6c37236c546ed78fce" class="text-blue-600 hover:text-blue-800 transition duration-300 hover:underline">精分派</a></span>
+                            </div>
+                            <div class="flex items-center mb-3">
+                                <i class="fas fa-chart-line w-6 text-gray-500"></i>
+                                <span class="ml-2">雪球: <a target="_blank" href="https://xueqiu.com/u/earlzhang" class="text-blue-600 hover:text-blue-800 transition duration-300 hover:underline">张翼轸</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：内容列表 -->
+            <div class="w-full md:w-3/4">
+                <div class="github-card bg-white p-6">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-gray-200">
+                        <i class="fas fa-link mr-2 text-gray-600"></i>项目导航
+                    </h2>
+                    <ul class="space-y-4">
+                        <li class="github-card p-4 hover:bg-gray-50">
+                            <a href="srt.html" class="flex items-center text-gray-800 hover:text-blue-600">
+                                <i class="fas fa-file-video mr-3 text-gray-500"></i>
+                                <div>
+                                    <div class="font-medium">文章转字幕</div>
+                                    <div class="text-sm text-gray-500">将文本转换为视频字幕格式</div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="github-card p-4 hover:bg-gray-50">
+                            <a href="svgview.html" class="flex items-center text-gray-800 hover:text-blue-600">
+                                <i class="fas fa-bezier-curve mr-3 text-gray-500"></i>
+                                <div>
+                                    <div class="font-medium">SVG 预览及编辑</div>
+                                    <div class="text-sm text-gray-500">SVG 矢量图形查看与编辑工具</div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="github-card p-4 hover:bg-gray-50">
+                            <a href="txt.html" class="flex items-center text-gray-800 hover:text-blue-600">
+                                <i class="fas fa-file-alt mr-3 text-gray-500"></i>
+                                <div>
+                                    <div class="font-medium">文本整理器</div>
+                                    <div class="text-sm text-gray-500">文本内容处理与整理工具</div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="mt-6 text-center text-gray-500 text-sm">
+                    <p>© 2025 张翼轸 | 使用现代 GitHub 风格设计</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 添加暗黑模式支持的基础代码
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+</body>
+</html>
