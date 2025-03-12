@@ -166,6 +166,13 @@
                     </svg>
                     下载 PNG
                 </button>
+                <button id="copy-to-clipboard">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    复制到剪贴板
+                </button>
             </div>
         </div>
     </div>
@@ -226,8 +233,8 @@
                 }
             });
             
-            // 下载 PNG 文件
-            downloadPngBtn.addEventListener('click', function() {
+            // 将SVG转换为PNG的通用函数
+            function convertSvgToPng(callback) {
                 try {
                     const svgElement = svgPreview.querySelector('svg');
                     if (!svgElement) {
@@ -308,11 +315,8 @@
                         // 绘制 SVG，应用缩放
                         ctx.drawImage(img, 0, 0, scaledWidth, scaledHeight);
                         
-                        // 转换 Canvas 为 PNG
-                        canvas.toBlob(function(blob) {
-                            downloadFile(blob, 'image.png');
-                            URL.revokeObjectURL(svgUrl);
-                        }, 'image/png');
+                        // 回调函数处理 canvas
+                        callback(canvas, svgUrl);
                     };
                     
                     img.onerror = function() {
@@ -322,8 +326,49 @@
                     
                     img.src = svgUrl;
                 } catch (error) {
-                    alert(`下载 PNG 失败: ${error.message}`);
+                    alert(`SVG 转换失败: ${error.message}`);
                 }
+            }
+
+            // 下载 PNG 文件
+            downloadPngBtn.addEventListener('click', function() {
+                convertSvgToPng(function(canvas, svgUrl) {
+                    // 转换 Canvas 为 PNG
+                    canvas.toBlob(function(blob) {
+                        downloadFile(blob, 'image.png');
+                        URL.revokeObjectURL(svgUrl);
+                    }, 'image/png');
+                });
+            });
+            
+            // 复制到剪贴板功能
+            const copyToClipboardBtn = document.getElementById('copy-to-clipboard');
+            copyToClipboardBtn.addEventListener('click', function() {
+                convertSvgToPng(function(canvas, svgUrl) {
+                    try {
+                        canvas.toBlob(function(blob) {
+                            // 创建一个新的 ClipboardItem
+                            const item = new ClipboardItem({ 'image/png': blob });
+                            
+                            // 尝试将图像复制到剪贴板
+                            navigator.clipboard.write([item])
+                                .then(() => {
+                                    alert('已成功复制图像到剪贴板');
+                                })
+                                .catch(err => {
+                                    alert(`复制到剪贴板失败: ${err.message}
+
+请注意：此功能需要在安全上下文（HTTPS或localhost）中运行。`);
+                                })
+                                .finally(() => {
+                                    URL.revokeObjectURL(svgUrl);
+                                });
+                        }, 'image/png');
+                    } catch (error) {
+                        alert(`复制到剪贴板失败: ${error.message}`);
+                        URL.revokeObjectURL(svgUrl);
+                    }
+                });
             });
             
             // 通用下载文件函数
