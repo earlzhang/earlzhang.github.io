@@ -173,6 +173,15 @@
                     </svg>
                     复制到剪贴板
                 </button>
+                <div style="display: flex; align-items: center;">
+                    <select id="png-dpi" style="padding: 0.3rem; border-radius: 4px; border: 1px solid #ccc;">
+                        <option value="96">96 DPI</option>
+                        <option value="100">100 DPI</option>
+                        <option value="150">150 DPI</option>
+                        <option value="200" selected>200 DPI</option>
+                        <option value="300">300 DPI</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
@@ -183,6 +192,7 @@
             const svgPreview = document.getElementById('svg-preview');
             const downloadSvgBtn = document.getElementById('download-svg');
             const downloadPngBtn = document.getElementById('download-png');
+            const pngDpiSelect = document.getElementById('png-dpi');
             const pasteButton = document.getElementById('paste-button');
             
             // 初始化预览
@@ -234,7 +244,7 @@
             });
             
             // 将SVG转换为PNG的通用函数
-            function convertSvgToPng(callback) {
+            function convertSvgToPng(callback, dpi = 200) {
                 try {
                     const svgElement = svgPreview.querySelector('svg');
                     if (!svgElement) {
@@ -290,8 +300,8 @@
                     width = (width && width > 0) ? width : 800;
                     height = (height && height > 0) ? height : 600;
                     
-                    // 应用 DPI=200 的缩放比例（标准 DPI 为 96）
-                    const dpiScale = 200 / 96;
+                    // 应用选择的 DPI 缩放比例（标准 DPI 为 96）
+                    const dpiScale = dpi / 96;
                     const scaledWidth = Math.round(width * dpiScale);
                     const scaledHeight = Math.round(height * dpiScale);
                     
@@ -332,18 +342,24 @@
 
             // 下载 PNG 文件
             downloadPngBtn.addEventListener('click', function() {
+                // 获取用户选择的 DPI 值
+                const selectedDpi = parseInt(pngDpiSelect.value);
+                
                 convertSvgToPng(function(canvas, svgUrl) {
                     // 转换 Canvas 为 PNG
                     canvas.toBlob(function(blob) {
                         downloadFile(blob, 'image.png');
                         URL.revokeObjectURL(svgUrl);
                     }, 'image/png');
-                });
+                }, selectedDpi);
             });
             
             // 复制到剪贴板功能
             const copyToClipboardBtn = document.getElementById('copy-to-clipboard');
             copyToClipboardBtn.addEventListener('click', function() {
+                // 获取用户选择的 DPI 值
+                const selectedDpi = parseInt(pngDpiSelect.value);
+                
                 convertSvgToPng(function(canvas, svgUrl) {
                     try {
                         canvas.toBlob(function(blob) {
