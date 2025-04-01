@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown 表格预览工具</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .column {
+            flex: 1;
+        }
+        .input-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .preview-column {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            color: #003371;
+            margin-bottom: 10px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 14px;
+        }
+        textarea {
+            height: 400px;
+            resize: vertical;
+        }
+        label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .preview-area {
+            width: 700px;
+            overflow-x: auto;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            background-color: #fff;
+        }
+        
+        /* 用于复制时的无边框容器 */
+        .capture-container {
+            padding: 15px;
+            background-color: #fff;
+            border: none;
+            overflow: hidden;
+            width: 700px; /* 固定宽度与预览区域一致 */
+            max-width: 700px;
+        }
+        button {
+            background-color: #003371;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #002255;
+        }
+        .copy-success {
+            color: #28a745;
+            margin-left: 10px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .show {
+            opacity: 1;
+        }
+        
+        /* 表格样式 */
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+          color: #222;
+          background-color: #fff;
+          margin: 0;
+          border: none;
+        }
+        
+        th, td {
+          padding: 12px 16px;
+          text-align: left;
+        }
+        
+        th {
+          background-color: #f4f4f4;
+          color: #003371;
+          font-weight: 600;
+          border-bottom: 2px solid #003371;
+        }
+        
+        td {
+          border-bottom: 1px solid #ddd;
+        }
+        
+        tr:last-child td {
+          border-bottom: none;
+        }
+        
+        table caption {
+          caption-side: top;
+          font-size: 1.5rem;
+          font-weight: 900;
+          color: #003371;
+          padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Markdown 表格预览工具</h1>
+        <p>在左侧输入 Markdown 表格代码，右侧实时预览渲染效果</p>
+    </div>
+    
+    <div class="container">
+        <div class="column input-column">
+            <div>
+                <label for="table-header">表格标题</label>
+                <input type="text" id="table-header" placeholder="输入表格标题（可选）">
+            </div>
+            <div>
+                <label for="markdown-input">Markdown 代码</label>
+                <textarea id="markdown-input" placeholder="在此输入 Markdown 表格代码，例如：
+| 姓名 | 年龄 | 职业 |
+| ---- | ---- | ---- |
+| 张三 | 25 | 工程师 |
+| 李四 | 30 | 设计师 |"></textarea>
+                <button id="paste-button" style="margin-top: 10px;">粘贴</button>
+            </div>
+        </div>
+        
+        <div class="column preview-column">
+            <div class="preview-header">
+                <h2>预览</h2>
+                <div>
+                    <button id="copy-image">复制为图片</button>
+                    <span id="copy-success" class="copy-success">已复制到剪贴板！</span>
+                </div>
+            </div>
+            <div class="preview-area" id="preview-area"></div>
+        </div>
+    </div>
+
+    <script>
+        // 获取DOM元素
+        const tableHeader = document.getElementById('table-header');
+        const markdownInput = document.getElementById('markdown-input');
+        const previewArea = document.getElementById('preview-area');
+        const copyButton = document.getElementById('copy-image');
+        const copySuccess = document.getElementById('copy-success');
+        
+        // 设置默认示例
+        markdownInput.value = `| 姓名 | 年龄 | 职业 |
+| ---- | ---- | ---- |
+| 张三 | 25 | 工程师 |
+| 李四 | 30 | 设计师 |
+| 王五 | 28 | 产品经理 |`;
+        
+        // 初始渲染
+        renderMarkdown();
+        
+        // 监听输入变化
+        markdownInput.addEventListener('input', renderMarkdown);
+        tableHeader.addEventListener('input', renderMarkdown);
+        
+        // 粘贴按钮功能
+        document.getElementById('paste-button').addEventListener('click', async () => {
+            try {
+                const text = await navigator.clipboard.readText();
+                markdownInput.value = text;
+                renderMarkdown();
+            } catch (error) {
+                console.error('从剪贴板粘贴失败:', error);
+                alert('从剪贴板粘贴失败，请检查浏览器权限或使用现代浏览器。');
+            }
+        });
+        
+        // 渲染Markdown函数
+        function renderMarkdown() {
+            const markdown = markdownInput.value;
+            const header = tableHeader.value.trim();
+            
+            // 使用marked渲染Markdown
+            const html = marked.parse(markdown);
+            previewArea.innerHTML = html;
+            
+            // 如果有标题，添加表格标题
+            if (header) {
+                const tables = previewArea.querySelectorAll('table');
+                tables.forEach(table => {
+                    // 检查表格是否已有caption
+                    let caption = table.querySelector('caption');
+                    if (!caption) {
+                        // 创建新的caption元素
+                        caption = document.createElement('caption');
+                        caption.textContent = header;
+                        
+                        // 将caption插入到表格的第一个子元素位置
+                        table.insertBefore(caption, table.firstChild);
+                    } else {
+                        // 更新现有caption
+                        caption.textContent = header;
+                    }
+                });
+            }
+        }
+        
+        // 复制为图片功能
+        copyButton.addEventListener('click', async () => {
+            try {
+                // 创建一个临时容器用于截图，保持与预览区域相同的样式
+                const tempContainer = document.createElement('div');
+                tempContainer.className = 'capture-container';
+                tempContainer.innerHTML = previewArea.innerHTML;
+                document.body.appendChild(tempContainer);
+                
+                // 获取表格元素并设置固定宽度
+                const tables = tempContainer.querySelectorAll('table');
+                tables.forEach(table => {
+                    table.style.width = '100%';
+                    table.style.tableLayout = 'fixed';
+                });
+                
+                // 使用html2canvas将临时容器转换为图片
+                const canvas = await html2canvas(tempContainer, {
+                    backgroundColor: '#ffffff',
+                    scale: 2, // 提高图片质量
+                    width: 700 // 固定宽度与预览区域一致
+                });
+                
+                // 移除临时容器
+                document.body.removeChild(tempContainer);
+                
+                // 将Canvas转换为Blob
+                canvas.toBlob(function(blob) {
+                    // 创建ClipboardItem对象
+                    const item = new ClipboardItem({ 'image/png': blob });
+                    
+                    // 写入剪贴板
+                    navigator.clipboard.write([item]).then(() => {
+                        // 显示成功消息
+                        copySuccess.classList.add('show');
+                        setTimeout(() => {
+                            copySuccess.classList.remove('show');
+                        }, 2000);
+                    });
+                });
+            } catch (error) {
+                console.error('复制图片失败:', error);
+                alert('复制图片失败，请检查浏览器权限或使用现代浏览器。');
+            }
+        });
+    </script>
+</body>
+</html>
