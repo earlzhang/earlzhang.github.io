@@ -122,6 +122,12 @@
                 <button id="convertBracketsFullToHalf">括号全转半</button>
                 <button id="convertBracketsHalfToFull">括号半转全</button>
             </div>
+            <div class="punctuation-row">
+                <button id="convertTraditionalQuotes">繁体引号转简体</button>
+            </div>
+            <div class="punctuation-row">
+                <button id="t2s">繁体转简体</button>
+            </div>
         </div>
         <div class="content">
             <textarea id="textArea" rows="20" placeholder="请在此处输入需要整理的文本..."></textarea>
@@ -132,6 +138,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/full.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // 获取DOM元素
@@ -271,13 +278,22 @@
                     .replace(/\(/g, '（')
                     .replace(/\)/g, '）')
                     .replace(/\[/g, '【')
-                    .replace(/\]/g, '】')
+                    .replace(/]/g, '】')
                     .replace(/</g, '〈')
                     .replace(/>/g, '〉')
                     .replace(/<</g, '《')
                     .replace(/>>/g, '》')
                     .replace(/\{/g, '「')
                     .replace(/\}/g, '」');
+            }
+
+            // 繁体引号转简体引号
+            function convertTraditionalQuotesToSimplified(text) {
+                return text
+                    .replace(/「/g, '“')
+                    .replace(/」/g, '”')
+                    .replace(/『/g, '‘')
+                    .replace(/』/g, '’');
             }
             
             // 绑定按钮事件
@@ -317,6 +333,10 @@
             document.getElementById('convertBracketsHalfToFull').addEventListener('click', function() {
                 textArea.value = convertBracketsHalfToFull(textArea.value);
             });
+
+            document.getElementById('convertTraditionalQuotes').addEventListener('click', function() {
+                textArea.value = convertTraditionalQuotesToSimplified(textArea.value);
+            });
             
             // 同时整理以上五种标点符号
             document.getElementById('convertAllPunctuation').addEventListener('click', function() {
@@ -327,6 +347,22 @@
                 text = convertExclamation(text);
                 text = convertPeriod(text); // 最后处理句号，因为它的逻辑比较复杂
                 textArea.value = text;
+            });
+
+            // 繁体转简体
+            document.getElementById('t2s').addEventListener('click', function() {
+                try {
+                    // 使用 opencc-js 的正确 API
+                    // Converter(options) 返回一个转换函数
+                    const converter = OpenCC.Converter({ from: 'tw', to: 'cn' });
+                    const originalText = textArea.value;
+                    let convertedText = converter(originalText);
+                    convertedText = convertTraditionalQuotesToSimplified(convertedText);
+                    textArea.value = convertedText;
+                } catch (err) {
+                    console.error('繁体转简体失败:', err);
+                    alert('繁体转简体失败: ' + err.message);
+                }
             });
             
             // 复制和粘贴功能
