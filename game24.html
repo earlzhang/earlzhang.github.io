@@ -31,6 +31,50 @@
         .results-list {
             font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
         }
+        
+        /* 快捷输入面板 */
+        #quickInputPanel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+            padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+        
+        #quickInputPanel.show {
+            transform: translateY(0);
+        }
+        
+        @media (min-width: 768px) {
+            #quickInputPanel {
+                display: none;
+            }
+        }
+        
+        /* 防止内容被快捷面板遮挡 */
+        body.panel-open {
+            padding-bottom: 200px;
+        }
+        
+        /* 测试按钮(仅在小屏幕显示) */
+        #testPanelBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            opacity: 0.7;
+        }
+        
+        @media (min-width: 768px) {
+            #testPanelBtn {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body class="bg-base-200 min-h-screen p-4 md:flex md:items-center md:justify-center">
@@ -83,6 +127,39 @@
         </div>
     </div>
 
+    <!-- 测试按钮 (用于桌面模拟器测试) -->
+    <button id="testPanelBtn" class="btn btn-circle btn-info btn-sm" title="测试快捷输入">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+    </button>
+
+    <!-- 快捷输入面板 (仅移动端) -->
+    <div id="quickInputPanel">
+        <div class="p-4">
+            <div class="flex justify-between items-center mb-3">
+                <span class="text-sm font-semibold text-base-content/70">选择数字 (1-10)</span>
+                <button id="closePanel" class="btn btn-sm btn-circle btn-ghost">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="grid grid-cols-5 gap-2">
+                <button class="quick-num-btn btn btn-lg btn-primary" data-num="1">1</button>
+                <button class="quick-num-btn btn btn-lg btn-primary" data-num="2">2</button>
+                <button class="quick-num-btn btn btn-lg btn-primary" data-num="3">3</button>
+                <button class="quick-num-btn btn btn-lg btn-primary" data-num="4">4</button>
+                <button class="quick-num-btn btn btn-lg btn-primary" data-num="5">5</button>
+                <button class="quick-num-btn btn btn-lg btn-primary" data-num="6">6</button>
+                <button class="quick-num-btn btn btn-lg btn-primary" data-num="7">7</button>
+                <button class="quick-num-btn btn btn-lg btn-primary" data-num="8">8</button>
+                <button class="quick-num-btn btn btn-lg btn-primary" data-num="9">9</button>
+                <button class="quick-num-btn btn btn-lg btn-primary" data-num="10">10</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const solveBtn = document.getElementById('solveBtn');
@@ -94,6 +171,110 @@
                 document.getElementById('n3'),
                 document.getElementById('n4')
             ];
+            
+            // 快捷输入面板相关
+            const quickInputPanel = document.getElementById('quickInputPanel');
+            const closePanel = document.getElementById('closePanel');
+            const quickNumBtns = document.querySelectorAll('.quick-num-btn');
+            const testPanelBtn = document.getElementById('testPanelBtn');
+            let currentInputIndex = -1;
+            
+            // 显示快捷输入面板
+            function showQuickPanel(index) {
+                currentInputIndex = index;
+                quickInputPanel.classList.add('show');
+                document.body.classList.add('panel-open');
+            }
+            
+            // 隐藏快捷输入面板
+            function hideQuickPanel() {
+                quickInputPanel.classList.remove('show');
+                document.body.classList.remove('panel-open');
+                currentInputIndex = -1;
+            }
+            
+            // 检测是否为移动设备或小屏幕
+            function isMobileView() {
+                return window.innerWidth < 768;
+            }
+            
+            // 输入框获得焦点时显示面板
+            inputs.forEach((input, index) => {
+                input.addEventListener('focus', () => {
+                    if (isMobileView()) {
+                        // 阻止移动端键盘弹出(仅在真实移动设备上生效)
+                        input.setAttribute('readonly', 'readonly');
+                        setTimeout(() => {
+                            input.removeAttribute('readonly');
+                        }, 100);
+                        showQuickPanel(index);
+                    }
+                });
+                
+                // 添加点击事件作为备选方案(用于桌面模拟器测试)
+                input.addEventListener('click', (e) => {
+                    if (isMobileView() && !quickInputPanel.classList.contains('show')) {
+                        e.preventDefault();
+                        showQuickPanel(index);
+                    }
+                });
+            });
+            
+            // 快捷数字按钮点击事件
+            quickNumBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (currentInputIndex >= 0 && currentInputIndex < inputs.length) {
+                        const num = btn.getAttribute('data-num');
+                        inputs[currentInputIndex].value = num;
+                        
+                        // 自动跳到下一个输入框
+                        if (currentInputIndex < inputs.length - 1) {
+                            currentInputIndex++;
+                            inputs[currentInputIndex].focus();
+                        } else {
+                            // 最后一个输入框填完后隐藏面板
+                            hideQuickPanel();
+                            inputs[currentInputIndex].blur();
+                        }
+                    }
+                });
+            });
+            
+            // 关闭按钮
+            closePanel.addEventListener('click', () => {
+                hideQuickPanel();
+                if (currentInputIndex >= 0) {
+                    inputs[currentInputIndex].blur();
+                }
+            });
+            
+            // 测试按钮 (用于桌面模拟器)
+            testPanelBtn.addEventListener('click', () => {
+                if (!quickInputPanel.classList.contains('show')) {
+                    // 找到第一个空的输入框,如果都不为空则选择第一个
+                    let targetIndex = 0;
+                    for (let i = 0; i < inputs.length; i++) {
+                        if (!inputs[i].value) {
+                            targetIndex = i;
+                            break;
+                        }
+                    }
+                    showQuickPanel(targetIndex);
+                } else {
+                    hideQuickPanel();
+                }
+            });
+            
+            // 点击面板外部关闭
+            document.addEventListener('click', (e) => {
+                if (!quickInputPanel.contains(e.target) && 
+                    !testPanelBtn.contains(e.target) &&
+                    !Array.from(inputs).some(input => input.contains(e.target))) {
+                    if (quickInputPanel.classList.contains('show')) {
+                        hideQuickPanel();
+                    }
+                }
+            });
 
             solveBtn.addEventListener('click', () => {
                 const numbers = inputs.map(input => parseInt(input.value, 10));
