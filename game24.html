@@ -1,73 +1,25 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>24点游戏</title>
+    <!-- 使用国内BootCDN镜像 -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <!-- 引入Daisy UI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.0.0/dist/full.css" rel="stylesheet">
     <style>
-        :root {
-            --card-bg: #ffffff;
-            --card-shadow: #d9d9d9;
-            --text-color: #333;
-            --bg-color: #f7f7f7;
-            --accent-color: #4a90e2;
-            --accent-hover: #357abd;
-            --border-radius: 8px;
-            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        }
-
+        /* 自定义样式 */
         body {
-            font-family: var(--font-family);
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
+            padding-top: max(15px, env(safe-area-inset-top));
+            padding-bottom: max(15px, env(safe-area-inset-bottom));
+            padding-left: max(15px, env(safe-area-inset-left));
+            padding-right: max(15px, env(safe-area-inset-right));
         }
-
-        .container {
-            background-color: var(--card-bg);
-            padding: 40px;
-            border-radius: var(--border-radius);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-        }
-
-        h1 {
-            margin-top: 0;
-            font-size: 2.5em;
-            color: var(--accent-color);
-        }
-
-        p {
-            color: #666;
-            margin-bottom: 30px;
-        }
-
-        .inputs-container {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
+        
         .card-input {
-            width: 60px;
-            height: 90px;
-            text-align: center;
-            font-size: 2.5em;
-            font-weight: bold;
-            border: 2px solid #ddd;
-            border-radius: var(--border-radius);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            transition: all 0.2s ease-in-out;
-            -moz-appearance: textfield; /* Firefox */
+            appearance: textfield;
+            -moz-appearance: textfield;
         }
         
         .card-input::-webkit-outer-spin-button,
@@ -75,109 +27,59 @@
             -webkit-appearance: none;
             margin: 0;
         }
-
-        .card-input:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 10px var(--accent-color);
-        }
-
-        .button-container {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 0;
-        }
-
-        .solve-button, .clear-button {
-            color: white;
-            font-size: 1.2em;
-            font-weight: bold;
-            border: none;
-            padding: 15px 30px;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: background-color 0.2s ease-in-out;
-            flex: 1;
-        }
-
-        .solve-button {
-            background-color: var(--accent-color);
-        }
-
-        .solve-button:hover {
-            background-color: var(--accent-hover);
-        }
-
-        .clear-button {
-            background-color: #95a5a6;
-        }
-
-        .clear-button:hover {
-            background-color: #7f8c8d;
-        }
-
-        .results-container {
-            margin-top: 30px;
-            text-align: left;
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: var(--border-radius);
-            min-height: 100px;
-            border: 1px solid #eee;
-            overflow-wrap: break-word;
-        }
         
-        .results-container h2 {
-            margin-top: 0;
-            color: var(--accent-color);
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
-
         .results-list {
-            list-style-type: none;
-            padding-left: 0;
-            margin: 0;
             font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-            font-size: 1.1em;
-        }
-
-        .results-list li {
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .results-list li:last-child {
-            border-bottom: none;
-        }
-
-        .no-solution {
-            color: #999;
-            font-style: italic;
         }
     </style>
 </head>
-<body>
+<body class="bg-base-200 min-h-screen p-4 md:flex md:items-center md:justify-center">
 
-    <div class="container">
-        <h1>24点游戏</h1>
-        <p>请输入4个1到10之间的数字，我会找出所有解法！</p>
-        
-        <div class="inputs-container">
-            <input type="number" class="card-input" min="1" max="10" id="n1">
-            <input type="number" class="card-input" min="1" max="10" id="n2">
-            <input type="number" class="card-input" min="1" max="10" id="n3">
-            <input type="number" class="card-input" min="1" max="10" id="n4">
-        </div>
+    <div class="card w-full max-w-lg bg-base-100 shadow-xl mx-auto">
+        <div class="card-body p-5 md:p-8">
+            <!-- 标题 -->
+            <h1 class="card-title text-3xl md:text-4xl font-bold text-primary justify-center mb-2">
+                24点游戏
+            </h1>
+            
+            <!-- 说明文字 -->
+            <p class="text-center text-base-content/70 text-sm md:text-base mb-5 md:mb-6">
+                请输入4个1到10之间的数字，我会找出所有解法！
+            </p>
+            
+            <!-- 输入框 -->
+            <div class="flex justify-center gap-2 md:gap-3 mb-5 md:mb-6">
+                <input type="number" 
+                       class="card-input input input-bordered input-primary w-12 h-16 md:w-14 md:h-20 text-center text-2xl md:text-3xl font-bold p-0" 
+                       min="1" max="10" id="n1">
+                <input type="number" 
+                       class="card-input input input-bordered input-primary w-12 h-16 md:w-14 md:h-20 text-center text-2xl md:text-3xl font-bold p-0" 
+                       min="1" max="10" id="n2">
+                <input type="number" 
+                       class="card-input input input-bordered input-primary w-12 h-16 md:w-14 md:h-20 text-center text-2xl md:text-3xl font-bold p-0" 
+                       min="1" max="10" id="n3">
+                <input type="number" 
+                       class="card-input input input-bordered input-primary w-12 h-16 md:w-14 md:h-20 text-center text-2xl md:text-3xl font-bold p-0" 
+                       min="1" max="10" id="n4">
+            </div>
 
-        <div class="button-container">
-            <button class="solve-button" id="solveBtn">计算</button>
-            <button class="clear-button" id="clearBtn">清空</button>
-        </div>
+            <!-- 按钮 -->
+            <div class="flex gap-2 md:gap-3 mb-5 md:mb-6">
+                <button class="btn btn-primary flex-1 text-base md:text-lg" id="solveBtn">
+                    计算
+                </button>
+                <button class="btn btn-neutral flex-1 text-base md:text-lg" id="clearBtn">
+                    清空
+                </button>
+            </div>
 
-        <div class="results-container">
-            <h2 id="results-title">计算结果</h2>
-            <ul class="results-list" id="resultsList"></ul>
+            <!-- 结果区域 -->
+            <div class="bg-base-200 rounded-lg p-4 md:p-5 min-h-[100px] max-h-[40vh] md:max-h-none overflow-y-auto">
+                <h2 class="text-lg md:text-xl font-bold text-primary border-b-2 border-base-300 pb-2 mb-3" id="results-title">
+                    计算结果
+                </h2>
+                <ul class="results-list space-y-2 text-sm md:text-base" id="resultsList"></ul>
+            </div>
         </div>
     </div>
 
@@ -198,7 +100,7 @@
 
                 if (numbers.some(isNaN) || numbers.some(n => n < 1 || n > 10)) {
                     resultsTitle.textContent = '输入无效';
-                    resultsList.innerHTML = '<li class="no-solution">请输入4个1到10之间的数字。</li>';
+                    resultsList.innerHTML = '<li class="text-base-content/50 italic">请输入4个1到10之间的数字。</li>';
                     return;
                 }
 
@@ -206,10 +108,10 @@
 
                 if (solutions.length > 0) {
                     resultsTitle.textContent = `成功！找到 ${solutions.length} 种不同的算法：`;
-                    resultsList.innerHTML = solutions.map(s => `<li>${s}</li>`).join('');
+                    resultsList.innerHTML = solutions.map(s => `<li class="py-1 border-b border-base-300 last:border-0">${s}</li>`).join('');
                 } else {
                     resultsTitle.textContent = '没有找到解法';
-                    resultsList.innerHTML = '<li class="no-solution">抱歉,这几个数字无法计算出24。</li>';
+                    resultsList.innerHTML = '<li class="text-base-content/50 italic">抱歉,这几个数字无法计算出24。</li>';
                 }
             });
 
