@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>24点游戏</title>
+    <style>
+        :root {
+            --card-bg: #ffffff;
+            --card-shadow: #d9d9d9;
+            --text-color: #333;
+            --bg-color: #f7f7f7;
+            --accent-color: #4a90e2;
+            --accent-hover: #357abd;
+            --border-radius: 8px;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 2.5em;
+            color: var(--accent-color);
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .inputs-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .card-input {
+            width: 60px;
+            height: 90px;
+            text-align: center;
+            font-size: 2.5em;
+            font-weight: bold;
+            border: 2px solid #ddd;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.2s ease-in-out;
+            -moz-appearance: textfield; /* Firefox */
+        }
+        
+        .card-input::-webkit-outer-spin-button,
+        .card-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .card-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px var(--accent-color);
+        }
+
+        .button-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 0;
+        }
+
+        .solve-button, .clear-button {
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            border: none;
+            padding: 15px 30px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            flex: 1;
+        }
+
+        .solve-button {
+            background-color: var(--accent-color);
+        }
+
+        .solve-button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .clear-button {
+            background-color: #95a5a6;
+        }
+
+        .clear-button:hover {
+            background-color: #7f8c8d;
+        }
+
+        .results-container {
+            margin-top: 30px;
+            text-align: left;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            min-height: 100px;
+            border: 1px solid #eee;
+            overflow-wrap: break-word;
+        }
+        
+        .results-container h2 {
+            margin-top: 0;
+            color: var(--accent-color);
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .results-list {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            font-size: 1.1em;
+        }
+
+        .results-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .results-list li:last-child {
+            border-bottom: none;
+        }
+
+        .no-solution {
+            color: #999;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>24点游戏</h1>
+        <p>请输入4个1到10之间的数字，我会找出所有解法！</p>
+        
+        <div class="inputs-container">
+            <input type="number" class="card-input" min="1" max="10" id="n1">
+            <input type="number" class="card-input" min="1" max="10" id="n2">
+            <input type="number" class="card-input" min="1" max="10" id="n3">
+            <input type="number" class="card-input" min="1" max="10" id="n4">
+        </div>
+
+        <div class="button-container">
+            <button class="solve-button" id="solveBtn">计算</button>
+            <button class="clear-button" id="clearBtn">清空</button>
+        </div>
+
+        <div class="results-container">
+            <h2 id="results-title">计算结果</h2>
+            <ul class="results-list" id="resultsList"></ul>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const solveBtn = document.getElementById('solveBtn');
+            const resultsList = document.getElementById('resultsList');
+            const resultsTitle = document.getElementById('results-title');
+            const inputs = [
+                document.getElementById('n1'),
+                document.getElementById('n2'),
+                document.getElementById('n3'),
+                document.getElementById('n4')
+            ];
+
+            solveBtn.addEventListener('click', () => {
+                const numbers = inputs.map(input => parseInt(input.value, 10));
+
+                if (numbers.some(isNaN) || numbers.some(n => n < 1 || n > 10)) {
+                    resultsTitle.textContent = '输入无效';
+                    resultsList.innerHTML = '<li class="no-solution">请输入4个1到10之间的数字。</li>';
+                    return;
+                }
+
+                const solutions = solve24(numbers);
+
+                if (solutions.length > 0) {
+                    resultsTitle.textContent = `成功！找到 ${solutions.length} 种不同的算法：`;
+                    resultsList.innerHTML = solutions.map(s => `<li>${s}</li>`).join('');
+                } else {
+                    resultsTitle.textContent = '没有找到解法';
+                    resultsList.innerHTML = '<li class="no-solution">抱歉,这几个数字无法计算出24。</li>';
+                }
+            });
+
+            const clearBtn = document.getElementById('clearBtn');
+            clearBtn.addEventListener('click', () => {
+                inputs.forEach(input => input.value = '');
+                resultsTitle.textContent = '计算结果';
+                resultsList.innerHTML = '';
+                inputs[0].focus();
+            });
+            
+            inputs.forEach((input, idx) => {
+                input.addEventListener('input', () => {
+                    if (input.value.length >= 2 && idx < inputs.length - 1) {
+                        inputs[idx + 1].focus();
+                    }
+                });
+            });
+        });
+
+        // --- Core 24 Game Logic ---
+
+        const OPS = {
+            ADD: { op: '+', id: 1, precedence: 1, commutative: true, associative: true },
+            SUB: { op: '-', id: 2, precedence: 1, commutative: false, associative: false },
+            MUL: { op: '*', id: 3, precedence: 2, commutative: true, associative: true },
+            DIV: { op: '/', id: 4, precedence: 2, commutative: false, associative: false },
+        };
+
+        const memo = new Map();
+
+        function solve24(numbers) {
+            memo.clear();
+            const results = findSolutions(numbers);
+            const solutionMap = new Map();
+
+            for (const res of results) {
+                if (Math.abs(res.val - 24) < 1e-9) {
+                    const canonical = getCanonical(res);
+                    if (!solutionMap.has(canonical)) {
+                        solutionMap.set(canonical, formatExpression(res));
+                    }
+                }
+            }
+            
+            return Array.from(solutionMap.values()).sort();
+        }
+
+        function findSolutions(numbers) {
+            const key = numbers.slice().sort().join(',');
+            if (memo.has(key)) {
+                return memo.get(key);
+            }
+
+            if (numbers.length === 1) {
+                return [{ val: numbers[0], expr: String(numbers[0]) }];
+            }
+
+            const results = [];
+            const n = numbers.length;
+            for (let i = 1; i < (1 << n) / 2; i++) {
+                const part1 = [];
+                const part2 = [];
+                for (let j = 0; j < n; j++) {
+                    if ((i >> j) & 1) {
+                        part1.push(numbers[j]);
+                    } else {
+                        part2.push(numbers[j]);
+                    }
+                }
+
+                const res1 = findSolutions(part1);
+                const res2 = findSolutions(part2);
+
+                for (const r1 of res1) {
+                    for (const r2 of res2) {
+                        results.push({ val: r1.val + r2.val, op: OPS.ADD, left: r1, right: r2 });
+                        results.push({ val: r1.val * r2.val, op: OPS.MUL, left: r1, right: r2 });
+                        results.push({ val: r1.val - r2.val, op: OPS.SUB, left: r1, right: r2 });
+                        results.push({ val: r2.val - r1.val, op: OPS.SUB, left: r2, right: r1 });
+                        if (r2.val !== 0) results.push({ val: r1.val / r2.val, op: OPS.DIV, left: r1, right: r2 });
+                        if (r1.val !== 0) results.push({ val: r2.val / r1.val, op: OPS.DIV, left: r2, right: r1 });
+                    }
+                }
+            }
+            
+            memo.set(key, results);
+            return results;
+        }
+
+        function collectParts(res, op, parts) {
+            if (typeof res.expr !== 'undefined') {
+                parts.push(res);
+                return;
+            }
+            if (res.op === op) {
+                collectParts(res.left, op, parts);
+                collectParts(res.right, op, parts);
+            } else {
+                parts.push(res);
+            }
+        }
+
+        // 收集乘除法链,返回 {numerators: [], denominators: []}
+        function collectMulDiv(res, inDenominator = false) {
+            if (typeof res.expr !== 'undefined') {
+                return inDenominator 
+                    ? { numerators: [], denominators: [res] }
+                    : { numerators: [res], denominators: [] };
+            }
+            
+            if (res.op === OPS.MUL) {
+                const left = collectMulDiv(res.left, inDenominator);
+                const right = collectMulDiv(res.right, inDenominator);
+                return {
+                    numerators: [...left.numerators, ...right.numerators],
+                    denominators: [...left.denominators, ...right.denominators]
+                };
+            } else if (res.op === OPS.DIV) {
+                const left = collectMulDiv(res.left, inDenominator);
+                const right = collectMulDiv(res.right, !inDenominator);
+                return {
+                    numerators: [...left.numerators, ...right.numerators],
+                    denominators: [...left.denominators, ...right.denominators]
+                };
+            } else {
+                return inDenominator
+                    ? { numerators: [], denominators: [res] }
+                    : { numerators: [res], denominators: [] };
+            }
+        }
+
+        function getCanonical(res) {
+            if (typeof res.expr !== 'undefined') {
+                return res.expr;
+            }
+
+            const op = res.op;
+            
+            // 加法:收集所有项并排序
+            if (op === OPS.ADD) {
+                const parts = [];
+                collectParts(res, op, parts);
+                const canonicalParts = parts.map(getCanonical).sort();
+                return `(${canonicalParts.join('+')})`;
+            }
+            
+            // 乘法和除法:展开为分子分母形式
+            if (op === OPS.MUL || op === OPS.DIV) {
+                const {numerators, denominators} = collectMulDiv(res);
+                const numStrs = numerators.map(getCanonical).sort();
+                const denStrs = denominators.map(getCanonical).sort();
+                
+                if (denStrs.length === 0) {
+                    return `(*${numStrs.join('*')})`;
+                } else {
+                    return `(*${numStrs.join('*')}/${denStrs.join('*')})`;
+                }
+            }
+            
+            // 减法:不可交换
+            if (op === OPS.SUB) {
+                const cLeft = getCanonical(res.left);
+                const cRight = getCanonical(res.right);
+                return `(${cLeft}-${cRight})`;
+            }
+            
+            return '(?)';
+        }
+
+        function formatExpression(res) {
+            if (typeof res.expr !== 'undefined') {
+                return res.expr;
+            }
+            
+            const op = res.op;
+            const leftStr = formatExpression(res.left);
+            const rightStr = formatExpression(res.right);
+
+            const leftNeedsParens = typeof res.left.op !== 'undefined' && res.left.op.precedence < op.precedence;
+            const rightNeedsParens = typeof res.right.op !== 'undefined' && (res.right.op.precedence < op.precedence || (res.right.op.precedence === op.precedence && !op.associative));
+
+            const l = leftNeedsParens ? `(${leftStr})` : leftStr;
+            const r = rightNeedsParens ? `(${rightStr})` : rightStr;
+
+            return `${l} ${op.op} ${r}`;
+        }
+    </script>
+</body>
+</html>
