@@ -113,41 +113,86 @@
         
         /* 表格样式 */
         table {
-          width: 100%;
-          border-collapse: collapse;
-          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-          color: #222;
-          background-color: #fff;
-          margin: 0;
-          border: none;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-variant-numeric: tabular-nums;
+            color: #333;
+            background-color: #fff;
+            margin: 0;
+            border: 1px solid #e0e6ed;
+            border-radius: 0 0 8px 8px; /* 顶部直角(让红线更硬朗)，底部圆角(保留卡片感) */
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 51, 113, 0.08);
+            table-layout: fixed;
         }
         
         th, td {
-          padding: 12px 16px;
-          text-align: left;
+            padding: 12px 20px;
+            text-align: left;
+            vertical-align: middle;
+            word-wrap: break-word;
+            line-height: 1.4;
         }
         
+        /* 第一列固定宽度 10em (完美容纳6个字)，左对齐 */
+        th:first-child, td:first-child {
+            width: 10em;
+            text-align: left;
+            font-weight: 600;
+        }
+
         th {
-          background-color: #f4f4f4;
-          color: #003371;
-          font-weight: 600;
-          border-bottom: 2px solid #003371;
+            background-color: #003371;
+            color: #ffffff;
+            font-weight: 600;
+            border-bottom: none;
+            border-top: 3px solid #D93025; /* 移除顶部红色修饰 */
         }
         
         td {
-          border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #e0e6ed;
         }
         
+        /* 隔行变色 */
+        tr:nth-child(even) td {
+            background-color: #f8faff;
+        }
+        
+        /* 悬停效果 */
+        tr:hover td {
+            background-color: #eef4ff;
+        }
+
+        /* 最后一行去除底边框，适配卡片圆角 */
         tr:last-child td {
-          border-bottom: none;
+            border-bottom: none;
         }
         
         table caption {
-          caption-side: top;
-          font-size: 1.5rem;
-          font-weight: 900;
-          color: #003371;
-          padding: 8px;
+            caption-side: top;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #222222;
+             /* #003371; */
+            padding: 0 0 0 16px;
+            text-align: left;
+            margin-bottom: 10px; /* 减小标题与表格的距离 */
+            border-bottom: none;
+            border-left: 8px solid #D93025; /* 左侧红色竖线装饰 */
+            line-height: 1.2;
+        }
+
+        .source-signature {
+            text-align: right;
+            margin-top: 8px;
+            margin-right: 8px; /* 配合表格圆角，稍微向内收 */
+            color: #999999;
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         }
     </style>
 </head>
@@ -162,6 +207,10 @@
             <div>
                 <label for="table-header">表格标题</label>
                 <input type="text" id="table-header" placeholder="输入表格标题（可选）">
+            </div>
+            <div>
+                <label for="source-input">来源标记</label>
+                <input type="text" id="source-input" value="张翼轸@EarlETF" placeholder="输入来源标记">
             </div>
             <div>
                 <label for="markdown-input">Markdown 代码</label>
@@ -179,6 +228,7 @@
                 <h2>预览</h2>
                 <div>
                     <button id="copy-image">复制为图片</button>
+                    <button id="download-image" style="margin-left: 10px;">下载</button>
                     <span id="copy-success" class="copy-success">已复制到剪贴板！</span>
                 </div>
             </div>
@@ -189,9 +239,11 @@
     <script>
         // 获取DOM元素
         const tableHeader = document.getElementById('table-header');
+        const sourceInput = document.getElementById('source-input');
         const markdownInput = document.getElementById('markdown-input');
         const previewArea = document.getElementById('preview-area');
         const copyButton = document.getElementById('copy-image');
+        const downloadButton = document.getElementById('download-image');
         const copySuccess = document.getElementById('copy-success');
         
         // 设置默认示例
@@ -207,6 +259,7 @@
         // 监听输入变化
         markdownInput.addEventListener('input', renderMarkdown);
         tableHeader.addEventListener('input', renderMarkdown);
+        sourceInput.addEventListener('input', renderMarkdown);
         
         // 粘贴按钮功能
         document.getElementById('paste-button').addEventListener('click', async () => {
@@ -248,33 +301,50 @@
                     }
                 });
             }
+            
+            // 添加来源标记
+            const sourceText = sourceInput.value;
+            if (sourceText) {
+                const signature = document.createElement('div');
+                signature.className = 'source-signature';
+                signature.textContent = sourceText;
+                previewArea.appendChild(signature);
+            }
         }
         
+        // 生成Canvas的通用函数
+        async function getCanvasFromPreview() {
+            // 创建一个临时容器用于截图，保持与预览区域相同的样式
+            const tempContainer = document.createElement('div');
+            tempContainer.className = 'capture-container';
+            tempContainer.innerHTML = previewArea.innerHTML;
+            document.body.appendChild(tempContainer);
+            
+            // 获取表格元素并设置固定宽度
+            const tables = tempContainer.querySelectorAll('table');
+            tables.forEach(table => {
+                table.style.width = '100%';
+                table.style.tableLayout = 'fixed';
+                // 移除导出图片时的外边框，避免出现细微杂边
+                table.style.border = 'none';
+            });
+            
+            // 使用html2canvas将临时容器转换为图片
+            const canvas = await html2canvas(tempContainer, {
+                backgroundColor: '#ffffff',
+                scale: 2, // 提高图片质量
+                width: 700 // 固定宽度与预览区域一致
+            });
+            
+            // 移除临时容器
+            document.body.removeChild(tempContainer);
+            return canvas;
+        }
+
         // 复制为图片功能
         copyButton.addEventListener('click', async () => {
             try {
-                // 创建一个临时容器用于截图，保持与预览区域相同的样式
-                const tempContainer = document.createElement('div');
-                tempContainer.className = 'capture-container';
-                tempContainer.innerHTML = previewArea.innerHTML;
-                document.body.appendChild(tempContainer);
-                
-                // 获取表格元素并设置固定宽度
-                const tables = tempContainer.querySelectorAll('table');
-                tables.forEach(table => {
-                    table.style.width = '100%';
-                    table.style.tableLayout = 'fixed';
-                });
-                
-                // 使用html2canvas将临时容器转换为图片
-                const canvas = await html2canvas(tempContainer, {
-                    backgroundColor: '#ffffff',
-                    scale: 2, // 提高图片质量
-                    width: 700 // 固定宽度与预览区域一致
-                });
-                
-                // 移除临时容器
-                document.body.removeChild(tempContainer);
+                const canvas = await getCanvasFromPreview();
                 
                 // 将Canvas转换为Blob
                 canvas.toBlob(function(blob) {
@@ -293,6 +363,40 @@
             } catch (error) {
                 console.error('复制图片失败:', error);
                 alert('复制图片失败，请检查浏览器权限或使用现代浏览器。');
+            }
+        });
+
+        // 下载图片功能
+        downloadButton.addEventListener('click', async () => {
+            try {
+                const canvas = await getCanvasFromPreview();
+                
+                // 获取文件名
+                const header = tableHeader.value.trim();
+                let fileName;
+                
+                if (header) {
+                    fileName = `${header}.png`;
+                } else {
+                    const now = new Date();
+                    const pad = (n) => n.toString().padStart(2, '0');
+                    const timestamp = now.getFullYear() +
+                        pad(now.getMonth() + 1) +
+                        pad(now.getDate()) +
+                        pad(now.getHours()) +
+                        pad(now.getMinutes()) +
+                        pad(now.getSeconds());
+                    fileName = `${timestamp}.png`;
+                }
+                
+                // 创建下载链接
+                const link = document.createElement('a');
+                link.download = fileName;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            } catch (error) {
+                console.error('下载图片失败:', error);
+                alert('下载图片失败，请重试。');
             }
         });
     </script>
