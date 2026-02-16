@@ -130,16 +130,22 @@
         
         th, td {
             padding: 12px 20px;
-            text-align: left;
             vertical-align: top;
             word-wrap: break-word;
             line-height: 1.4;
         }
         
-        /* 第一列固定宽度 10em (完美容纳6个字)，左对齐 */
+        /* 支持 Markdown 表格对齐语法，内联 style 优先级更高会自动覆盖 */
+        th[align="left"], td[align="left"] { text-align: left; }
+        th[align="center"], td[align="center"] { text-align: center; }
+        th[align="right"], td[align="right"] { text-align: right; }
+        
+        /* 默认左对齐（无 align 属性时） */
+        th:not([align]), td:not([align]) { text-align: left; }
+        
+        /* 第一列固定宽度 10em (完美容纳6个字) */
         th:first-child, td:first-child {
             width: 10em;
-            text-align: left;
             font-weight: 600;
         }
 

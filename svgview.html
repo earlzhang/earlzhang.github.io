@@ -44,9 +44,11 @@
         .editor-controls {
             display: flex;
             justify-content: flex-start;
+            gap: 1rem;
             padding: 1rem;
             background-color: #f0f0f0;
             border-radius: 0 0 5px 5px;
+            align-items: center;
         }
         
         .preview-container {
@@ -130,12 +132,6 @@
     
     <div class="container">
         <div class="editor-container">
-            <textarea id="svg-editor" placeholder="在此输入 SVG 代码..."><?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="100" cy="100" r="80" fill="#3498db" />
-  <rect x="60" y="60" width="80" height="80" fill="#e74c3c" />
-  <polygon points="100,40 120,70 150,70 125,90 135,120 100,105 65,120 75,90 50,70 80,70" fill="#f1c40f" />
-</svg></textarea>
             <div class="editor-controls">
                 <button id="paste-button">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -144,7 +140,22 @@
                     </svg>
                     粘贴
                 </button>
+                <button id="load-button">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    载入
+                </button>
+                <input type="text" id="title-input" placeholder="文件名（可选）" style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; width: 200px;">
             </div>
+            <textarea id="svg-editor" placeholder="在此输入 SVG 代码..."><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="100" cy="100" r="80" fill="#3498db" />
+  <rect x="60" y="60" width="80" height="80" fill="#e74c3c" />
+  <polygon points="100,40 120,70 150,70 125,90 135,120 100,105 65,120 75,90 50,70 80,70" fill="#f1c40f" />
+</svg></textarea>
         </div>
         
         <div class="preview-container">
@@ -194,6 +205,8 @@
             const downloadPngBtn = document.getElementById('download-png');
             const pngDpiSelect = document.getElementById('png-dpi');
             const pasteButton = document.getElementById('paste-button');
+            const loadButton = document.getElementById('load-button');
+            const titleInput = document.getElementById('title-input');
             
             // 初始化预览
             updatePreview();
@@ -388,7 +401,9 @@
             });
             
             // 通用下载文件函数
-            function downloadFile(blob, filename) {
+            function downloadFile(blob, defaultFilename) {
+                const title = titleInput.value.trim();
+                const filename = title ? title : defaultFilename;
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
@@ -413,6 +428,28 @@
                 } catch (error) {
                     alert(`粘贴失败: ${error.message}\n\n请注意：浏览器安全限制可能会阻止直接访问剪贴板。\n如果您使用的是本地文件（file://），请尝试在Web服务器上运行此页面。`);
                 }
+            });
+            
+            // 载入按钮功能
+            loadButton.addEventListener('click', function() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = '.svg';
+                input.onchange = function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            svgEditor.value = e.target.result;
+                            updatePreview(); // 更新预览
+                            // 将文件名（去掉扩展名）设置到标题文本框
+                            const fileName = file.name.replace(/\.[^/.]+$/, "");
+                            titleInput.value = fileName;
+                        };
+                        reader.readAsText(file);
+                    }
+                };
+                input.click();
             });
         });
     </script>
