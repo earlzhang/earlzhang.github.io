@@ -118,10 +118,24 @@
             height: 16px;
         }
         
-        .error-message {
-            color: red;
-            margin-top: 0.5rem;
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
             font-size: 14px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .toast.show {
+            opacity: 1;
         }
     </style>
 </head>
@@ -214,6 +228,21 @@
             // 监听编辑器内容变化
             svgEditor.addEventListener('input', updatePreview);
             
+            // 显示 Toast 提示
+            function showToast(message) {
+                let toast = document.querySelector('.toast');
+                if (!toast) {
+                    toast = document.createElement('div');
+                    toast.className = 'toast';
+                    document.body.appendChild(toast);
+                }
+                toast.textContent = message;
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2000);
+            }
+            
             // 更新预览
             function updatePreview() {
                 try {
@@ -224,7 +253,16 @@
                     }
                     
                     // 获取编辑器内容
-                    const svgCode = svgEditor.value.trim();
+                    let svgCode = svgEditor.value.trim();
+                    
+                    // 处理 ```svg 前缀和 ``` 后缀
+                    if (svgCode.startsWith('```svg')) {
+                        svgCode = svgCode.slice(5); // 去掉 ```svg
+                    }
+                    if (svgCode.endsWith('```')) {
+                        svgCode = svgCode.slice(0, -3); // 去掉 ```
+                    }
+                    svgCode = svgCode.trim();
                     
                     // 更新预览区域
                     svgPreview.innerHTML = svgCode;
@@ -248,11 +286,18 @@
             // 下载 SVG 文件
             downloadSvgBtn.addEventListener('click', function() {
                 try {
-                    const svgCode = svgEditor.value.trim();
-                    const blob = new Blob([svgCode], { type: 'image/svg+xml' });
+                    let svgCode = svgEditor.value.trim();
+                    if (svgCode.startsWith('```svg')) {
+                        svgCode = svgCode.slice(5);
+                    }
+                    if (svgCode.endsWith('```')) {
+                        svgCode = svgCode.slice(0, -3);
+                    }
+                    const blob = new Blob([svgCode.trim()], { type: 'image/svg+xml' });
                     downloadFile(blob, 'image.svg');
+                    showToast('SVG 下载成功');
                 } catch (error) {
-                    alert(`下载 SVG 失败: ${error.message}`);
+                    showToast(`下载 SVG 失败: ${error.message}`);
                 }
             });
             
@@ -343,13 +388,13 @@
                     };
                     
                     img.onerror = function() {
-                        alert('PNG 转换失败，请检查 SVG 代码是否有效');
+                        showToast('PNG 转换失败，请检查 SVG 代码是否有效');
                         URL.revokeObjectURL(svgUrl);
                     };
                     
                     img.src = svgUrl;
                 } catch (error) {
-                    alert(`SVG 转换失败: ${error.message}`);
+                    showToast(`SVG 转换失败: ${error.message}`);
                 }
             }
 
@@ -363,6 +408,7 @@
                     canvas.toBlob(function(blob) {
                         downloadFile(blob, 'image.png');
                         URL.revokeObjectURL(svgUrl);
+                        showToast('PNG 下载成功');
                     }, 'image/png');
                 }, selectedDpi);
             });
@@ -382,19 +428,17 @@
                             // 尝试将图像复制到剪贴板
                             navigator.clipboard.write([item])
                                 .then(() => {
-                                    alert('已成功复制图像到剪贴板');
+                                    showToast('已成功复制图像到剪贴板');
                                 })
                                 .catch(err => {
-                                    alert(`复制到剪贴板失败: ${err.message}
-
-请注意：此功能需要在安全上下文（HTTPS或localhost）中运行。`);
+                                    showToast(`复制到剪贴板失败: ${err.message}`);
                                 })
                                 .finally(() => {
                                     URL.revokeObjectURL(svgUrl);
                                 });
                         }, 'image/png');
                     } catch (error) {
-                        alert(`复制到剪贴板失败: ${error.message}`);
+                        showToast(`复制到剪贴板失败: ${error.message}`);
                         URL.revokeObjectURL(svgUrl);
                     }
                 });
@@ -424,9 +468,10 @@
                     if (text) {
                         svgEditor.value = text;
                         updatePreview(); // 更新预览
+                        showToast('粘贴成功');
                     }
                 } catch (error) {
-                    alert(`粘贴失败: ${error.message}\n\n请注意：浏览器安全限制可能会阻止直接访问剪贴板。\n如果您使用的是本地文件（file://），请尝试在Web服务器上运行此页面。`);
+                    showToast(`粘贴失败: ${error.message}`);
                 }
             });
             
@@ -445,6 +490,7 @@
                             // 将文件名（去掉扩展名）设置到标题文本框
                             const fileName = file.name.replace(/\.[^/.]+$/, "");
                             titleInput.value = fileName;
+                            showToast('文件载入成功');
                         };
                         reader.readAsText(file);
                     }
