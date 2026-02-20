@@ -800,7 +800,7 @@
                 if (errorMsg) errorMsg.remove();
 
                 let svgCode = svgEditor.value.trim();
-                if (svgCode.startsWith('```svg')) svgCode = svgCode.slice(5);
+                if (svgCode.startsWith('```svg')) svgCode = svgCode.slice(6);
                 if (svgCode.endsWith('```')) svgCode = svgCode.slice(0, -3);
                 svgCode = svgCode.trim();
 
@@ -831,7 +831,7 @@
         // ==================== 下载/复制功能 ====================
         function getCleanSvgCode() {
             let svgCode = svgEditor.value.trim();
-            if (svgCode.startsWith('```svg')) svgCode = svgCode.slice(5);
+            if (svgCode.startsWith('```svg')) svgCode = svgCode.slice(6);
             if (svgCode.endsWith('```')) svgCode = svgCode.slice(0, -3);
             return svgCode.trim();
         }
