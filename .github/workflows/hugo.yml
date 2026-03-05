@@ -18,6 +18,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -30,6 +33,12 @@ jobs:
         with:
           hugo-version: 'latest'
           extended: true
+
+      - name: List files
+        run: |
+          ls -la
+          pwd
+          cat hugo.toml
 
       - name: Build
         run: hugo --config hugo.toml --minify
