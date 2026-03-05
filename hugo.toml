@@ -42,6 +42,9 @@ timeZone = "Asia/Shanghai"
         Title = "EarlMind"
         Content = "张翼轸在AI时代的个人blog。这里存放技术与人文的思考。"
 
+[[params.socialIcons]]
+    name = "email"
+    url = "mailto:earlzhang@gmail.com"
 # 侧边栏与菜单设置
 [[menu.main]]
     identifier = "posts"
