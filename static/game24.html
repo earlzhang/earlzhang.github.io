@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>24点游戏</title>
+    <!-- 使用国内BootCDN镜像 -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <!-- 引入Daisy UI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.0.0/dist/full.css" rel="stylesheet">
+    <style>
+        /* 自定义样式 */
+        body {
+            padding-top: max(15px, env(safe-area-inset-top));
+            padding-bottom: max(15px, env(safe-area-inset-bottom));
+            padding-left: max(15px, env(safe-area-inset-left));
+            padding-right: max(15px, env(safe-area-inset-right));
+        }
+        
+        .card-input {
+            appearance: textfield;
+            -moz-appearance: textfield;
+        }
+        
+        .card-input::-webkit-outer-spin-button,
+        .card-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        .results-list {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+        }
+        
+        /* 快捷输入面板 */
+        #quickInputPanel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+            padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+        
+        #quickInputPanel.show {
+            transform: translateY(0);
+        }
+        
+        @media (min-width: 768px) {
+            #quickInputPanel {
+                display: none;
+            }
+        }
+        
+        /* 防止内容被快捷面板遮挡 */
+        body.panel-open {
+            padding-bottom: 200px;
+        }
+        
+        /* 测试按钮(仅在小屏幕显示) */
+        #testPanelBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            opacity: 0.7;
+        }
+        
+        @media (min-width: 768px) {
+            #testPanelBtn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="bg-base-200 min-h-screen p-4 md:flex md:items-center md:justify-center">
+
+    <div class="card w-full max-w-lg bg-base-100 shadow-xl mx-auto">
+        <div class="card-body p-5 md:p-8">
+            <!-- 标题 -->
+            <h1 class="card-title text-3xl md:text-4xl font-bold text-primary justify-center mb-2">
+                24点游戏
+            </h1>
+            
+            <!-- 说明文字 -->
+            <p class="text-center text-base-content/70 text-sm md:text-base mb-5 md:mb-6">
+                请输入4个1到10之间的数字，我会找出所有解法！
+            </p>
+            
+            <!-- 输入框 -->
+            <div class="flex justify-center gap-2 md:gap-3 mb-5 md:mb-6">
+                <input type="number" 
+                       class="card-input input input-bordered input-primary w-16 h-16 md:w-18 md:h-20 text-center text-2xl md:text-3xl font-bold p-0" 
+                       min="1" max="10" id="n1">
+                <input type="number" 
+                       class="card-input input input-bordered input-primary w-16 h-16 md:w-18 md:h-20 text-center text-2xl md:text-3xl font-bold p-0" 
+                       min="1" max="10" id="n2">
+                <input type="number" 
+                       class="card-input input input-bordered input-primary w-16 h-16 md:w-18 md:h-20 text-center text-2xl md:text-3xl font-bold p-0" 
+                       min="1" max="10" id="n3">
+                <input type="number" 
+                       class="card-input input input-bordered input-primary w-16 h-16 md:w-18 md:h-20 text-center text-2xl md:text-3xl font-bold p-0" 
+                       min="1" max="10" id="n4">
+            </div>
+
+            <!-- 按钮 -->
+            <div class="flex gap-2 md:gap-3 mb-5 md:mb-6">
+                <button class="btn btn-primary flex-1 text-base md:text-lg" id="solveBtn">
+                    计算
+                </button>
+                <button class="btn btn-neutral flex-1 text-base md:text-lg" id="clearBtn">
+                    清空
+                </button>
+            </div>
+
+            <!-- 结果区域 -->
+            <div class="bg-base-200 rounded-lg p-4 md:p-5 min-h-[100px] max-h-[40vh] md:max-h-none overflow-y-auto">
+                <h2 class="text-lg md:text-xl font-bold text-primary border-b-2 border-base-300 pb-2 mb-3" id="results-title">
+                    计算结果
+                </h2>
+                <ul class="results-list space-y-2 text-sm md:text-base" id="resultsList"></ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 测试按钮 (用于桌面模拟器测试) -->
+    <button id="testPanelBtn" class="btn btn-circle btn-info btn-sm" title="测试快捷输入">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+    </button>
+
+    <!-- 快捷输入面板 (仅移动端) -->
+    <div id="quickInputPanel">
+        <div class="p-4">
+            <div class="flex justify-between items-center mb-3">
+                <span class="text-sm font-semibold text-base-content/70">选择数字 (1-10)</span>
+                <button id="closePanel" class="btn btn-sm btn-circle btn-ghost">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="grid grid-cols-5 gap-2">
+                <button class="quick-num-btn btn btn-lg btn-primary" data-num="1">1</button>
+                <button class="quick-num-btn btn btn-lg btn-primary" data-num="2">2</button>
+                <button class="quick-num-btn btn btn-lg btn-primary" data-num="3">3</button>
+                <button class="quick-num-btn btn btn-lg btn-primary" data-num="4">4</button>
+                <button class="quick-num-btn btn btn-lg btn-primary" data-num="5">5</button>
+                <button class="quick-num-btn btn btn-lg btn-primary" data-num="6">6</button>
+                <button class="quick-num-btn btn btn-lg btn-primary" data-num="7">7</button>
+                <button class="quick-num-btn btn btn-lg btn-primary" data-num="8">8</button>
+                <button class="quick-num-btn btn btn-lg btn-primary" data-num="9">9</button>
+                <button class="quick-num-btn btn btn-lg btn-primary" data-num="10">10</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const solveBtn = document.getElementById('solveBtn');
+            const resultsList = document.getElementById('resultsList');
+            const resultsTitle = document.getElementById('results-title');
+            const inputs = [
+                document.getElementById('n1'),
+                document.getElementById('n2'),
+                document.getElementById('n3'),
+                document.getElementById('n4')
+            ];
+            
+            // 快捷输入面板相关
+            const quickInputPanel = document.getElementById('quickInputPanel');
+            const closePanel = document.getElementById('closePanel');
+            const quickNumBtns = document.querySelectorAll('.quick-num-btn');
+            const testPanelBtn = document.getElementById('testPanelBtn');
+            let currentInputIndex = -1;
+            
+            // 显示快捷输入面板
+            function showQuickPanel(index) {
+                currentInputIndex = index;
+                quickInputPanel.classList.add('show');
+                document.body.classList.add('panel-open');
+            }
+            
+            // 隐藏快捷输入面板
+            function hideQuickPanel() {
+                quickInputPanel.classList.remove('show');
+                document.body.classList.remove('panel-open');
+                currentInputIndex = -1;
+            }
+            
+            // 检测是否为移动设备或小屏幕
+            function isMobileView() {
+                return window.innerWidth < 768;
+            }
+            
+            // 输入框获得焦点时显示面板
+            inputs.forEach((input, index) => {
+                input.addEventListener('focus', () => {
+                    if (isMobileView()) {
+                        // 阻止移动端键盘弹出(仅在真实移动设备上生效)
+                        input.setAttribute('readonly', 'readonly');
+                        setTimeout(() => {
+                            input.removeAttribute('readonly');
+                        }, 100);
+                        showQuickPanel(index);
+                    }
+                });
+                
+                // 添加点击事件作为备选方案(用于桌面模拟器测试)
+                input.addEventListener('click', (e) => {
+                    if (isMobileView() && !quickInputPanel.classList.contains('show')) {
+                        e.preventDefault();
+                        showQuickPanel(index);
+                    }
+                });
+            });
+            
+            // 快捷数字按钮点击事件
+            quickNumBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (currentInputIndex >= 0 && currentInputIndex < inputs.length) {
+                        const num = btn.getAttribute('data-num');
+                        inputs[currentInputIndex].value = num;
+                        
+                        // 自动跳到下一个输入框
+                        if (currentInputIndex < inputs.length - 1) {
+                            currentInputIndex++;
+                            inputs[currentInputIndex].focus();
+                        } else {
+                            // 最后一个输入框填完后隐藏面板
+                            hideQuickPanel();
+                            inputs[currentInputIndex].blur();
+                        }
+                    }
+                });
+            });
+            
+            // 关闭按钮
+            closePanel.addEventListener('click', () => {
+                hideQuickPanel();
+                if (currentInputIndex >= 0) {
+                    inputs[currentInputIndex].blur();
+                }
+            });
+            
+            // 测试按钮 (用于桌面模拟器)
+            testPanelBtn.addEventListener('click', () => {
+                if (!quickInputPanel.classList.contains('show')) {
+                    // 找到第一个空的输入框,如果都不为空则选择第一个
+                    let targetIndex = 0;
+                    for (let i = 0; i < inputs.length; i++) {
+                        if (!inputs[i].value) {
+                            targetIndex = i;
+                            break;
+                        }
+                    }
+                    showQuickPanel(targetIndex);
+                } else {
+                    hideQuickPanel();
+                }
+            });
+            
+            // 点击面板外部关闭
+            document.addEventListener('click', (e) => {
+                if (!quickInputPanel.contains(e.target) && 
+                    !testPanelBtn.contains(e.target) &&
+                    !Array.from(inputs).some(input => input.contains(e.target))) {
+                    if (quickInputPanel.classList.contains('show')) {
+                        hideQuickPanel();
+                    }
+                }
+            });
+
+            solveBtn.addEventListener('click', () => {
+                const numbers = inputs.map(input => parseInt(input.value, 10));
+
+                if (numbers.some(isNaN) || numbers.some(n => n < 1 || n > 10)) {
+                    resultsTitle.textContent = '输入无效';
+                    resultsList.innerHTML = '<li class="text-base-content/50 italic">请输入4个1到10之间的数字。</li>';
+                    return;
+                }
+
+                const solutions = solve24(numbers);
+
+                if (solutions.length > 0) {
+                    resultsTitle.textContent = `成功！找到 ${solutions.length} 种不同的算法：`;
+                    resultsList.innerHTML = solutions.map(s => `<li class="py-1 border-b border-base-300 last:border-0">${s}</li>`).join('');
+                } else {
+                    resultsTitle.textContent = '没有找到解法';
+                    resultsList.innerHTML = '<li class="text-base-content/50 italic">抱歉,这几个数字无法计算出24。</li>';
+                }
+            });
+
+            const clearBtn = document.getElementById('clearBtn');
+            clearBtn.addEventListener('click', () => {
+                inputs.forEach(input => input.value = '');
+                resultsTitle.textContent = '计算结果';
+                resultsList.innerHTML = '';
+                inputs[0].focus();
+            });
+            
+            inputs.forEach((input, idx) => {
+                input.addEventListener('input', () => {
+                    if (input.value.length >= 2 && idx < inputs.length - 1) {
+                        inputs[idx + 1].focus();
+                    }
+                });
+            });
+        });
+
+        // --- Core 24 Game Logic ---
+
+        const OPS = {
+            ADD: { op: '+', id: 1, precedence: 1, commutative: true, associative: true },
+            SUB: { op: '-', id: 2, precedence: 1, commutative: false, associative: false },
+            MUL: { op: '*', id: 3, precedence: 2, commutative: true, associative: true },
+            DIV: { op: '/', id: 4, precedence: 2, commutative: false, associative: false },
+        };
+
+        const memo = new Map();
+
+        function solve24(numbers) {
+            memo.clear();
+            const results = findSolutions(numbers);
+            const solutionMap = new Map();
+
+            for (const res of results) {
+                if (Math.abs(res.val - 24) < 1e-9) {
+                    const canonical = getCanonical(res);
+                    if (!solutionMap.has(canonical)) {
+                        solutionMap.set(canonical, formatExpression(res));
+                    }
+                }
+            }
+            
+            return Array.from(solutionMap.values()).sort();
+        }
+
+        function findSolutions(numbers) {
+            const key = numbers.slice().sort().join(',');
+            if (memo.has(key)) {
+                return memo.get(key);
+            }
+
+            if (numbers.length === 1) {
+                return [{ val: numbers[0], expr: String(numbers[0]) }];
+            }
+
+            const results = [];
+            const n = numbers.length;
+            for (let i = 1; i < (1 << n) / 2; i++) {
+                const part1 = [];
+                const part2 = [];
+                for (let j = 0; j < n; j++) {
+                    if ((i >> j) & 1) {
+                        part1.push(numbers[j]);
+                    } else {
+                        part2.push(numbers[j]);
+                    }
+                }
+
+                const res1 = findSolutions(part1);
+                const res2 = findSolutions(part2);
+
+                for (const r1 of res1) {
+                    for (const r2 of res2) {
+                        results.push({ val: r1.val + r2.val, op: OPS.ADD, left: r1, right: r2 });
+                        results.push({ val: r1.val * r2.val, op: OPS.MUL, left: r1, right: r2 });
+                        results.push({ val: r1.val - r2.val, op: OPS.SUB, left: r1, right: r2 });
+                        results.push({ val: r2.val - r1.val, op: OPS.SUB, left: r2, right: r1 });
+                        if (r2.val !== 0) results.push({ val: r1.val / r2.val, op: OPS.DIV, left: r1, right: r2 });
+                        if (r1.val !== 0) results.push({ val: r2.val / r1.val, op: OPS.DIV, left: r2, right: r1 });
+                    }
+                }
+            }
+            
+            memo.set(key, results);
+            return results;
+        }
+
+        function collectParts(res, op, parts) {
+            if (typeof res.expr !== 'undefined') {
+                parts.push(res);
+                return;
+            }
+            if (res.op === op) {
+                collectParts(res.left, op, parts);
+                collectParts(res.right, op, parts);
+            } else {
+                parts.push(res);
+            }
+        }
+
+        // 收集乘除法链,返回 {numerators: [], denominators: []}
+        function collectMulDiv(res, inDenominator = false) {
+            if (typeof res.expr !== 'undefined') {
+                return inDenominator 
+                    ? { numerators: [], denominators: [res] }
+                    : { numerators: [res], denominators: [] };
+            }
+            
+            if (res.op === OPS.MUL) {
+                const left = collectMulDiv(res.left, inDenominator);
+                const right = collectMulDiv(res.right, inDenominator);
+                return {
+                    numerators: [...left.numerators, ...right.numerators],
+                    denominators: [...left.denominators, ...right.denominators]
+                };
+            } else if (res.op === OPS.DIV) {
+                const left = collectMulDiv(res.left, inDenominator);
+                const right = collectMulDiv(res.right, !inDenominator);
+                return {
+                    numerators: [...left.numerators, ...right.numerators],
+                    denominators: [...left.denominators, ...right.denominators]
+                };
+            } else {
+                return inDenominator
+                    ? { numerators: [], denominators: [res] }
+                    : { numerators: [res], denominators: [] };
+            }
+        }
+
+        function getCanonical(res) {
+            if (typeof res.expr !== 'undefined') {
+                return res.expr;
+            }
+
+            const op = res.op;
+            
+            // 加法:收集所有项并排序
+            if (op === OPS.ADD) {
+                const parts = [];
+                collectParts(res, op, parts);
+                const canonicalParts = parts.map(getCanonical).sort();
+                return `(${canonicalParts.join('+')})`;
+            }
+            
+            // 乘法和除法:展开为分子分母形式
+            if (op === OPS.MUL || op === OPS.DIV) {
+                const {numerators, denominators} = collectMulDiv(res);
+                const numStrs = numerators.map(getCanonical).sort();
+                const denStrs = denominators.map(getCanonical).sort();
+                
+                if (denStrs.length === 0) {
+                    return `(*${numStrs.join('*')})`;
+                } else {
+                    return `(*${numStrs.join('*')}/${denStrs.join('*')})`;
+                }
+            }
+            
+            // 减法:不可交换
+            if (op === OPS.SUB) {
+                const cLeft = getCanonical(res.left);
+                const cRight = getCanonical(res.right);
+                return `(${cLeft}-${cRight})`;
+            }
+            
+            return '(?)';
+        }
+
+        function formatExpression(res) {
+            if (typeof res.expr !== 'undefined') {
+                return res.expr;
+            }
+            
+            const op = res.op;
+            const leftStr = formatExpression(res.left);
+            const rightStr = formatExpression(res.right);
+
+            const leftNeedsParens = typeof res.left.op !== 'undefined' && res.left.op.precedence < op.precedence;
+            const rightNeedsParens = typeof res.right.op !== 'undefined' && (res.right.op.precedence < op.precedence || (res.right.op.precedence === op.precedence && !op.associative));
+
+            const l = leftNeedsParens ? `(${leftStr})` : leftStr;
+            const r = rightNeedsParens ? `(${rightStr})` : rightStr;
+
+            return `${l} ${op.op} ${r}`;
+        }
+    </script>
+</body>
+</html>

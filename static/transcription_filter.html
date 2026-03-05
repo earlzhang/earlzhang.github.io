@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>速记内容过滤器</title>
+    <!-- 引入jsdelivr CDN的Tailwind CSS和Preline库 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/preline@1.9.0/dist/preline.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/preline@1.9.0/dist/preline.min.js" defer></script>
+    <style>
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+            min-height: 100vh;
+        }
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            color: white;
+            border-radius: 4px;
+            display: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 50;
+            background-color: #10b981;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient-to-b from-purple-50 to-blue-50 py-4">
+        <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-center">
+                <div class="text-center">
+                    <h1 class="text-2xl font-bold text-gray-800 sm:text-3xl dark:text-white mb-2">速记内容过滤器</h1>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">轻松过滤并提取指定人员的速记发言内容</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="max-w-[85rem] px-4 py-4 sm:px-6 lg:px-8 mx-auto">
+        <div class="grid md:grid-cols-2 gap-8">
+            <!-- 左侧输入区域 -->
+            <div class="h-full bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-slate-900 dark:border-gray-700 flex flex-col">
+                <div class="p-3 md:p-4 flex-1 flex flex-col">
+                    <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">速记内容</h2>
+                    <textarea id="input-content" class="flex-1 py-3 px-4 block w-full border-gray-200 rounded-lg text-base focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600 resize-none min-h-[450px]" placeholder="请在此处粘贴速记内容..."></textarea>
+                </div>
+                <div class="p-3 md:p-4 mt-auto border-t border-gray-200 dark:border-gray-700">
+                    <button type="button" onclick="pasteFromClipboard()" class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
+                            <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
+                            <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
+                        </svg>
+                        从剪贴板粘贴
+                    </button>
+                </div>
+            </div>
+
+            <!-- 右侧过滤区域 -->
+            <div class="h-full bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-slate-900 dark:border-gray-700 flex flex-col">
+                <div class="p-3 md:p-4 flex-1 flex flex-col">
+                    <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">过滤设置</h2>
+                    <div class="mb-4">
+                        <div class="relative">
+                            <input type="text" id="filter-name" class="py-3 px-4 ps-11 block w-full border-gray-200 rounded-lg text-base focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" placeholder="输入要过滤的人名（例如：杨伟中）">
+                            <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person text-gray-400" viewBox="0 0 16 16">
+                                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">过滤结果</h2>
+                    <textarea id="output-content" class="flex-1 py-3 px-4 block w-full border-gray-200 rounded-lg text-base focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600 resize-none min-h-[450px]" readonly placeholder="过滤后的内容将显示在这里..."></textarea>
+                </div>
+                <div class="p-3 md:p-4 mt-auto border-t border-gray-200 dark:border-gray-700 flex gap-3">
+                    <button type="button" onclick="filterContent()" class="flex-1 py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel" viewBox="0 0 16 16">
+                            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
+                        </svg>
+                        过滤内容
+                    </button>
+                    <button type="button" onclick="copyToClipboard()" class="flex-1 py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-amber-500 text-white hover:bg-amber-600 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                            <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
+                            <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
+                        </svg>
+                        复制到剪贴板
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="notification" class="notification">已复制到剪贴板！</div>
+    
+    <script>
+        function filterContent() {
+            const inputContent = document.getElementById('input-content').value;
+            const filterName = document.getElementById('filter-name').value.trim();
+            const outputElement = document.getElementById('output-content');
+            
+            if (!filterName) {
+                alert('请输入要过滤的人名');
+                return;
+            }
+            
+            if (!inputContent) {
+                alert('请粘贴速记内容');
+                return;
+            }
+            
+            // 分割成段落（每个发言为一段）
+            const paragraphs = inputContent.split(/\n\s*\n/);
+            const filteredContent = [];
+            
+            paragraphs.forEach(paragraph => {
+                const lines = paragraph.trim().split('\n');
+                if (lines.length >= 2) {
+                    // 检查第一行是否包含过滤的名字
+                    const firstLine = lines[0];
+                    if (firstLine.startsWith(filterName)) {
+                        // 提取时间戳
+                        const timestamp = firstLine.match(/\d+:\d+/);
+                        const timeStr = timestamp ? ` (${timestamp[0]})` : '';
+                        
+                        // 合并剩余的行作为内容
+                        const content = lines.slice(1).join('\n');
+                        
+                        // 添加到结果中
+                        filteredContent.push(`${timeStr}\n${content}`);
+                    }
+                }
+            });
+            
+            if (filteredContent.length === 0) {
+                outputElement.value = `未找到 "${filterName}" 的发言内容`;
+            } else {
+                outputElement.value = filteredContent.join('\n\n');
+            }
+        }
+        
+        function copyToClipboard() {
+            const outputContent = document.getElementById('output-content');
+            if (!outputContent.value) {
+                alert('没有可复制的内容');
+                return;
+            }
+            
+            // 选中文本
+            outputContent.select();
+            outputContent.setSelectionRange(0, 99999); // 对于移动设备
+            
+            // 复制到剪贴板
+            navigator.clipboard.writeText(outputContent.value).then(() => {
+                // 显示通知
+                const notification = document.getElementById('notification');
+                notification.style.display = 'block';
+                notification.textContent = '已复制到剪贴板！';
+                
+                // 2秒后隐藏通知
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 2000);
+            }).catch(err => {
+                alert('复制失败: ' + err);
+            });
+        }
+        
+        function pasteFromClipboard() {
+            const inputContent = document.getElementById('input-content');
+            
+            navigator.clipboard.readText().then(text => {
+                inputContent.value = text;
+                
+                // 显示通知
+                const notification = document.getElementById('notification');
+                notification.style.display = 'block';
+                notification.textContent = '已从剪贴板粘贴！';
+                
+                // 2秒后隐藏通知
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 2000);
+            }).catch(err => {
+                alert('粘贴失败: ' + err);
+            });
+        }
+        
+        // 页面加载完成后初始化UI组件
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化Preline UI组件（如果需要）
+            if (typeof HSStaticMethods !== 'undefined') {
+                HSStaticMethods.autoInit();
+            }
+        });
+    </script>
+</body>
+</html>

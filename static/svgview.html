@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="svg.ico" type="image/x-icon">
+    <title>SVG 预览工具</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: #f5f5f5;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .container {
+            display: flex;
+            flex: 1;
+            padding: 1rem;
+            gap: 1rem;
+            height: calc(100vh - 60px);
+        }
+        
+        .editor-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .editor-controls {
+            display: flex;
+            justify-content: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background-color: #f0f0f0;
+            border-radius: 0 0 5px 5px;
+            align-items: center;
+        }
+        
+        .preview-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            height: 100%;
+        }
+        
+        #svg-editor {
+            width: 100%;
+            flex: 1;
+            padding: 1rem;
+            font-family: monospace;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px 5px 0 0;
+            resize: none;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 0;
+        }
+        
+        .preview-area {
+            flex: 1;
+            padding: 1rem;
+            overflow: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+            border-radius: 5px 5px 0 0;
+            margin-bottom: 10px;
+        }
+        
+        .button-container {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background-color: #f0f0f0;
+            border-radius: 0 0 5px 5px;
+        }
+        
+        button {
+            padding: 0.5rem 1rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.2s;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        button svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .toast.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>SVG 预览工具</h1>
+    </div>
+    
+    <div class="container">
+        <div class="editor-container">
+            <div class="editor-controls">
+                <button id="paste-button">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                    </svg>
+                    粘贴
+                </button>
+                <button id="load-button">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    载入
+                </button>
+                <input type="text" id="title-input" placeholder="文件名（可选）" style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; width: 200px;">
+            </div>
+            <textarea id="svg-editor" placeholder="在此输入 SVG 代码..."><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="100" cy="100" r="80" fill="#3498db" />
+  <rect x="60" y="60" width="80" height="80" fill="#e74c3c" />
+  <polygon points="100,40 120,70 150,70 125,90 135,120 100,105 65,120 75,90 50,70 80,70" fill="#f1c40f" />
+</svg></textarea>
+        </div>
+        
+        <div class="preview-container">
+            <div class="preview-area" id="svg-preview"></div>
+            <div class="button-container">
+                <button id="download-svg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    下载 SVG
+                </button>
+                <button id="download-png">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    下载 PNG
+                </button>
+                <button id="copy-to-clipboard">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    复制到剪贴板
+                </button>
+                <div style="display: flex; align-items: center;">
+                    <select id="png-dpi" style="padding: 0.3rem; border-radius: 4px; border: 1px solid #ccc;">
+                        <option value="96">96 DPI</option>
+                        <option value="100">100 DPI</option>
+                        <option value="150">150 DPI</option>
+                        <option value="200" selected>200 DPI</option>
+                        <option value="300">300 DPI</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const svgEditor = document.getElementById('svg-editor');
+            const svgPreview = document.getElementById('svg-preview');
+            const downloadSvgBtn = document.getElementById('download-svg');
+            const downloadPngBtn = document.getElementById('download-png');
+            const pngDpiSelect = document.getElementById('png-dpi');
+            const pasteButton = document.getElementById('paste-button');
+            const loadButton = document.getElementById('load-button');
+            const titleInput = document.getElementById('title-input');
+            
+            // 初始化预览
+            updatePreview();
+            
+            // 监听编辑器内容变化
+            svgEditor.addEventListener('input', updatePreview);
+            
+            // 显示 Toast 提示
+            function showToast(message) {
+                let toast = document.querySelector('.toast');
+                if (!toast) {
+                    toast = document.createElement('div');
+                    toast.className = 'toast';
+                    document.body.appendChild(toast);
+                }
+                toast.textContent = message;
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2000);
+            }
+            
+            // 更新预览
+            function updatePreview() {
+                try {
+                    // 清除之前的错误消息
+                    const errorMsg = document.querySelector('.error-message');
+                    if (errorMsg) {
+                        errorMsg.remove();
+                    }
+                    
+                    // 获取编辑器内容
+                    let svgCode = svgEditor.value.trim();
+                    
+                    // 处理 ```svg 前缀和 ``` 后缀
+                    if (svgCode.startsWith('```svg')) {
+                        svgCode = svgCode.slice(5); // 去掉 ```svg
+                    }
+                    if (svgCode.endsWith('```')) {
+                        svgCode = svgCode.slice(0, -3); // 去掉 ```
+                    }
+                    svgCode = svgCode.trim();
+                    
+                    // 更新预览区域
+                    svgPreview.innerHTML = svgCode;
+                    
+                    // 确保SVG元素适应预览区域
+                    const svgElement = svgPreview.querySelector('svg');
+                    if (svgElement) {
+                        svgElement.style.maxWidth = '100%';
+                        svgElement.style.maxHeight = '100%';
+                    }
+                } catch (error) {
+                    // 显示错误消息
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'error-message';
+                    errorDiv.textContent = `SVG 解析错误: ${error.message}`;
+                    svgPreview.innerHTML = '';
+                    svgPreview.appendChild(errorDiv);
+                }
+            }
+            
+            // 下载 SVG 文件
+            downloadSvgBtn.addEventListener('click', function() {
+                try {
+                    let svgCode = svgEditor.value.trim();
+                    if (svgCode.startsWith('```svg')) {
+                        svgCode = svgCode.slice(5);
+                    }
+                    if (svgCode.endsWith('```')) {
+                        svgCode = svgCode.slice(0, -3);
+                    }
+                    const blob = new Blob([svgCode.trim()], { type: 'image/svg+xml' });
+                    downloadFile(blob, 'image.svg');
+                    showToast('SVG 下载成功');
+                } catch (error) {
+                    showToast(`下载 SVG 失败: ${error.message}`);
+                }
+            });
+            
+            // 将SVG转换为PNG的通用函数
+            function convertSvgToPng(callback, dpi = 200) {
+                try {
+                    const svgElement = svgPreview.querySelector('svg');
+                    if (!svgElement) {
+                        throw new Error('没有找到有效的 SVG 元素');
+                    }
+                    
+                    // 创建一个新的 SVG 元素，以确保尺寸正确
+                    const svgClone = svgElement.cloneNode(true);
+                    
+                    // 获取 SVG 的实际尺寸
+                    let width, height;
+                    
+                    // 尝试从 viewBox 获取尺寸
+                    const viewBox = svgElement.getAttribute('viewBox');
+                    if (viewBox) {
+                        const viewBoxValues = viewBox.split(' ');
+                        if (viewBoxValues.length >= 4) {
+                            width = parseFloat(viewBoxValues[2]);
+                            height = parseFloat(viewBoxValues[3]);
+                        }
+                    }
+                    
+                    // 如果没有 viewBox 或解析失败，尝试从 width/height 属性获取
+                    if (!width || !height) {
+                        width = svgElement.getAttribute('width');
+                        height = svgElement.getAttribute('height');
+                        
+                        // 处理带单位的尺寸 (如 '100px', '10em' 等)
+                        if (width && typeof width === 'string') {
+                            width = parseFloat(width.replace(/[^0-9.]/g, ''));
+                        }
+                        if (height && typeof height === 'string') {
+                            height = parseFloat(height.replace(/[^0-9.]/g, ''));
+                        }
+                    }
+                    
+                    // 如果仍然没有有效尺寸，使用 SVG 的 getBBox 或 getBoundingClientRect
+                    if (!width || !height || isNaN(width) || isNaN(height) || width <= 0 || height <= 0) {
+                        try {
+                            // 尝试使用 getBBox (仅适用于 SVG 元素)
+                            const bbox = svgElement.getBBox();
+                            width = bbox.width;
+                            height = bbox.height;
+                        } catch (e) {
+                            // 如果 getBBox 失败，使用 getBoundingClientRect
+                            const rect = svgElement.getBoundingClientRect();
+                            width = rect.width;
+                            height = rect.height;
+                        }
+                    }
+                    
+                    // 最后的后备方案：使用默认尺寸
+                    width = (width && width > 0) ? width : 800;
+                    height = (height && height > 0) ? height : 600;
+                    
+                    // 应用选择的 DPI 缩放比例（标准 DPI 为 96）
+                    const dpiScale = dpi / 96;
+                    const scaledWidth = Math.round(width * dpiScale);
+                    const scaledHeight = Math.round(height * dpiScale);
+                    
+                    // 设置 SVG 字符串
+                    const svgString = new XMLSerializer().serializeToString(svgClone);
+                    const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+                    const svgUrl = URL.createObjectURL(svgBlob);
+                    
+                    // 创建图像并转换为 Canvas
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = scaledWidth;
+                        canvas.height = scaledHeight;
+                        const ctx = canvas.getContext('2d');
+                        
+                        // 设置白色背景
+                        ctx.fillStyle = '#ffffff';
+                        ctx.fillRect(0, 0, scaledWidth, scaledHeight);
+                        
+                        // 绘制 SVG，应用缩放
+                        ctx.drawImage(img, 0, 0, scaledWidth, scaledHeight);
+                        
+                        // 回调函数处理 canvas
+                        callback(canvas, svgUrl);
+                    };
+                    
+                    img.onerror = function() {
+                        showToast('PNG 转换失败，请检查 SVG 代码是否有效');
+                        URL.revokeObjectURL(svgUrl);
+                    };
+                    
+                    img.src = svgUrl;
+                } catch (error) {
+                    showToast(`SVG 转换失败: ${error.message}`);
+                }
+            }
+
+            // 下载 PNG 文件
+            downloadPngBtn.addEventListener('click', function() {
+                // 获取用户选择的 DPI 值
+                const selectedDpi = parseInt(pngDpiSelect.value);
+                
+                convertSvgToPng(function(canvas, svgUrl) {
+                    // 转换 Canvas 为 PNG
+                    canvas.toBlob(function(blob) {
+                        downloadFile(blob, 'image.png');
+                        URL.revokeObjectURL(svgUrl);
+                        showToast('PNG 下载成功');
+                    }, 'image/png');
+                }, selectedDpi);
+            });
+            
+            // 复制到剪贴板功能
+            const copyToClipboardBtn = document.getElementById('copy-to-clipboard');
+            copyToClipboardBtn.addEventListener('click', function() {
+                // 获取用户选择的 DPI 值
+                const selectedDpi = parseInt(pngDpiSelect.value);
+                
+                convertSvgToPng(function(canvas, svgUrl) {
+                    try {
+                        canvas.toBlob(function(blob) {
+                            // 创建一个新的 ClipboardItem
+                            const item = new ClipboardItem({ 'image/png': blob });
+                            
+                            // 尝试将图像复制到剪贴板
+                            navigator.clipboard.write([item])
+                                .then(() => {
+                                    showToast('已成功复制图像到剪贴板');
+                                })
+                                .catch(err => {
+                                    showToast(`复制到剪贴板失败: ${err.message}`);
+                                })
+                                .finally(() => {
+                                    URL.revokeObjectURL(svgUrl);
+                                });
+                        }, 'image/png');
+                    } catch (error) {
+                        showToast(`复制到剪贴板失败: ${error.message}`);
+                        URL.revokeObjectURL(svgUrl);
+                    }
+                });
+            });
+            
+            // 通用下载文件函数
+            function downloadFile(blob, defaultFilename) {
+                const title = titleInput.value.trim();
+                const filename = title ? title : defaultFilename;
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(function() {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 0);
+            }
+            
+            // 粘贴按钮功能
+            pasteButton.addEventListener('click', async function() {
+                try {
+                    // 请求剪贴板权限并读取文本
+                    const text = await navigator.clipboard.readText();
+                    if (text) {
+                        svgEditor.value = text;
+                        updatePreview(); // 更新预览
+                        showToast('粘贴成功');
+                    }
+                } catch (error) {
+                    showToast(`粘贴失败: ${error.message}`);
+                }
+            });
+            
+            // 载入按钮功能
+            loadButton.addEventListener('click', function() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = '.svg';
+                input.onchange = function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            svgEditor.value = e.target.result;
+                            updatePreview(); // 更新预览
+                            // 将文件名（去掉扩展名）设置到标题文本框
+                            const fileName = file.name.replace(/\.[^/.]+$/, "");
+                            titleInput.value = fileName;
+                            showToast('文件载入成功');
+                        };
+                        reader.readAsText(file);
+                    }
+                };
+                input.click();
+            });
+        });
+    </script>
+</body>
+</html>

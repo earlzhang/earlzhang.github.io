@@ -1,0 +1,81 @@
+languageCode = 'zh-cn'
+defaultContentLanguage = 'zh-cn'
+defaultContentLanguageInSubdir = false
+hasCJKLanguage = true
+title = 'EarlMind'
+theme = "papermod"
+relativeURLs = true
+canonifyURLs = false
+enableRobotsTXT = true
+# 分页配置（Hugo >= 0.128）
+[pagination]
+  pagerSize = 10
+
+summaryLength = 120
+
+# 设置北京时间时区
+timeZone = "Asia/Shanghai"
+
+[languages]
+  [languages.zh-cn]
+    languageName = "简体中文"
+    languageCode = "zh-CN"
+    weight = 1
+
+[params]
+    # 全局作者信息
+    author = "Earl" 
+    defaultTheme = "auto"
+    disableThemeToggle = false
+
+    # 首页显示摘要，不显示全文
+    ShowReadingTime = true
+    ShowShareButtons = false
+    ShowPostNavLinks = true
+    ShowBreadCrumbs = true
+    ShowCodeCopyButtons = true
+    ShowToc = true
+    TocOpen = true
+    
+    # 首页文章列表配置
+    [params.homeInfoParams]
+        Title = "EarlMind"
+        Content = "张翼轸在AI时代的个人blog。这里存放技术与人文的思考。"
+
+# 侧边栏与菜单设置
+[[menu.main]]
+    identifier = "posts"
+    name = "文章"
+    url = "/posts/"
+    weight = 10
+
+[[menu.main]]
+    identifier = "archive"
+    name = "归档"
+    url = "/archives/"
+    weight = 20
+
+# 搜索优化（PaperMod 特色）
+[outputs]
+    home = ["HTML", "RSS", "JSON"]
+
+# 永久链接格式设置：保持 URL 简洁
+[permalinks]
+    posts = "/:year/:contentbasename/"
+
+# 允许渲染 Markdown 中的 HTML（方便迁移 WordPress 遗留内容）
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    lineNos = true
+    theme = "monokai"
+  [markup.tableOfContents]
+    endLevel = 3
+    ordered = false
+    startLevel = 2
+ 
+[minify]
+  disableXML = false
+  minifyOutput = false
