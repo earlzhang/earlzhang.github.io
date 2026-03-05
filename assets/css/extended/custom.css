@@ -5,3 +5,17 @@ body {
 code {
     font-family: "Menlo", "Monaco", "Consolas", "Source Code Pro", "PingFang SC", monospace;
 }
+
+/* 优化首页标题区域的上下留白 */
+.first-entry.home-info {
+    min-height: 120px; /* 覆盖默认的 320px */
+    margin-top: 10px;  /* 减小顶部边距 */
+    margin-bottom: 30px; /* 减小与下方文章列表的边距 */
+}
+
+@media screen and (max-width: 768px) {
+    .first-entry.home-info {
+        min-height: 100px;
+        margin-bottom: 20px;
+    }
+}
