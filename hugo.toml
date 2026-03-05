@@ -1,3 +1,4 @@
+baseURL = 'https://earlmind.com/'
 languageCode = 'zh-cn'
 defaultContentLanguage = 'zh-cn'
 defaultContentLanguageInSubdir = false
