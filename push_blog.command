@@ -16,6 +16,9 @@ git add .
 echo "正在提交更改..."
 git commit -m "Update blog content"
 
+echo "正在拉取远程更改..."
+git pull --rebase
+
 echo "正在推送到 GitHub..."
 git push
 
