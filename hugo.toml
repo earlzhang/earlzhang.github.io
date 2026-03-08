@@ -41,7 +41,7 @@ timeZone = "Asia/Shanghai"
     # 首页文章列表配置
     [params.homeInfoParams]
         Title = "EarlMind"
-        Content = "张翼轸在AI时代的个人blog。这里存放技术与人文的思考。"
+        Content = "一半是对算力的好奇，一半是对生活的偏见 by张翼轸"
 
 [[params.socialIcons]]
     name = "email"
