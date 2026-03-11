@@ -80,10 +80,10 @@
         
         /* 用于复制时的无边框容器 */
         .capture-container {
-            padding: 15px;
+            padding: 26px;
             background-color: #fff;
             border: none;
-            overflow: hidden;
+            overflow: visible;
             width: 700px; /* 固定宽度与预览区域一致 */
             max-width: 700px;
         }
@@ -112,27 +112,32 @@
         }
         
         /* 表格样式 */
+        .table-wrapper {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            background-color: #fff;
+        }
+
         table {
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             font-variant-numeric: tabular-nums;
-            color: #333;
-            background-color: #fff;`
+            color: #333333;
+            background-color: transparent;
             margin: 0;
-            border: 1px solid #e0e6ed;
-            border-radius: 0 0 8px 8px; /* 顶部直角(让红线更硬朗)，底部圆角(保留卡片感) */
-            overflow: hidden;
-            box-shadow: 0 8px 24px rgba(0, 51, 113, 0.08);
+            border: none;
+            border-radius: 0;
             table-layout: fixed;
         }
         
         th, td {
-            padding: 12px 20px;
+            padding: 14px 22px;
             vertical-align: top;
             word-wrap: break-word;
-            line-height: 1.4;
+            line-height: 1.35;
         }
         
         /* 支持 Markdown 表格对齐语法，内联 style 优先级更高会自动覆盖 */
@@ -154,16 +159,21 @@
             color: #ffffff;
             font-weight: 600;
             border-bottom: none;
-            border-top: 3px solid #D93025; /* 移除顶部红色修饰 */
+            border-top: none;
+        }
+
+        thead th {
+            border-bottom: 1px solid #D93025;
         }
         
         td {
-            border-bottom: 1px solid #e0e6ed;
+            color: #333333;
+            border-bottom: 1px solid #F0F0F0;
         }
         
         /* 隔行变色 */
         tr:nth-child(even) td {
-            background-color: #f8faff;
+            background-color: #F8F9FA;
         }
         
         /* 悬停效果 */
@@ -179,22 +189,33 @@
         table caption {
             caption-side: top;
             font-size: 1.8rem;
-            font-weight: 900;
-            color: #222222;
+            font-weight: 600 !important;
+            color: #1f2328;
              /* #003371; */
-            padding: 0 0 0 16px;
+            padding: 0 0 10px 0;
             text-align: left;
             margin-bottom: 10px; /* 减小标题与表格的距离 */
             border-bottom: none;
-            border-left: 8px solid #D93025; /* 左侧红色竖线装饰 */
             line-height: 1.2;
+            position: relative;
+            font-family: "PingFang SC", "Source Han Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        table caption::after {
+            content: "";
+            display: block;
+            width: 2em;
+            height: 3px;
+            background-color: #D93025;
+            margin-top: 8px;
         }
 
         .source-signature {
             text-align: right;
-            margin-top: 8px;
+            margin-top: 20px;
             margin-right: 8px; /* 配合表格圆角，稍微向内收 */
-            color: #999999;
+            color: #A0A0A0;
             font-size: 12px;
             font-weight: 400;
             letter-spacing: 1px;
@@ -307,6 +328,19 @@
                     }
                 });
             }
+
+            // 为每个表格包裹外层容器，用于圆角/阴影/裁切
+            const tablesToWrap = previewArea.querySelectorAll('table');
+            tablesToWrap.forEach(table => {
+                const parent = table.parentElement;
+                if (parent && parent.classList.contains('table-wrapper')) {
+                    return;
+                }
+                const wrapper = document.createElement('div');
+                wrapper.className = 'table-wrapper';
+                table.parentNode.insertBefore(wrapper, table);
+                wrapper.appendChild(table);
+            });
             
             // 添加来源标记
             const sourceText = sourceInput.value;
