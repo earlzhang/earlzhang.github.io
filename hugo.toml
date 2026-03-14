@@ -9,6 +9,7 @@ relativeURLs = false
 canonifyURLs = true
 enableRobotsTXT = true
 # 分页配置（Hugo >= 0.128）
+
 [pagination]
   pagerSize = 10
 
