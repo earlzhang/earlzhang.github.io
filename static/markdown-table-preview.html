@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Markdown 表格预览工具</title>
+    <link rel="icon" type="image/x-icon" href="favicon/tablefavicon/favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="favicon/tablefavicon/favicon.svg">
+    <link rel="apple-touch-icon" href="favicon/tablefavicon/apple-touch-icon.png">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <style>
@@ -232,7 +235,12 @@
     <div class="container">
         <div class="column input-column">
             <div>
-                <label for="table-header">表格标题</label>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
+                    <label for="table-header" style="margin-bottom: 0;">表格标题</label>
+                    <button id="save-md" style="font-size: 12px; padding: 4px 12px;">保存</button>
+                    <button id="load-md" style="font-size: 12px; padding: 4px 12px;">载入</button>
+                    <input type="file" id="load-file-input" accept=".md" style="display: none;">
+                </div>
                 <input type="text" id="table-header" placeholder="输入表格标题（可选）">
             </div>
             <div>
@@ -438,6 +446,58 @@
                 console.error('下载图片失败:', error);
                 alert('下载图片失败，请重试。');
             }
+        });
+
+        // 保存为 Markdown 文件
+        document.getElementById('save-md').addEventListener('click', () => {
+            const header = tableHeader.value.trim();
+            const markdown = markdownInput.value;
+            const source = sourceInput.value.trim();
+
+            const sections = [];
+            sections.push('<!-- title -->\n' + header + '\n<!-- /title -->');
+            sections.push('<!-- markdown -->\n' + markdown + '\n<!-- /markdown -->');
+            sections.push('<!-- source -->\n' + source + '\n<!-- /source -->');
+
+            const content = sections.join('\n\n');
+            const fileName = 'table' + (header || '未命名') + '.md';
+
+            const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+            const link = document.createElement('a');
+            link.download = fileName;
+            link.href = URL.createObjectURL(blob);
+            link.click();
+            URL.revokeObjectURL(link.href);
+        });
+
+        // 载入 Markdown 文件
+        const loadFileInput = document.getElementById('load-file-input');
+
+        document.getElementById('load-md').addEventListener('click', () => {
+            loadFileInput.click();
+        });
+
+        loadFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const text = event.target.result;
+
+                const titleMatch = text.match(/<!-- title -->\n([\s\S]*?)\n<!-- \/title -->/);
+                const markdownMatch = text.match(/<!-- markdown -->\n([\s\S]*?)\n<!-- \/markdown -->/);
+                const sourceMatch = text.match(/<!-- source -->\n([\s\S]*?)\n<!-- \/source -->/);
+
+                if (titleMatch) tableHeader.value = titleMatch[1];
+                if (markdownMatch) markdownInput.value = markdownMatch[1];
+                if (sourceMatch) sourceInput.value = sourceMatch[1];
+
+                renderMarkdown();
+            };
+            reader.readAsText(file);
+            // 重置 input 以便同一文件可再次载入
+            loadFileInput.value = '';
         });
     </script>
 </body>
