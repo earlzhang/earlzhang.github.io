@@ -10,6 +10,10 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <style>
+        :root {
+            --cell-padding-y: 14px;
+            --cell-padding-x: 22px;
+        }
         * {
             box-sizing: border-box;
             margin: 0;
@@ -163,7 +167,7 @@
         }
         
         th, td {
-            padding: 14px 22px;
+            padding: var(--cell-padding-y) var(--cell-padding-x);
             vertical-align: top;
             word-wrap: break-word;
             line-height: 1.35;
@@ -291,6 +295,10 @@
                         列宽(em)
                         <input id="col-widths-em" type="text" value="" placeholder="例如：12,8,auto">
                     </label>
+                    <label class="first-col-control" for="cell-padding-px">
+                        Padding(px)
+                        <input id="cell-padding-px" type="text" value="" placeholder="例如：14,18">
+                    </label>
                     <button id="copy-image">复制为图片</button>
                     <button id="download-image" style="margin-left: 10px;">下载</button>
                     <span id="copy-success" class="copy-success">已复制到剪贴板！</span>
@@ -307,9 +315,59 @@
         const markdownInput = document.getElementById('markdown-input');
         const previewArea = document.getElementById('preview-area');
         const colWidthsEmInput = document.getElementById('col-widths-em');
+        const cellPaddingPxInput = document.getElementById('cell-padding-px');
         const copyButton = document.getElementById('copy-image');
         const downloadButton = document.getElementById('download-image');
         const copySuccess = document.getElementById('copy-success');
+
+        function parsePaddingPx(value) {
+            const raw = (value || '').trim();
+            if (!raw) {
+                return null;
+            }
+            const parts = raw.split(',').map(v => v.trim()).filter(Boolean);
+            if (parts.length === 0) {
+                return null;
+            }
+            const y = Number(parts[0]);
+            const x = Number(parts.length >= 2 ? parts[1] : parts[0]);
+            if (!Number.isFinite(y) || !Number.isFinite(x)) {
+                return null;
+            }
+            return {
+                y: Math.max(0, y),
+                x: Math.max(0, x)
+            };
+        }
+
+        function previewCellPaddingPx(value) {
+            const parsed = parsePaddingPx(value);
+            if (!parsed) {
+                return;
+            }
+            document.documentElement.style.setProperty('--cell-padding-y', `${parsed.y}px`);
+            document.documentElement.style.setProperty('--cell-padding-x', `${parsed.x}px`);
+        }
+
+        function commitCellPaddingPx(value) {
+            const raw = (value || '').trim();
+            const parsed = parsePaddingPx(raw);
+            if (!parsed) {
+                return;
+            }
+
+            const normalized = `${parsed.y},${parsed.x}`;
+            document.documentElement.style.setProperty('--cell-padding-y', `${parsed.y}px`);
+            document.documentElement.style.setProperty('--cell-padding-x', `${parsed.x}px`);
+            if (cellPaddingPxInput) {
+                cellPaddingPxInput.value = normalized;
+            }
+            try {
+                localStorage.setItem('markdown-table-preview:cell-padding-px', normalized);
+            } catch (e) {
+                // ignore
+            }
+        }
 
         function parseColWidthsEm(value) {
             const raw = (value || '').trim();
@@ -409,6 +467,19 @@
                 colWidthsEmInput.value = saved;
             }
         })();
+
+        (function initCellPadding() {
+            let saved = '';
+            try {
+                saved = localStorage.getItem('markdown-table-preview:cell-padding-px') || '';
+            } catch (e) {
+                saved = '';
+            }
+            if (cellPaddingPxInput) {
+                cellPaddingPxInput.value = saved || '14,22';
+            }
+            commitCellPaddingPx(cellPaddingPxInput ? cellPaddingPxInput.value : '14,22');
+        })();
         
         // 设置默认示例
         markdownInput.value = `| 姓名 | 年龄 | 职业 |
@@ -434,6 +505,18 @@
             });
             colWidthsEmInput.addEventListener('blur', (e) => {
                 commitColWidthsEm(e.target.value);
+            });
+        }
+
+        if (cellPaddingPxInput) {
+            cellPaddingPxInput.addEventListener('input', (e) => {
+                previewCellPaddingPx(e.target.value);
+            });
+            cellPaddingPxInput.addEventListener('change', (e) => {
+                commitCellPaddingPx(e.target.value);
+            });
+            cellPaddingPxInput.addEventListener('blur', (e) => {
+                commitCellPaddingPx(e.target.value);
             });
         }
         
