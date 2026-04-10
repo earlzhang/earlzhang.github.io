@@ -277,13 +277,15 @@
                 <input type="text" id="source-input" value="张翼轸@EarlETF" placeholder="输入来源标记">
             </div>
             <div>
-                <label for="markdown-input">Markdown 代码</label>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
+                    <label for="markdown-input" style="margin-bottom: 0;">Markdown 代码</label>
+                    <button id="paste-button" style="font-size: 12px; padding: 4px 12px;">粘贴</button>
+                </div>
                 <textarea id="markdown-input" placeholder="在此输入 Markdown 表格代码，例如：
 | 姓名 | 年龄 | 职业 |
 | ---- | ---- | ---- |
 | 张三 | 25 | 工程师 |
 | 李四 | 30 | 设计师 |"></textarea>
-                <button id="paste-button" style="margin-top: 10px;">粘贴</button>
             </div>
         </div>
         
