@@ -453,7 +453,9 @@
             });
             
             document.getElementById('convertQuotes').addEventListener('click', function() {
-                textArea.value = convertQuotes(textArea.value);
+                let text = convertQuotes(textArea.value);
+                text = convertSingleQuotes(text);
+                textArea.value = text;
             });
             
             document.getElementById('convertSingleQuotes').addEventListener('click', function() {
