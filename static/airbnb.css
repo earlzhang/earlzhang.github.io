@@ -1,0 +1,345 @@
+/*
+ * Airbnb Typora Theme
+ * Designed for WeChat Official Accounts Compatibility
+ * Based on Airbnb Design System
+ */
+
+:root {
+    --side-bar-bg-color: #fafafa;
+    --control-text-color: #777;
+    --brand-accent: #ff385c;
+}
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    /* 
+     * 字体排版栈 (Font Stack) 设计思路：
+     * 1. 优先使用思源黑体 (Source Han Sans / Noto Sans)，以获得最佳的中西文排版及标准全角双引号的展示效果。
+     * 2. 其次调用苹果系统原生字体 (-apple-system, PingFang SC)，保障 Mac 和 iPhone 等 iOS 设备极佳的阅读体验。
+     * 3. 接着适配冬青黑体 (Hiragino Sans GB) 和 Windows 常见兜底中文字体 (Microsoft YaHei)。
+     * 4. 最后附上主流的跨平台无衬线西文字体进行安全兜底。
+     */
+    font-family: "Source Han Sans SC", "Source Han Sans CN", "Source Han Sans", "Noto Sans CJK SC", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #222222;
+    line-height: 1.6;
+    background-color: #ffffff;
+}
+
+#write {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 40px 30px;
+    padding-bottom: 100px;
+}
+
+@media only screen and (min-width: 1400px) {
+    #write {
+        max-width: 800px;
+    }
+}
+
+@media only screen and (min-width: 1800px) {
+    #write {
+        max-width: 860px;
+    }
+}
+
+/* Text Elements */
+p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #3f3f3f;
+    margin: 1.2em 0;
+    font-weight: 400;
+    text-align: justify;
+    text-justify: inter-ideograph;
+}
+
+a {
+    color: #428bff;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+a:hover {
+    border-bottom-color: #428bff;
+}
+
+strong,
+b {
+    font-weight: 600;
+    color: #222222;
+}
+
+/* 斜体 / 中文引用与注记 (Italics / Citation & Notes) */
+em,
+i {
+    /* 退让与柔和方案 (Soft & Secondary)
+     * 遵循斜体在中文排版中通常作为“次级视觉元素”（如旁白、引语、备注）的特性：
+     * 1. 取消倾斜与异构字体，保持文字框与正文的绝对对齐。
+     * 2. 移除字重强化，回归普通字重 (400)。
+     * 3. 颜色降级：采用 Airbnb 规范中的 Secondary Gray (#6a6a6a)。
+     * 这样就能实现比正文更弱、更柔和的视觉情绪，完美切中“旁注/轻度修饰”的使用场景。
+     */
+    font-style: normal;
+    font-weight: 400;
+    color: #6a6a6a;
+}
+
+/* 强调下划线 / 高亮标识 */
+u,
+mark {
+    text-decoration: none;
+    background-color: transparent;
+    /* 核心修饰：上半部分透明，下半部分带有爱彼迎红的半透明色，实现荧光笔半覆盖的视觉错觉 */
+    background-image: linear-gradient(transparent 65%, rgba(255, 56, 92, 0.20) 65%);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    /* 加一点左右 padding 让高亮块两端伸出一点，视觉上更舒适 */
+    padding: 0 2px;
+}
+
+/* 红色文字标记 / 删除线改造 (Strikethrough -> Red Text)
+ * 使用场景：~~❶~~ 或 ~~重要事项~~
+ */
+del,
+s {
+    text-decoration: none;
+    color: var(--brand-accent);
+    font-weight: 500;
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #222222;
+    line-height: 1.4;
+    margin-top: 2em;
+    margin-bottom: 1em;
+}
+
+h1 {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.43;
+    letter-spacing: normal;
+    border-bottom: 2px solid #f2f2f2;
+    padding-bottom: 12px;
+    margin-top: 1em;
+}
+
+h2 {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: -0.44px;
+    margin-top: 3.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e7e7e7;
+    background-image: linear-gradient(to right, #ff385c 0%, #ff385c 100%);
+    background-repeat: no-repeat;
+    background-size: 40px 4px;
+    background-position: left bottom;
+    color: #222222;
+}
+
+h3 {
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1.43;
+}
+
+h4 {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.20;
+    letter-spacing: -0.18px;
+}
+
+h5 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+h6 {
+    /* 将 H6 定位为图片说明（Caption）专用格式 */
+    font-size: 13px;
+    font-weight: 400;
+    color: #999999;
+    text-align: center;
+    margin-top: -12px !important;
+    /* 紧凑贴合上方图片 */
+    margin-bottom: 32px !important;
+    /* 与下方正文拉开距离 */
+}
+
+/* Blockquotes */
+blockquote {
+    border-left: 4px solid #ff385c;
+    background-color: #fcfcfc;
+    padding: 16px 20px;
+    margin: 24px 0;
+    border-radius: 0 14px 14px 0;
+    color: #3f3f3f;
+    font-size: 15px;
+    line-height: 1.7;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 0px 0px 1px, rgba(0, 0, 0, 0.02) 0px 2px 6px;
+}
+
+blockquote p {
+    margin: 0;
+}
+
+/* Lists */
+ul,
+ol {
+    padding-left: 30px;
+    margin: 1.2em 0;
+    color: #3f3f3f;
+    line-height: 1.8;
+}
+
+li {
+    margin-bottom: 8px;
+    text-align: justify;
+    text-justify: inter-ideograph;
+}
+
+li::marker {
+    color: #ff385c;
+    font-weight: 600;
+}
+
+/* Horizontal Rule */
+hr {
+    border: none;
+    height: 1px;
+    background-color: #e7e7e7;
+    margin: 40px 0;
+}
+
+/* Inline Code */
+code {
+    font-family: inherit;
+    background-color: #f2f2f2;
+    color: #e00b41;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+/* Code Blocks */
+.md-fences {
+    background-color: #f8f8f8;
+    border-radius: 20px;
+    padding: 20px;
+    margin: 24px 0;
+    border: 1px solid #e7e7e7;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 2px 6px, rgba(0, 0, 0, 0.1) 0px 4px 8px;
+    font-size: 0.9em;
+    line-height: 1.6;
+}
+
+.md-fences code {
+    background-color: transparent;
+    color: #3f3f3f;
+    padding: 0;
+    border-radius: 0;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+
+/* Images & Photography (Airbnb style: large, slight rounding) */
+img {
+    max-width: 100%;
+    border-radius: 14px;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 2px 6px, rgba(0, 0, 0, 0.1) 0px 4px 8px;
+    margin: 32px auto;
+    display: block;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 32px 0;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 2px 6px, rgba(0, 0, 0, 0.1) 0px 4px 8px;
+    border: 1px solid #e7e7e7;
+    font-size: 15px;
+}
+
+table th,
+table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid #e7eaed;
+    border-right: 1px solid #e7eaed;
+}
+
+table th:last-child,
+table td:last-child {
+    border-right: none;
+}
+
+table tr:last-child td {
+    border-bottom: none;
+}
+
+table th {
+    background-color: #f8f8f8;
+    font-weight: 600;
+    color: #222222;
+    text-align: left;
+}
+
+table tr:nth-child(even) td {
+    background-color: #fafafa;
+}
+
+/* Task Lists */
+.md-task-list-item>input {
+    margin-left: -1.3em;
+    accent-color: #ff385c;
+}
+
+/* Details/Summary */
+details {
+    background: #fdfdfd;
+    padding: 16px 20px;
+    border-radius: 14px;
+    margin: 20px 0;
+    border: 1px solid #e7e7e7;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 2px 6px, rgba(0, 0, 0, 0.1) 0px 4px 8px;
+}
+
+summary {
+    font-weight: 600;
+    color: #222222;
+    cursor: pointer;
+    outline: none;
+}
+
+/* Typora Specific Overrides for Mac UI */
+.mac-seamless-mode #typora-sidebar {
+    background-color: var(--side-bar-bg-color);
+}
+
+#typora-quick-open {
+    border: 1px solid #e7e7e7;
+    background-color: #ffffff;
+    border-radius: 14px;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+}
