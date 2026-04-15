@@ -4,116 +4,212 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>链接整理工具</title>
+    <link rel="icon" href="favicon/link.ico" type="image/x-icon">
     <style>
-        body {
-            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
+        :root {
+            --palette-bg-primary: #ffffff;
+            --palette-text-primary: #222222;
+            --palette-text-secondary: #6a6a6a;
+            --palette-accent-core: #ff385c;
+            --palette-accent-dark: #e00b41;
+            --palette-border: #c1c1c1;
+            --palette-surface-light: #f2f2f2;
+            --shadow-card: rgba(0,0,0,0.02) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 6px, rgba(0,0,0,0.1) 0px 4px 8px;
+            --shadow-hover: rgba(0,0,0,0.08) 0px 4px 12px;
         }
+
+        body {
+            font-family: 'Airbnb Cereal VF', Circular, -apple-system, system-ui, 'PingFang SC', 'Microsoft YaHei', Roboto, 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            background-color: var(--palette-bg-primary);
+            color: var(--palette-text-primary);
+            -webkit-font-smoothing: antialiased;
+        }
+        
         .container {
             display: flex;
             max-width: 1200px;
             margin: 0 auto;
-            gap: 20px;
+            gap: 32px;
         }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+        }
+        
         .column {
             flex: 1;
             display: flex;
             flex-direction: column;
         }
+        
         textarea {
             width: 100%;
-            height: calc(12 * 1.5em + 20px);
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            min-height: 250px;
+            flex: 1;
+            padding: 16px 20px;
+            border: 1px solid transparent;
+            border-radius: 20px;
             resize: none;
             font-size: 14px;
-            line-height: 1.5;
+            line-height: 1.6;
             box-sizing: border-box;
+            font-family: inherit;
+            color: var(--palette-text-primary);
+            background-color: var(--palette-bg-primary);
+            box-shadow: var(--shadow-card);
+            transition: box-shadow 0.2s ease, border 0.2s ease;
         }
+        
+        textarea:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--palette-text-primary);
+        }
+        
+        textarea::placeholder {
+            color: var(--palette-text-secondary);
+        }
+        
         .button-group {
             display: flex;
-            gap: 10px;
-            margin-top: 10px;
+            gap: 12px;
+            margin-top: 16px;
         }
+        
         button {
-            padding: 8px 15px;
-            background-color: #4CAF50;
-            color: white;
+            padding: 12px 24px;
+            background-color: var(--palette-text-primary);
+            color: var(--palette-bg-primary);
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s;
+            font-size: 16px;
+            font-weight: 500;
+            font-family: inherit;
+            transition: all 0.2s ease;
         }
+        
         button:hover {
-            background-color: #45a049;
+            background-color: var(--palette-accent-core);
+            box-shadow: var(--shadow-hover);
         }
+        
+        button:active {
+            transform: scale(0.96);
+        }
+        
+        button#processBtn, button#downloadBtn {
+            background-color: var(--palette-accent-core);
+        }
+        
+        button#processBtn:hover, button#downloadBtn:hover {
+            background-color: var(--palette-accent-dark);
+        }
+        
         h2 {
             margin-top: 0;
-            color: #333;
+            margin-bottom: 24px;
+            color: var(--palette-text-primary);
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: -0.44px;
         }
         
         /* 自定义提醒样式 */
         .toast {
             position: fixed;
-            top: 50%;
+            top: 24px;
             left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 5px;
-            font-size: 16px;
+            transform: translate(-50%, -20px);
+            background-color: var(--palette-text-primary);
+            color: var(--palette-bg-primary);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 1000;
+            box-shadow: var(--shadow-card);
         }
         
         .toast.show {
             opacity: 1;
             visibility: visible;
+            transform: translate(-50%, 0);
         }
 
         .info-group {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            max-width: 1200px;
+            margin: 32px auto 0 auto;
+            padding: 24px;
+            background-color: var(--palette-bg-primary);
+            border-radius: 20px;
+            box-shadow: var(--shadow-card);
+            box-sizing: border-box;
+            width: 100%;
         }
+        
         .info-row {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
+            gap: 12px;
+            margin-bottom: 16px;
         }
+        
         .info-row:last-child {
             margin-bottom: 0;
         }
+        
         .info-row label {
             font-size: 14px;
-            color: #666;
-            min-width: 45px;
+            font-weight: 600;
+            color: var(--palette-text-primary);
+            min-width: 40px;
         }
+        
         .info-row input {
             flex: 1;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 12px 16px;
+            border: 1px solid var(--palette-border);
+            border-radius: 8px;
             font-size: 14px;
-            background-color: #f9f9f9;
+            font-family: inherit;
+            color: var(--palette-text-primary);
+            background-color: var(--palette-surface-light);
+            transition: all 0.2s ease;
         }
+        
+        .info-row input:focus {
+            outline: none;
+            background-color: var(--palette-bg-primary);
+            box-shadow: 0 0 0 2px var(--palette-text-primary);
+            border-color: transparent;
+        }
+        
+        .info-row input::placeholder {
+            color: var(--palette-text-secondary);
+        }
+        
         .info-row button {
-            padding: 6px 12px;
-            font-size: 12px;
-            background-color: #2196F3;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            background-color: var(--palette-surface-light);
+            color: var(--palette-text-primary);
+            border: 1px solid transparent;
+            box-shadow: none;
         }
+        
         .info-row button:hover {
-            background-color: #1976D2;
+            background-color: var(--palette-bg-primary);
+            border-color: var(--palette-text-primary);
+            color: var(--palette-text-primary);
+            box-shadow: none;
         }
     </style>
 </head>
@@ -126,18 +222,6 @@
                 <button id="pasteBtn">粘贴</button>
                 <button id="processBtn">处理</button>
             </div>
-            <div class="info-group">
-                <div class="info-row">
-                    <label>标题</label>
-                    <input type="text" id="extTitle" readonly placeholder="等待提取...">
-                    <button id="copyTitleBtn">复制</button>
-                </div>
-                <div class="info-row">
-                    <label>链接</label>
-                    <input type="text" id="extLink" readonly placeholder="等待提取...">
-                    <button id="copyLinkBtn">复制</button>
-                </div>
-            </div>
         </div>
         <div class="column">
             <h2>处理结果</h2>
@@ -145,6 +229,22 @@
             <div class="button-group">
                 <button id="copyBtn">复制</button>
                 <button id="downloadBtn">下载</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 提取后的标题和链接信息区 -->
+    <div style="max-width: 1200px; margin: 32px auto 0 auto; padding: 0 20px;">
+        <div class="info-group" style="margin: 0; width: 100%;">
+            <div class="info-row">
+                <label>标题</label>
+                <button id="copyTitleBtn">复制</button>
+                <input type="text" id="extTitle" readonly placeholder="等待提取...">
+            </div>
+            <div class="info-row">
+                <label>链接</label>
+                <button id="copyLinkBtn">复制</button>
+                <input type="text" id="extLink" readonly placeholder="等待提取...">
             </div>
         </div>
     </div>
