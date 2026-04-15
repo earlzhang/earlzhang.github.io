@@ -200,6 +200,45 @@
                 textArea.value = processedText;
             });
             
+            // ── Markdown 保护机制 ──────────────────────────────────────────
+            // 在标点转换前，将不应被转换的区域替换为占位符，转换后再还原。
+            // 保护范围：
+            //   1. fenced 代码块（```lang\n...\n```）
+            //   2. 行内代码（`code`）
+            //   3. Markdown 链接/图片的 URL 部分：[text](url) 或 ![alt](url)
+            //   4. 裸 URL（http:// / https://）
+            function withMarkdownProtection(text, transformFn) {
+                const placeholders = [];
+
+                function protect(str) {
+                    const id = `\x00MDPROTECT${placeholders.length}\x00`;
+                    placeholders.push(str);
+                    return id;
+                }
+
+                // 1. 保护 fenced 代码块（```...```）
+                let result = text.replace(/```[\s\S]*?```/g, match => protect(match));
+
+                // 2. 保护行内代码（`...`），支持多个反引号作开闭
+                result = result.replace(/`+[^`]+`+/g, match => protect(match));
+
+                // 3. 保护完整的 Markdown 链接/图片语法：[text](url) 或 ![alt](url)
+                //    整体保护，避免 ! 被感叹号转换、[] 内容被引号转换等误伤
+                result = result.replace(/!?\[[^\]]*\]\([^)]*\)/g, match => protect(match));
+
+                // 4. 保护裸 URL（http:// 或 https://，直到遇到空白或中文字符）
+                result = result.replace(/https?:\/\/[^\s\u4e00-\u9fff]*/g, match => protect(match));
+
+                // 执行转换
+                result = transformFn(result);
+
+                // 还原占位符（倒序避免嵌套时序问题，此处顺序其实无影响）
+                result = result.replace(/\x00MDPROTECT(\d+)\x00/g, (_, idx) => placeholders[+idx]);
+
+                return result;
+            }
+            // ─────────────────────────────────────────────────────────────────
+
             // 定义可复用的标点转换函数
             // 半角逗号转全角逗号
             function convertComma(text) {
@@ -433,73 +472,76 @@
             
             // 绑定按钮事件
             document.getElementById('convertComma').addEventListener('click', function() {
-                textArea.value = convertComma(textArea.value);
+                textArea.value = withMarkdownProtection(textArea.value, convertComma);
             });
             
             document.getElementById('convertPeriod').addEventListener('click', function() {
-                textArea.value = convertPeriod(textArea.value);
+                textArea.value = withMarkdownProtection(textArea.value, convertPeriod);
             });
             
             document.getElementById('convertColon').addEventListener('click', function() {
-                textArea.value = convertColon(textArea.value);
+                textArea.value = withMarkdownProtection(textArea.value, convertColon);
             });
             
             document.getElementById('convertQuestion').addEventListener('click', function() {
-                textArea.value = convertQuestion(textArea.value);
+                textArea.value = withMarkdownProtection(textArea.value, convertQuestion);
             });
             
             document.getElementById('convertExclamation').addEventListener('click', function() {
-                textArea.value = convertExclamation(textArea.value);
+                textArea.value = withMarkdownProtection(textArea.value, convertExclamation);
             });
             
             document.getElementById('convertQuotes').addEventListener('click', function() {
-                let text = convertQuotes(textArea.value);
-                text = convertSingleQuotes(text);
-                textArea.value = text;
+                textArea.value = withMarkdownProtection(textArea.value, text => {
+                    text = convertQuotes(text);
+                    text = convertSingleQuotes(text);
+                    return text;
+                });
             });
             
             document.getElementById('convertSingleQuotes').addEventListener('click', function() {
-                textArea.value = convertSingleQuotes(textArea.value);
+                textArea.value = withMarkdownProtection(textArea.value, convertSingleQuotes);
             });
 
             document.getElementById('convertDoubleFullToCorner').addEventListener('click', function() {
-                textArea.value = convertDoubleFullQuotesToCorner(textArea.value);
+                textArea.value = withMarkdownProtection(textArea.value, convertDoubleFullQuotesToCorner);
             });
 
             document.getElementById('convertSingleFullToDoubleCorner').addEventListener('click', function() {
-                textArea.value = convertSingleFullQuotesToDoubleCorner(textArea.value);
+                textArea.value = withMarkdownProtection(textArea.value, convertSingleFullQuotesToDoubleCorner);
             });
 
             document.getElementById('unifyToFullDoubleQuotes').addEventListener('click', function() {
-                textArea.value = unifyAllQuotesToFullDouble(textArea.value);
+                textArea.value = withMarkdownProtection(textArea.value, unifyAllQuotesToFullDouble);
             });
 
             document.getElementById('unifyToVerticalDoubleQuotes').addEventListener('click', function() {
-                textArea.value = unifyAllQuotesToVerticalDouble(textArea.value);
+                textArea.value = withMarkdownProtection(textArea.value, unifyAllQuotesToVerticalDouble);
             });
             
             // 括号转换按钮事件
             document.getElementById('convertBracketsFullToHalf').addEventListener('click', function() {
-                textArea.value = convertBracketsFullToHalf(textArea.value);
+                textArea.value = withMarkdownProtection(textArea.value, convertBracketsFullToHalf);
             });
             
             document.getElementById('convertBracketsHalfToFull').addEventListener('click', function() {
-                textArea.value = convertBracketsHalfToFull(textArea.value);
+                textArea.value = withMarkdownProtection(textArea.value, convertBracketsHalfToFull);
             });
 
             document.getElementById('convertTraditionalQuotes').addEventListener('click', function() {
-                textArea.value = convertTraditionalQuotesToSimplified(textArea.value);
+                textArea.value = withMarkdownProtection(textArea.value, convertTraditionalQuotesToSimplified);
             });
             
             // 同时整理以上五种标点符号
             document.getElementById('convertAllPunctuation').addEventListener('click', function() {
-                let text = textArea.value;
-                text = convertComma(text);
-                text = convertColon(text);
-                text = convertQuestion(text);
-                text = convertExclamation(text);
-                text = convertPeriod(text); // 最后处理句号，因为它的逻辑比较复杂
-                textArea.value = text;
+                textArea.value = withMarkdownProtection(textArea.value, text => {
+                    text = convertComma(text);
+                    text = convertColon(text);
+                    text = convertQuestion(text);
+                    text = convertExclamation(text);
+                    text = convertPeriod(text); // 最后处理句号，因为它的逻辑比较复杂
+                    return text;
+                });
             });
 
             // 繁体转简体
@@ -508,10 +550,11 @@
                     // 使用 opencc-js 的正确 API
                     // Converter(options) 返回一个转换函数
                     const converter = OpenCC.Converter({ from: 'tw', to: 'cn' });
-                    const originalText = textArea.value;
-                    let convertedText = converter(originalText);
-                    convertedText = convertTraditionalQuotesToSimplified(convertedText);
-                    textArea.value = convertedText;
+                    textArea.value = withMarkdownProtection(textArea.value, text => {
+                        let converted = converter(text);
+                        converted = convertTraditionalQuotesToSimplified(converted);
+                        return converted;
+                    });
                 } catch (err) {
                     console.error('繁体转简体失败:', err);
                     alert('繁体转简体失败: ' + err.message);
