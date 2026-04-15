@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>链接整理工具</title>
+    <style>
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 20px;
+        }
+        .column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        textarea {
+            width: 100%;
+            height: calc(12 * 1.5em + 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: none;
+            font-size: 14px;
+            line-height: 1.5;
+            box-sizing: border-box;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        /* 自定义提醒样式 */
+        .toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            font-size: 16px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+            z-index: 1000;
+        }
+        
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .info-group {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+        .info-row label {
+            font-size: 14px;
+            color: #666;
+            min-width: 45px;
+        }
+        .info-row input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: #f9f9f9;
+        }
+        .info-row button {
+            padding: 6px 12px;
+            font-size: 12px;
+            background-color: #2196F3;
+        }
+        .info-row button:hover {
+            background-color: #1976D2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="column">
+            <h2>输入内容</h2>
+            <textarea id="inputText" placeholder="请输入需要处理的内容..."></textarea>
+            <div class="button-group">
+                <button id="pasteBtn">粘贴</button>
+                <button id="processBtn">处理</button>
+            </div>
+            <div class="info-group">
+                <div class="info-row">
+                    <label>标题</label>
+                    <input type="text" id="extTitle" readonly placeholder="等待提取...">
+                    <button id="copyTitleBtn">复制</button>
+                </div>
+                <div class="info-row">
+                    <label>链接</label>
+                    <input type="text" id="extLink" readonly placeholder="等待提取...">
+                    <button id="copyLinkBtn">复制</button>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <h2>处理结果</h2>
+            <textarea id="outputText" readonly></textarea>
+            <div class="button-group">
+                <button id="copyBtn">复制</button>
+                <button id="downloadBtn">下载</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 自定义提醒元素 -->
+    <div id="toast" class="toast">已复制到剪贴板</div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputText = document.getElementById('inputText');
+            const outputText = document.getElementById('outputText');
+            const pasteBtn = document.getElementById('pasteBtn');
+            const processBtn = document.getElementById('processBtn');
+            const copyBtn = document.getElementById('copyBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const extTitle = document.getElementById('extTitle');
+            const extLink = document.getElementById('extLink');
+            const copyTitleBtn = document.getElementById('copyTitleBtn');
+            const copyLinkBtn = document.getElementById('copyLinkBtn');
+            
+            // 粘贴按钮功能
+            pasteBtn.addEventListener('click', async function() {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    inputText.value = text;
+                    processBtn.click(); // 自动触发处理按钮
+                } catch (err) {
+                    alert('无法访问剪贴板，请确保已授予权限或手动粘贴内容');
+                    console.error('粘贴失败: ', err);
+                }
+            });
+            
+            // 处理按钮功能
+            processBtn.addEventListener('click', function() {
+                const content = inputText.value;
+                const processedContent = processLinks(content);
+                outputText.value = processedContent;
+                
+                // 提取标题和微信链接到显示框
+                const info = extractWechatInfo(content);
+                extTitle.value = info.title;
+                extLink.value = info.link;
+            });
+            
+            // 提取信息函数
+            function extractWechatInfo(content) {
+                const lines = content.split('\n');
+                for (let i = 1; i < lines.length; i++) {
+                    const currentLine = lines[i].trim();
+                    if (currentLine.includes('mp.weixin.qq.com')) {
+                        const prevLine = lines[i-1].trim();
+                        if (prevLine && !prevLine.startsWith('http')) {
+                            return {
+                                title: prevLine,
+                                link: currentLine
+                            };
+                        }
+                    }
+                }
+                return { title: "", link: "" };
+            }
+            
+            // 显示提醒函数
+            function showToast(message) {
+                const toast = document.getElementById('toast');
+                toast.textContent = message;
+                toast.classList.add('show');
+                
+                // 2秒后隐藏提醒
+                setTimeout(function() {
+                    toast.classList.remove('show');
+                }, 2000);
+            }
+            
+            // 复制按钮功能
+            copyBtn.addEventListener('click', async function() {
+                outputText.select();
+                try {
+                    await navigator.clipboard.writeText(outputText.value);
+                    showToast('已复制到剪贴板');
+                } catch (err) {
+                    showToast('复制失败，请手动复制');
+                    console.error('复制失败: ', err);
+                }
+            });
+
+            // 快捷复制标题
+            copyTitleBtn.addEventListener('click', async function() {
+                if (!extTitle.value) return;
+                try {
+                    await navigator.clipboard.writeText(extTitle.value);
+                    showToast('标题已复制');
+                } catch (err) {
+                    showToast('复制失败');
+                }
+            });
+
+            // 快捷复制链接
+            copyLinkBtn.addEventListener('click', async function() {
+                if (!extLink.value) return;
+                try {
+                    await navigator.clipboard.writeText(extLink.value);
+                    showToast('链接已复制');
+                } catch (err) {
+                    showToast('复制失败');
+                }
+            });
+
+            // 下载按钮功能
+            downloadBtn.addEventListener('click', function() {
+                const content = outputText.value;
+                if (!content) {
+                    alert('没有可下载的内容。');
+                    return;
+                }
+
+                const date = new Date();
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                const formattedDate = `${year}-${month}-${day}`;
+                
+                // 使用相同逻辑提取标题
+                const info = extractWechatInfo(inputText.value);
+                const title = info.title;
+                
+                // 移除文件名中的不合法字符
+                const safeTitle = title.replace(/[\\/:*?"<>|]/g, "_");
+                const filename = `${formattedDate}${safeTitle}链接汇总.txt`;
+
+                const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = filename;
+                
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href);
+            });
+            
+            // 链接处理逻辑
+            function processLinks(content) {
+                // 按行分割内容
+                const lines = content.split('\n');
+                
+                // 只保留http开头的网址行
+                const httpLines = lines.filter(line => line.trim().toLowerCase().startsWith('http'));
+                
+                // 为每行添加前缀和分类
+                const processedLinesWithCategory = httpLines.map(line => {
+                    const url = line.trim();
+                    
+                    // 定义网站前缀映射和排序优先级（按要求的顺序）
+                    const prefixMap = [
+                        { domain: 'mp.weixin.qq.com', prefix: '微信公众号: ', priority: 1 },  // 微信公众号
+                        { domain: 'xueqiu.com', prefix: '雪球: ', priority: 2 },           // 雪球
+                        { domain: '10jqka.com.cn', prefix: '同花顺: ', priority: 3 },     // 同花顺
+                        { domain: 'eastmoney.com', prefix: '东方财富网: ', priority: 4 }, // 东方财富网
+                        { domain: 'weibo.com', prefix: '微博: ', priority: 5 },           // 微博
+                        { domain: 'toutiao.com', prefix: '今日头条: ', priority: 6 },    // 今日头条
+                        { domain: '163.com', prefix: '网易号: ', priority: 7 },           // 网易号
+                        { domain: 'baidu.com', prefix: '百度百家号: ', priority: 8 },    // 百度百家号
+                        { domain: 'zhihu.com', prefix: '知乎: ', priority: 9 },          // 知乎
+                    ];
+                    
+                    // 查找匹配的前缀和优先级
+                    for (const item of prefixMap) {
+                        if (url.includes(item.domain)) {
+                            return {
+                                line: item.prefix + url,
+                                priority: item.priority
+                            };
+                        }
+                    }
+                    
+                    // 如果没有匹配的前缀，返回null
+                    return null;
+                }).filter(item => item !== null);
+                
+                // 根据优先级排序
+                processedLinesWithCategory.sort((a, b) => a.priority - b.priority);
+                
+                // 提取排序后的行
+                const processedLines = processedLinesWithCategory.map(item => item.line);
+                
+                // 将处理后的行连接起来
+                return processedLines.join('\n');
+            }
+        });
+    </script>
+</body>
+</html>
