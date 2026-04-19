@@ -285,32 +285,43 @@
             
             // 半角双引号转全角双引号
             function convertQuotes(text) {
-                let processedText = text;
+                const chineseChar = /[\u4e00-\u9fff]/;
                 let isOpen = true;
-                
+
                 // 查找所有双引号并替换
-                processedText = processedText.replace(/"/g, function() {
-                    const quote = isOpen ? '“' : '”';
+                return text.replace(/"/g, function(char, offset) {
+                    const prevChar = offset > 0 ? text[offset - 1] : '';
+                    const nextChar = offset < text.length - 1 ? text[offset + 1] : '';
+
+                    // 英制单位写法保留，如 12"、12"x
+                    if (/\d/.test(prevChar) && !chineseChar.test(nextChar)) {
+                        return char;
+                    }
+
+                    const quote = isOpen ? '\u201c' : '\u201d';
                     isOpen = !isOpen;
                     return quote;
                 });
-                
-                return processedText;
             }
             
             // 半角单引号转全角单引号
             function convertSingleQuotes(text) {
-                let processedText = text;
                 let isOpen = true;
-                
+
                 // 查找所有单引号并替换
-                processedText = processedText.replace(/'/g, function() {
-                    const quote = isOpen ? '‘' : '’';
+                return text.replace(/'/g, function(char, offset) {
+                    const prevChar = offset > 0 ? text[offset - 1] : '';
+                    const nextChar = offset < text.length - 1 ? text[offset + 1] : '';
+
+                    // 英文撇号用法保留，如 Don't、O'Reilly、it's
+                    if (/[A-Za-z]/.test(prevChar) && /[A-Za-z]/.test(nextChar)) {
+                        return char;
+                    }
+
+                    const quote = isOpen ? '\u2018' : '\u2019';
                     isOpen = !isOpen;
                     return quote;
                 });
-                
-                return processedText;
             }
 
             // 全角双引号对转「」
