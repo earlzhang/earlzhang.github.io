@@ -280,11 +280,17 @@
             // 处理按钮功能
             processBtn.addEventListener('click', function() {
                 const content = inputText.value;
-                const processedContent = processLinks(content);
+                const info = extractWechatInfo(content);
+                let processedContent = processLinks(content);
+                
+                // 在输出汇总的第一行加上文章标题
+                if (info.title) {
+                    processedContent = info.title + '\n' + processedContent;
+                }
+                
                 outputText.value = processedContent;
                 
                 // 提取标题和微信链接到显示框
-                const info = extractWechatInfo(content);
                 extTitle.value = info.title;
                 extLink.value = info.link;
             });
