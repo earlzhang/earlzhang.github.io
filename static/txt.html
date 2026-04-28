@@ -132,12 +132,16 @@
         </div>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/full.js"></script>
+    <!-- 使用本地已有的 OpenCC 库，避免 CDN 加载失败 -->
+    <script src="full.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // 获取DOM元素
             const textArea = document.getElementById('textArea');
             const wordCount = document.getElementById('wordCount');
+            
+            // 调试日志：检查库加载状态
+            console.log('OpenCC defined:', typeof OpenCC !== 'undefined');
             let lastCountText = null;
 
             function getCharCount(text) {
@@ -222,9 +226,11 @@
                 // 2. 保护行内代码（`...`），支持多个反引号作开闭
                 result = result.replace(/`+[^`]+`+/g, match => protect(match));
 
-                // 3. 保护完整的 Markdown 链接/图片语法：[text](url) 或 ![alt](url)
-                //    整体保护，避免 ! 被感叹号转换、[] 内容被引号转换等误伤
-                result = result.replace(/!?\[[^\]]*\]\([^)]*\)/g, match => protect(match));
+                // 3. 保护 Markdown 链接/图片的 URL 部分：[text](url) 或 ![alt](url)
+                //    只保护 (url) 部分，允许 [text] 部分被转换
+                result = result.replace(/(!?\[[^\]]*\])\(([^)]*)\)/g, (match, p1, p2) => {
+                    return p1 + '(' + protect(p2) + ')';
+                });
 
                 // 4. 保护裸 URL（http:// 或 https://，直到遇到空白或中文字符）
                 result = result.replace(/https?:\/\/[^\s\u4e00-\u9fff]*/g, match => protect(match));
@@ -232,8 +238,10 @@
                 // 执行转换
                 result = transformFn(result);
 
-                // 还原占位符（倒序避免嵌套时序问题，此处顺序其实无影响）
-                result = result.replace(/\x00MDPROTECT(\d+)\x00/g, (_, idx) => placeholders[+idx]);
+                // 还原占位符
+                result = result.replace(/\x00MDPROTECT(\d+)\x00/g, (match, idx) => {
+                    return placeholders[parseInt(idx)];
+                });
 
                 return result;
             }
@@ -558,9 +566,14 @@
             // 繁体转简体
             document.getElementById('t2s').addEventListener('click', function() {
                 try {
-                    // 使用 opencc-js 的正确 API
-                    // Converter(options) 返回一个转换函数
-                    const converter = OpenCC.Converter({ from: 'tw', to: 'cn' });
+                    const globalOpenCC = window.OpenCC || OpenCC;
+                    if (typeof globalOpenCC === 'undefined' || !globalOpenCC.Converter) {
+                        throw new Error('OpenCC 库未加载。请确保目录下存在 full.min.js。');
+                    }
+                    
+                    // 1.0.5 版本建议使用 tw -> cn
+                    const converter = globalOpenCC.Converter({ from: 'tw', to: 'cn' });
+                    
                     textArea.value = withMarkdownProtection(textArea.value, text => {
                         let converted = converter(text);
                         converted = convertTraditionalQuotesToSimplified(converted);
