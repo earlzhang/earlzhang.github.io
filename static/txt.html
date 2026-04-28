@@ -197,8 +197,8 @@
         </div>
     </main>
 
-    <!-- 优先使用体积更小的 t2cn.js (约200KB)，如果加载失败则回退到本地 full.min.js (1.1MB) -->
-    <script src="https://fastly.jsdelivr.net/npm/opencc-js@1.6.2/dist/umd/t2cn.js"
+    <!-- 优先使用与本地一致的 1.0.5 轻量化包，如果加载失败则回退到本地 full.min.js -->
+    <script src="https://fastly.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/t2cn.js"
         onerror="this.src='full.min.js'"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
