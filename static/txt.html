@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,22 +11,27 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.24/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body, textarea, button, input {
+        body,
+        textarea,
+        button,
+        input {
             font-family: "PingFang SC", "SourceHanSansSC-Regular", "Source Han Sans SC", "Noto Sans CJK SC", "思源黑体", "Microsoft YaHei", sans-serif !important;
         }
     </style>
 </head>
+
 <body data-theme="winter" class="h-screen bg-slate-50 text-slate-800 selection:bg-blue-200 overflow-hidden">
     <main class="mx-auto w-full max-w-6xl p-2 md:p-3 h-full flex flex-col">
         <!-- Header -->
         <header class="mb-2 flex items-baseline justify-center gap-2 text-center shrink-0">
             <h1 class="text-xl font-extrabold text-slate-800 tracking-tight flex items-center gap-1">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
-                    <polyline points="14 2 14 8 20 8"/>
-                    <line x1="16" y1="13" x2="8" y2="13"/>
-                    <line x1="16" y1="17" x2="8" y2="17"/>
-                    <line x1="10" y1="9" x2="8" y2="9"/>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="16" y1="13" x2="8" y2="13" />
+                    <line x1="16" y1="17" x2="8" y2="17" />
+                    <line x1="10" y1="9" x2="8" y2="9" />
                 </svg>
                 文本整理器
             </h1>
@@ -33,17 +39,29 @@
         </header>
 
         <!-- Main Card -->
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col lg:flex-row flex-1">
-            
+        <div
+            class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col lg:flex-row flex-1">
+
             <!-- Sidebar / Toolbar -->
-            <aside class="w-full lg:w-[320px] bg-slate-50/80 p-4 border-b lg:border-b-0 lg:border-r border-slate-200 overflow-y-auto shrink-0 flex flex-col gap-5">
+            <aside
+                class="w-full lg:w-[320px] bg-slate-50/80 p-4 border-b lg:border-b-0 lg:border-r border-slate-200 overflow-y-auto shrink-0 flex flex-col gap-5">
                 <div class="flex items-center gap-2">
-                    <button id="pasteButton" class="btn btn-xs h-7 px-3 bg-white border-slate-200 hover:border-slate-300 text-slate-600 hover:bg-slate-50 shadow-sm font-medium transition-colors gap-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                    <button id="pasteButton"
+                        class="btn btn-xs h-7 px-3 bg-white border-slate-200 hover:border-slate-300 text-slate-600 hover:bg-slate-50 shadow-sm font-medium transition-colors gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
                         粘贴
                     </button>
-                    <button id="copyButton" class="btn btn-xs h-7 px-3 bg-blue-500 hover:bg-blue-600 text-white border-none shadow-sm shadow-blue-500/20 font-medium transition-colors gap-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" /></svg>
+                    <button id="copyButton"
+                        class="btn btn-xs h-7 px-3 bg-blue-500 hover:bg-blue-600 text-white border-none shadow-sm shadow-blue-500/20 font-medium transition-colors gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                        </svg>
                         复制
                     </button>
                 </div>
@@ -51,65 +69,105 @@
 
                 <!-- Group 1: 段落排版 -->
                 <div>
-                    <h3 class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider flex items-center gap-1.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
+                    <h3
+                        class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider flex items-center gap-1.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h7" />
+                        </svg>
                         段落排版
                     </h3>
                     <div class="grid grid-cols-2 gap-2">
-                        <button id="trimParagraphs" class="btn btn-sm h-9 bg-white hover:bg-slate-100 hover:border-slate-300 border-slate-200 text-slate-600 font-normal transition-all">去首尾空格</button>
-                        <button id="indentParagraphs" class="btn btn-sm h-9 bg-white hover:bg-slate-100 hover:border-slate-300 border-slate-200 text-slate-600 font-normal transition-all">段首缩进</button>
-                        <button id="mergeEmptyLines" class="btn btn-sm h-9 bg-white hover:bg-slate-100 hover:border-slate-300 border-slate-200 text-slate-600 font-normal transition-all">合并空行</button>
-                        <button id="singleEmptyLine" class="btn btn-sm h-9 bg-white hover:bg-slate-100 hover:border-slate-300 border-slate-200 text-slate-600 font-normal transition-all">只空一行</button>
+                        <button id="trimParagraphs"
+                            class="btn btn-sm h-9 bg-white hover:bg-slate-100 hover:border-slate-300 border-slate-200 text-slate-600 font-normal transition-all">去首尾空格</button>
+                        <button id="indentParagraphs"
+                            class="btn btn-sm h-9 bg-white hover:bg-slate-100 hover:border-slate-300 border-slate-200 text-slate-600 font-normal transition-all">段首缩进</button>
+                        <button id="mergeEmptyLines"
+                            class="btn btn-sm h-9 bg-white hover:bg-slate-100 hover:border-slate-300 border-slate-200 text-slate-600 font-normal transition-all">合并空行</button>
+                        <button id="singleEmptyLine"
+                            class="btn btn-sm h-9 bg-white hover:bg-slate-100 hover:border-slate-300 border-slate-200 text-slate-600 font-normal transition-all">只空一行</button>
                     </div>
                 </div>
 
                 <!-- Group 3: 引号处理 -->
                 <div>
-                    <h3 class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider flex items-center gap-1.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
+                    <h3
+                        class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider flex items-center gap-1.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                        </svg>
                         引号处理
                     </h3>
                     <div class="grid grid-cols-2 gap-2 mb-2">
-                        <button id="convertQuotes" class="btn btn-sm h-9 bg-white hover:bg-slate-100 hover:border-slate-300 border-slate-200 text-slate-600 font-normal transition-all">双半转全</button>
-                        <button id="convertSingleQuotes" class="btn btn-sm h-9 bg-white hover:bg-slate-100 hover:border-slate-300 border-slate-200 text-slate-600 font-normal transition-all">单半转全</button>
-                        <button id="convertDoubleFullToCorner" class="btn btn-sm h-9 bg-white hover:bg-slate-100 hover:border-slate-300 border-slate-200 text-slate-600 font-normal transition-all">全双转「」</button>
-                        <button id="convertSingleFullToDoubleCorner" class="btn btn-sm h-9 bg-white hover:bg-slate-100 hover:border-slate-300 border-slate-200 text-slate-600 font-normal transition-all">全单转『』</button>
+                        <button id="convertQuotes"
+                            class="btn btn-sm h-9 bg-white hover:bg-slate-100 hover:border-slate-300 border-slate-200 text-slate-600 font-normal transition-all">双半转全</button>
+                        <button id="convertSingleQuotes"
+                            class="btn btn-sm h-9 bg-white hover:bg-slate-100 hover:border-slate-300 border-slate-200 text-slate-600 font-normal transition-all">单半转全</button>
+                        <button id="convertDoubleFullToCorner"
+                            class="btn btn-sm h-9 bg-white hover:bg-slate-100 hover:border-slate-300 border-slate-200 text-slate-600 font-normal transition-all">全双转「」</button>
+                        <button id="convertSingleFullToDoubleCorner"
+                            class="btn btn-sm h-9 bg-white hover:bg-slate-100 hover:border-slate-300 border-slate-200 text-slate-600 font-normal transition-all">全单转『』</button>
                     </div>
                     <div class="grid grid-cols-2 gap-2">
-                        <button id="unifyToFullDoubleQuotes" class="btn btn-sm h-9 bg-blue-500 hover:bg-blue-600 text-white border-none font-medium transition-colors">统一成“”</button>
-                        <button id="unifyToVerticalDoubleQuotes" class="btn btn-sm h-9 bg-blue-500 hover:bg-blue-600 text-white border-none font-medium transition-colors">统一成「」</button>
+                        <button id="unifyToFullDoubleQuotes"
+                            class="btn btn-sm h-9 bg-blue-500 hover:bg-blue-600 text-white border-none font-medium transition-colors">统一成“”</button>
+                        <button id="unifyToVerticalDoubleQuotes"
+                            class="btn btn-sm h-9 bg-blue-500 hover:bg-blue-600 text-white border-none font-medium transition-colors">统一成「」</button>
                     </div>
                 </div>
 
                 <!-- Group 2: 基础标点 -->
                 <div>
-                    <h3 class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider flex items-center gap-1.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" /></svg>
+                    <h3
+                        class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider flex items-center gap-1.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                        </svg>
                         基础标点 (半转全)
                     </h3>
                     <div class="join w-full mb-2">
-                        <button id="convertComma" class="btn btn-sm h-9 join-item flex-1 bg-white border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-800 transition-colors">，</button>
-                        <button id="convertPeriod" class="btn btn-sm h-9 join-item flex-1 bg-white border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-800 transition-colors">。</button>
-                        <button id="convertColon" class="btn btn-sm h-9 join-item flex-1 bg-white border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-800 transition-colors">：</button>
-                        <button id="convertQuestion" class="btn btn-sm h-9 join-item flex-1 bg-white border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-800 transition-colors">？</button>
-                        <button id="convertExclamation" class="btn btn-sm h-9 join-item flex-1 bg-white border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-800 transition-colors">！</button>
+                        <button id="convertComma"
+                            class="btn btn-sm h-9 join-item flex-1 bg-white border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-800 transition-colors">，</button>
+                        <button id="convertPeriod"
+                            class="btn btn-sm h-9 join-item flex-1 bg-white border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-800 transition-colors">。</button>
+                        <button id="convertColon"
+                            class="btn btn-sm h-9 join-item flex-1 bg-white border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-800 transition-colors">：</button>
+                        <button id="convertQuestion"
+                            class="btn btn-sm h-9 join-item flex-1 bg-white border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-800 transition-colors">？</button>
+                        <button id="convertExclamation"
+                            class="btn btn-sm h-9 join-item flex-1 bg-white border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-800 transition-colors">！</button>
                     </div>
-                    <button id="convertAllPunctuation" class="btn btn-sm h-9 w-full bg-blue-50 hover:bg-blue-100 text-blue-600 border-blue-200 hover:border-blue-300 font-medium transition-colors">同时整理以上五种</button>
+                    <button id="convertAllPunctuation"
+                        class="btn btn-sm h-9 w-full bg-blue-50 hover:bg-blue-100 text-blue-600 border-blue-200 hover:border-blue-300 font-medium transition-colors">同时整理以上五种</button>
                 </div>
 
                 <!-- Group 4: 其他转换 -->
                 <div>
-                    <h3 class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider flex items-center gap-1.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                    <h3
+                        class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider flex items-center gap-1.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                        </svg>
                         其他转换
                     </h3>
                     <div class="grid grid-cols-2 gap-2 mb-2">
-                        <button id="convertBracketsFullToHalf" class="btn btn-sm h-9 bg-white hover:bg-slate-100 hover:border-slate-300 border-slate-200 text-slate-600 font-normal transition-all">括号转半</button>
-                        <button id="convertBracketsHalfToFull" class="btn btn-sm h-9 bg-white hover:bg-slate-100 hover:border-slate-300 border-slate-200 text-slate-600 font-normal transition-all">括号转全</button>
+                        <button id="convertBracketsFullToHalf"
+                            class="btn btn-sm h-9 bg-white hover:bg-slate-100 hover:border-slate-300 border-slate-200 text-slate-600 font-normal transition-all">括号转半</button>
+                        <button id="convertBracketsHalfToFull"
+                            class="btn btn-sm h-9 bg-white hover:bg-slate-100 hover:border-slate-300 border-slate-200 text-slate-600 font-normal transition-all">括号转全</button>
                     </div>
                     <div class="grid grid-cols-2 gap-2">
-                        <button id="convertTraditionalQuotes" class="btn btn-sm h-9 bg-white hover:bg-slate-100 hover:border-slate-300 border-slate-200 text-slate-600 font-normal transition-all">繁引号转简</button>
-                        <button id="t2s" class="btn btn-sm h-9 bg-emerald-500 hover:bg-emerald-600 text-white border-none font-medium transition-colors">繁体转简体</button>
+                        <button id="convertTraditionalQuotes"
+                            class="btn btn-sm h-9 bg-white hover:bg-slate-100 hover:border-slate-300 border-slate-200 text-slate-600 font-normal transition-all">繁引号转简</button>
+                        <button id="t2s"
+                            class="btn btn-sm h-9 bg-emerald-500 hover:bg-emerald-600 text-white border-none font-medium transition-colors">繁体转简体</button>
                     </div>
                 </div>
             </aside>
@@ -117,29 +175,37 @@
             <!-- Content Area -->
             <section class="flex-1 flex flex-col bg-white overflow-hidden relative">
                 <!-- Editor Toolbar -->
-                <div class="h-11 bg-slate-50/40 border-b border-slate-100 flex items-center justify-between px-4 shrink-0">
+                <div
+                    class="h-11 bg-slate-50/40 border-b border-slate-100 flex items-center justify-between px-4 shrink-0">
                     <span class="text-xs font-medium text-slate-400 flex items-center gap-1.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
                         编辑区
                     </span>
                     <span id="wordCount" class="text-xs font-medium text-slate-400 tabular-nums">字数：0</span>
                 </div>
-                
+
                 <div class="flex-1 relative p-4 md:p-6 overflow-hidden">
-                    <textarea id="textArea" class="w-full h-full text-base leading-relaxed text-slate-700 bg-transparent border-0 focus:ring-0 resize-none outline-none placeholder:text-slate-300" placeholder="请在此处输入需要整理的文本..."></textarea>
+                    <textarea id="textArea"
+                        class="w-full h-full text-base leading-relaxed text-slate-700 bg-transparent border-0 focus:ring-0 resize-none outline-none placeholder:text-slate-300"
+                        placeholder="请在此处输入需要整理的文本..."></textarea>
                 </div>
             </section>
         </div>
     </main>
 
-    <!-- 使用本地已有的 OpenCC 库，避免 CDN 加载失败 -->
-    <script src="full.min.js"></script>
+    <!-- 优先使用体积更小的 t2cn.js (约200KB)，如果加载失败则回退到本地 full.min.js (1.1MB) -->
+    <script src="https://fastly.jsdelivr.net/npm/opencc-js@1.6.2/dist/umd/t2cn.js"
+        onerror="this.src='full.min.js'"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // 获取DOM元素
             const textArea = document.getElementById('textArea');
             const wordCount = document.getElementById('wordCount');
-            
+
             // 调试日志：检查库加载状态
             console.log('OpenCC defined:', typeof OpenCC !== 'undefined');
             let lastCountText = null;
@@ -164,17 +230,17 @@
             textArea.addEventListener('input', updateWordCount);
             updateWordCount();
             setInterval(updateWordCount, 200);
-            
+
             // 去除段落首尾空格
-            document.getElementById('trimParagraphs').addEventListener('click', function() {
+            document.getElementById('trimParagraphs').addEventListener('click', function () {
                 const text = textArea.value;
                 const paragraphs = text.split('\n');
                 const trimmedParagraphs = paragraphs.map(p => p.trim());
                 textArea.value = trimmedParagraphs.join('\n');
             });
-            
+
             // 段首缩进两个全角空格
-            document.getElementById('indentParagraphs').addEventListener('click', function() {
+            document.getElementById('indentParagraphs').addEventListener('click', function () {
                 const text = textArea.value;
                 const paragraphs = text.split('\n');
                 const indentedParagraphs = paragraphs.map(p => {
@@ -185,17 +251,17 @@
                 });
                 textArea.value = indentedParagraphs.join('\n');
             });
-            
+
             // 合并段落之间空行
-            document.getElementById('mergeEmptyLines').addEventListener('click', function() {
+            document.getElementById('mergeEmptyLines').addEventListener('click', function () {
                 const text = textArea.value;
                 // 将连续的空行替换为单个空行，然后移除所有空行
                 const processedText = text.replace(/\n\s*\n/g, '\n');
                 textArea.value = processedText;
             });
-            
+
             // 只空一行
-            document.getElementById('singleEmptyLine').addEventListener('click', function() {
+            document.getElementById('singleEmptyLine').addEventListener('click', function () {
                 const text = textArea.value;
                 // 首先确保每个非空段落后面有一个空行
                 let processedText = text.replace(/([^\s][^\n]*)(\n)([^\s])/g, '$1\n\n$3');
@@ -203,7 +269,7 @@
                 processedText = processedText.replace(/\n\s*\n/g, '\n\n');
                 textArea.value = processedText;
             });
-            
+
             // ── Markdown 保护机制 ──────────────────────────────────────────
             // 在标点转换前，将不应被转换的区域替换为占位符，转换后再还原。
             // 保护范围：
@@ -252,16 +318,16 @@
             function convertComma(text) {
                 return text.replace(/,/g, '，');
             }
-            
+
             // 半角句号转全角句号，保持数字之间的半角句号不变
             function convertPeriod(text) {
                 let result = '';
                 let i = 0;
-                
+
                 while (i < text.length) {
-                    if (text[i] === '.' && 
-                        i > 0 && /\d/.test(text[i-1]) && 
-                        i < text.length - 1 && /\d/.test(text[i+1])) {
+                    if (text[i] === '.' &&
+                        i > 0 && /\d/.test(text[i - 1]) &&
+                        i < text.length - 1 && /\d/.test(text[i + 1])) {
                         // 如果句号前后都是数字，保持原样
                         result += '.';
                     } else if (text[i] === '.') {
@@ -272,32 +338,32 @@
                     }
                     i++;
                 }
-                
+
                 return result;
             }
-            
+
             // 半角冒号转全角冒号
             function convertColon(text) {
                 return text.replace(/:/g, '：');
             }
-            
+
             // 半角问号转全角问号
             function convertQuestion(text) {
                 return text.replace(/\?/g, '？');
             }
-            
+
             // 半角感叹号转全角感叹号
             function convertExclamation(text) {
                 return text.replace(/!/g, '！');
             }
-            
+
             // 半角双引号转全角双引号
             function convertQuotes(text) {
                 const chineseChar = /[\u4e00-\u9fff]/;
                 let isOpen = true;
 
                 // 查找所有双引号并替换
-                return text.replace(/"/g, function(char, offset) {
+                return text.replace(/"/g, function (char, offset) {
                     const prevChar = offset > 0 ? text[offset - 1] : '';
                     const nextChar = offset < text.length - 1 ? text[offset + 1] : '';
 
@@ -311,13 +377,13 @@
                     return quote;
                 });
             }
-            
+
             // 半角单引号转全角单引号
             function convertSingleQuotes(text) {
                 let isOpen = true;
 
                 // 查找所有单引号并替换
-                return text.replace(/'/g, function(char, offset) {
+                return text.replace(/'/g, function (char, offset) {
                     const prevChar = offset > 0 ? text[offset - 1] : '';
                     const nextChar = offset < text.length - 1 ? text[offset + 1] : '';
 
@@ -382,7 +448,7 @@
                     return false;
                 }
 
-                return segment.replace(quotePattern, function(char, offset) {
+                return segment.replace(quotePattern, function (char, offset) {
                     const prevChar = offset > 0 ? segment[offset - 1] : '';
                     const nextChar = offset < segment.length - 1 ? segment[offset + 1] : '';
 
@@ -449,7 +515,7 @@
             function unifyAllQuotesToVerticalDouble(text) {
                 return unifyQuotesWithHierarchy(text, 'vertical');
             }
-            
+
             // 全角括号转半角括号
             function convertBracketsFullToHalf(text) {
                 return text
@@ -464,7 +530,7 @@
                     .replace(/「/g, '{')
                     .replace(/」/g, '}');
             }
-            
+
             // 半角括号转全角括号
             function convertBracketsHalfToFull(text) {
                 return text
@@ -488,71 +554,71 @@
                     .replace(/『/g, '‘')
                     .replace(/』/g, '’');
             }
-            
+
             // 绑定按钮事件
-            document.getElementById('convertComma').addEventListener('click', function() {
+            document.getElementById('convertComma').addEventListener('click', function () {
                 textArea.value = withMarkdownProtection(textArea.value, convertComma);
             });
-            
-            document.getElementById('convertPeriod').addEventListener('click', function() {
+
+            document.getElementById('convertPeriod').addEventListener('click', function () {
                 textArea.value = withMarkdownProtection(textArea.value, convertPeriod);
             });
-            
-            document.getElementById('convertColon').addEventListener('click', function() {
+
+            document.getElementById('convertColon').addEventListener('click', function () {
                 textArea.value = withMarkdownProtection(textArea.value, convertColon);
             });
-            
-            document.getElementById('convertQuestion').addEventListener('click', function() {
+
+            document.getElementById('convertQuestion').addEventListener('click', function () {
                 textArea.value = withMarkdownProtection(textArea.value, convertQuestion);
             });
-            
-            document.getElementById('convertExclamation').addEventListener('click', function() {
+
+            document.getElementById('convertExclamation').addEventListener('click', function () {
                 textArea.value = withMarkdownProtection(textArea.value, convertExclamation);
             });
-            
-            document.getElementById('convertQuotes').addEventListener('click', function() {
+
+            document.getElementById('convertQuotes').addEventListener('click', function () {
                 textArea.value = withMarkdownProtection(textArea.value, text => {
                     text = convertQuotes(text);
                     text = convertSingleQuotes(text);
                     return text;
                 });
             });
-            
-            document.getElementById('convertSingleQuotes').addEventListener('click', function() {
+
+            document.getElementById('convertSingleQuotes').addEventListener('click', function () {
                 textArea.value = withMarkdownProtection(textArea.value, convertSingleQuotes);
             });
 
-            document.getElementById('convertDoubleFullToCorner').addEventListener('click', function() {
+            document.getElementById('convertDoubleFullToCorner').addEventListener('click', function () {
                 textArea.value = withMarkdownProtection(textArea.value, convertDoubleFullQuotesToCorner);
             });
 
-            document.getElementById('convertSingleFullToDoubleCorner').addEventListener('click', function() {
+            document.getElementById('convertSingleFullToDoubleCorner').addEventListener('click', function () {
                 textArea.value = withMarkdownProtection(textArea.value, convertSingleFullQuotesToDoubleCorner);
             });
 
-            document.getElementById('unifyToFullDoubleQuotes').addEventListener('click', function() {
+            document.getElementById('unifyToFullDoubleQuotes').addEventListener('click', function () {
                 textArea.value = withMarkdownProtection(textArea.value, unifyAllQuotesToFullDouble);
             });
 
-            document.getElementById('unifyToVerticalDoubleQuotes').addEventListener('click', function() {
+            document.getElementById('unifyToVerticalDoubleQuotes').addEventListener('click', function () {
                 textArea.value = withMarkdownProtection(textArea.value, unifyAllQuotesToVerticalDouble);
             });
-            
+
             // 括号转换按钮事件
-            document.getElementById('convertBracketsFullToHalf').addEventListener('click', function() {
+            document.getElementById('convertBracketsFullToHalf').addEventListener('click', function () {
                 textArea.value = withMarkdownProtection(textArea.value, convertBracketsFullToHalf);
             });
-            
-            document.getElementById('convertBracketsHalfToFull').addEventListener('click', function() {
+
+            document.getElementById('convertBracketsHalfToFull').addEventListener('click', function () {
                 textArea.value = withMarkdownProtection(textArea.value, convertBracketsHalfToFull);
             });
 
-            document.getElementById('convertTraditionalQuotes').addEventListener('click', function() {
+            document.getElementById('convertTraditionalQuotes').addEventListener('click', function () {
                 textArea.value = withMarkdownProtection(textArea.value, convertTraditionalQuotesToSimplified);
             });
-            
+
             // 同时整理以上五种标点符号
-            document.getElementById('convertAllPunctuation').addEventListener('click', function() {
+            document.getElementById('convertAllPunctuation').addEventListener('click', function () {
                 textArea.value = withMarkdownProtection(textArea.value, text => {
                     text = convertComma(text);
                     text = convertColon(text);
@@ -564,16 +630,16 @@
             });
 
             // 繁体转简体
-            document.getElementById('t2s').addEventListener('click', function() {
+            document.getElementById('t2s').addEventListener('click', function () {
                 try {
                     const globalOpenCC = window.OpenCC || OpenCC;
                     if (typeof globalOpenCC === 'undefined' || !globalOpenCC.Converter) {
                         throw new Error('OpenCC 库未加载。请确保目录下存在 full.min.js。');
                     }
-                    
+
                     // 1.0.5 版本建议使用 tw -> cn
                     const converter = globalOpenCC.Converter({ from: 'tw', to: 'cn' });
-                    
+
                     textArea.value = withMarkdownProtection(textArea.value, text => {
                         let converted = converter(text);
                         converted = convertTraditionalQuotesToSimplified(converted);
@@ -584,9 +650,9 @@
                     alert('繁体转简体失败: ' + err.message);
                 }
             });
-            
+
             // 复制和粘贴功能
-            document.getElementById('copyButton').addEventListener('click', function() {
+            document.getElementById('copyButton').addEventListener('click', function () {
                 textArea.select();
                 document.execCommand('copy');
                 // 现代方法，兼容性更好
@@ -605,8 +671,8 @@
                         });
                 }
             });
-            
-            document.getElementById('pasteButton').addEventListener('click', function() {
+
+            document.getElementById('pasteButton').addEventListener('click', function () {
                 if (navigator.clipboard && navigator.clipboard.readText) {
                     navigator.clipboard.readText()
                         .then(text => {
@@ -629,4 +695,5 @@
         });
     </script>
 </body>
+
 </html>
