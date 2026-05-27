@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>引号转换工具 — 英文半角 → 中文全角</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; }
+        textarea, pre { font-family: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif !important; font-size: 15px; line-height: 1.7; }
+        textarea:focus { outline: none; box-shadow: 0 0 0 3px rgba(59,130,246,0.3); }
+        .btn { transition: all 0.15s ease; user-select: none; }
+        .btn:active { transform: scale(0.96); }
+        .test-btn { transition: all 0.15s ease; }
+        .test-btn:active { transform: scale(0.95); }
+        .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+        .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+        .scrollbar-thin::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .stat-item { @apply text-sm px-3 py-1 rounded-full bg-white border border-gray-200; }
+        .fade-in { animation: fadeIn 0.2s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-white min-h-screen">
+
+    <!-- ========== HEADER ========== -->
+    <header class="bg-blue-600 text-white shadow">
+        <div class="max-w-7xl mx-auto px-4 py-5 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-3">
+                <span class="text-3xl leading-none">&#x201C;</span>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-bold tracking-tight">英文半角 &rarr; 中文全角 引号转换工具</h1>
+                    <p class="text-blue-100 text-sm mt-0.5 opacity-90">智能识别上下文 &middot; 自动保护 HTML / Markdown 语法</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========== MAIN ========== -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- Editor: Left / Right -->
+        <div class="flex flex-col lg:flex-row gap-4 lg:gap-6">
+
+            <!-- LEFT: Input -->
+            <div class="flex-1 flex flex-col">
+                <div class="flex items-center justify-between mb-2">
+                    <label for="inputArea" class="text-sm font-semibold text-gray-800 flex items-center gap-1.5">
+                        <span class="w-5 h-5 rounded bg-blue-500 text-white text-xs flex items-center justify-center font-bold">1</span>
+                        输入文本
+                    </label>
+                    <span id="inputStats" class="text-xs text-gray-500">0 字</span>
+                </div>
+                <div class="relative flex-1">
+                    <textarea id="inputArea"
+                        class="w-full h-[55vh] lg:h-[65vh] resize-none rounded-xl border-2 border-gray-300 bg-white text-gray-900 p-4 text-sm leading-relaxed scrollbar-thin shadow-sm"
+                        placeholder="在此粘贴或输入包含英文半角引号 &quot; 的文本…"
+                        spellcheck="false"
+                    ></textarea>
+                    <!-- input action bar -->
+                    <div class="absolute bottom-3 left-3 right-3 flex gap-2 flex-wrap">
+                        <button id="btnPaste" class="btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-white border border-gray-300 text-sm text-gray-700 hover:bg-gray-100 shadow-sm">
+                            <span class="text-base">&#x1F4CB;</span> 粘贴
+                        </button>
+                        <button id="btnClear" class="btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-white border border-gray-300 text-sm text-gray-700 hover:bg-gray-100 shadow-sm">
+                            <span class="text-base">&#x1F504;</span> 清空
+                        </button>
+                        <span class="text-xs text-gray-400 self-center ml-auto hidden sm:inline">&#x26A1; 自动实时转换</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Output -->
+            <div class="flex-1 flex flex-col">
+                <div class="flex items-center justify-between mb-2">
+                    <label class="text-sm font-semibold text-gray-800 flex items-center gap-1.5">
+                        <span class="w-5 h-5 rounded bg-emerald-500 text-white text-xs flex items-center justify-center font-bold">2</span>
+                        转换结果
+                    </label>
+                    <span id="outputStats" class="text-xs text-gray-500">0 字</span>
+                </div>
+                <div class="relative flex-1">
+                    <pre id="outputArea"
+                        class="w-full h-[55vh] lg:h-[65vh] overflow-auto rounded-xl border-2 border-gray-300 bg-white text-gray-900 p-4 text-sm leading-relaxed scrollbar-thin shadow-sm whitespace-pre-wrap break-words"
+                    ><span class="text-gray-400 select-none">&#x2B9C; 转换结果将自动显示在这里</span></pre>
+                    <!-- output action bar -->
+                    <div class="absolute bottom-3 left-3 right-3 flex gap-2 flex-wrap">
+                        <button id="btnCopy" class="btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-white border border-gray-300 text-sm text-gray-700 hover:bg-gray-100 shadow-sm">
+                            <span class="text-base">&#x1F4CB;</span> 复制
+                        </button>
+                        <button id="btnDownload" class="btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-white border border-gray-300 text-sm text-gray-700 hover:bg-gray-100 shadow-sm">
+                            <span class="text-base">&#x2B07;</span> 下载
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ========== STATS BAR ========== -->
+        <div id="statsBar" class="mt-4 flex flex-wrap items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200 shadow-sm fade-in">
+            <span class="stat-item flex items-center gap-1"><span class="text-blue-500 font-bold" id="statTotal">0</span> 引号总数</span>
+            <span class="stat-item flex items-center gap-1"><span class="text-emerald-500 font-bold" id="statConverted">0</span> 已转换</span>
+            <span class="stat-item flex items-center gap-1"><span class="text-amber-500 font-bold" id="statSkipped">0</span> 豁免跳过</span>
+            <span class="stat-item flex items-center gap-1"><span class="text-purple-500 font-bold" id="statNestDepth">0</span> 最大嵌套</span>
+            <span class="text-xs text-gray-400 ml-auto hidden sm:block" id="statTime"></span>
+        </div>
+
+        <!-- ========== TEST CASES ========== -->
+        <section class="mt-5">
+            <div class="flex items-center gap-2 mb-2.5">
+                <span class="text-sm font-semibold text-gray-800">&#x1F4D6; 测试用例</span>
+                <span class="text-xs text-gray-500">点击加载并自动转换</span>
+            </div>
+            <div class="flex flex-wrap gap-2" id="testButtons">
+                <!-- populated by JS -->
+            </div>
+        </section>
+
+        <!-- ========== FOOTER ========== -->
+        <footer class="mt-8 pb-4 text-center text-xs text-gray-400 border-t border-gray-200 pt-4">
+            纯前端工具 &middot; 所有数据仅在本地处理 &middot; 支持 Tailwind CSS
+        </footer>
+    </main>
+
+    <script>
+    (function() {
+        'use strict';
+
+        // ======================================================================
+        //  CONSTANTS
+        // ======================================================================
+        const LDQ = '\u201C'; // "  left double
+        const RDQ = '\u201D'; // "  right double
+        const LSQ = '\u2018'; // '  left single
+        const RSQ = '\u2019'; // '  right single
+
+        // ======================================================================
+        //  HELPERS
+        // ======================================================================
+        function hasCJK(text) {
+            return /[\u4E00-\u9FFF\u3000-\u303F\uFF00-\uFFEF\u3400-\u4DBF]/.test(text);
+        }
+
+        /** Generate a placeholder string not occurring naturally. */
+        let _pid = 0;
+        function ph(prefix) { return `\x00${prefix}_${_pid++}\x00`; }
+
+        // ======================================================================
+        //  PROTECTION — PHASE 1
+        // ======================================================================
+
+        /** Protect &quot; &#34; &#x22; HTML entities. */
+        function protectEntities(text, map) {
+            return text.replace(/&quot;|&#34;|&#x22;/gi, (match) => {
+                const key = ph('ENT');
+                map.set(key, match);
+                return key;
+            });
+        }
+
+        /** Protect HTML tags: <...> */
+        function protectHtmlTags(text, map) {
+            return text.replace(/<[^>]*>/g, (match) => {
+                const key = ph('HTML');
+                map.set(key, match);
+                return key;
+            });
+        }
+
+        /**
+         * Protect Markdown syntax.
+         * We replace only the URL / title portion so that [text] quotes are
+         * still processed by the conversion phase.
+         *
+         * Order matters: patterns WITH title must come before without-title,
+         * otherwise the title gets swallowed into the URL group.
+         */
+        function protectMarkdown(text, map) {
+            let result = text;
+
+            // 1) Image with title   ![alt](url "title")
+            result = result.replace(
+                /!\[([^\[\]]*)\]\(([^)]+?)\s+"([^"]*)"\)/g,
+                (match, alt, url, title) => {
+                    const key = ph('MD');
+                    // Store "](url "title")" so that restoring gives ![alt](url "title")
+                    map.set(key, `](${url} "${title}")`);
+                    // Return "![alt" without the closing ']' — the placeholder starts with ']'
+                    return `![${alt}${key}`;
+                }
+            );
+
+            // 2) Image without title   ![alt](url)
+            result = result.replace(
+                /!\[([^\[\]]*)\]\(([^)]+)\)/g,
+                (match, alt, url) => {
+                    const key = ph('MD');
+                    map.set(key, `](${url})`);
+                    return `![${alt}${key}`;
+                }
+            );
+
+            // 3) Link with title   [text](url "title")
+            result = result.replace(
+                /\[([^\[\]]*)\]\(([^)]+?)\s+"([^"]*)"\)/g,
+                (match, linkText, url, title) => {
+                    const key = ph('MD');
+                    map.set(key, `](${url} "${title}")`);
+                    return `[${linkText}${key}`;
+                }
+            );
+
+            // 4) Link without title   [text](url)
+            result = result.replace(
+                /\[([^\[\]]*)\]\(([^)]+)\)/g,
+                (match, linkText, url) => {
+                    const key = ph('MD');
+                    map.set(key, `](${url})`);
+                    return `[${linkText}${key}`;
+                }
+            );
+
+            // 5) Reference definition   [ref]: url "title"
+            result = result.replace(
+                /^\[([^\[\]]*)\]:\s+(\S+)\s+"([^"]*)"\s*$/gm,
+                (match, ref, url, title) => {
+                    const key = ph('MD');
+                    map.set(key, match);
+                    return key;
+                }
+            );
+
+            return result;
+        }
+
+        /** Restore protected blocks in reverse order (keys replaced in insertion order is fine because
+         *  placeholders are unique and disjoint). */
+        function restoreProtected(text, map) {
+            let result = text;
+            // Sort keys by placeholder occurrence to ensure correct replacement
+            // Since placeholders are unique, simple iteration works.
+            for (const [key, value] of map) {
+                result = result.replace(key, value);
+            }
+            return result;
+        }
+
+        // ======================================================================
+        //  CONVERSION — PHASE 2 & 3
+        // ======================================================================
+
+        /**
+         * Determine if a `"` at position `i` is a LEFT (opening) quote.
+         *
+         * Uses context heuristics: previous character type + stack state.
+         * Handles the key nesting case: "" (adjacent left quotes) but
+         * correctly closes for a simple empty-pair "".
+         *
+         * @param {number} totalQuotes  Total number of " in this line
+         * @param {number} remaining    Number of " after the current position
+         */
+        function isLeftDoubleQuote(text, i, stack, classification, totalQuotes, remaining) {
+            // 1) Beginning of text or no open quotes → LEFT
+            if (i === 0 || stack.length === 0) return true;
+
+            const prev = text[i - 1];
+
+            // 2) Whitespace or opening punctuation → LEFT
+            if (/[\s(（\[【{：:，,、—…‥·]/.test(prev)) return true;
+
+            // 3) Previous char is a double quote
+            if (prev === '"') {
+                // If prev was LEFT: this could be nesting OR closing an empty pair.
+                //   → Only nesting if there are still more quotes after this one.
+                //   → Empty pair "" if these are the only 2 quotes.
+                if (classification[i - 1] === 'L') {
+                    // totalQuotes ≤ 2 → empty pair, this is RIGHT (close)
+                    // totalQuotes > 2 → nesting opens (more quotes follow)
+                    return totalQuotes > 2;
+                }
+                // If prev was RIGHT, current could open a new segment
+                return false;
+            }
+
+            // 4) After a single quote: likely a new segment → LEFT
+            if (prev === "'") return true;
+
+            // 5) Default: NOT opening (will be treated as RIGHT if stack is non-empty)
+            return false;
+        }
+
+        /**
+         * Convert a single line containing CJK characters.
+         *
+         * Strategy:
+         *   1. Process "  — context-based L/R detection with stack.
+         *       Record completed pair ranges for single-quote nesting checks.
+         *   2. Process ' inside " pairs — sequential L/R pairing.
+         *   3. Apply fullwidth substitutions.
+         */
+        function convertLine(line) {
+            const chars = [...line];
+
+            // Track how each character was classified (null = not-a-quote, 'L'/'R')
+            const classification = new Array(chars.length).fill(null);
+
+            // --- 1. Process double quotes (") ---
+            const dqStack = [];       // positions of left " still open
+            const dqResults = [];     // { pos, type: 'L'|'R', depth }
+            const dqPairs = [];       // { left, right, depth } — completed pairs
+
+            // Pre-count total " for the empty-pair vs nesting heuristic
+            const totalDq = chars.filter(c => c === '"').length;
+            let remainingDq = totalDq;
+
+            for (let i = 0; i < chars.length; i++) {
+                if (chars[i] !== '"') continue;
+                remainingDq--; // decrement before the check (we're at current position)
+
+                if (isLeftDoubleQuote(chars, i, dqStack, classification, totalDq, remainingDq)) {
+                    dqStack.push(i);
+                    classification[i] = 'L';
+                    dqResults.push({ pos: i, type: 'L', depth: dqStack.length });
+                } else if (dqStack.length > 0) {
+                    const leftPos = dqStack.pop();
+                    classification[i] = 'R';
+                    const depth = dqStack.length + 1;
+                    dqResults.push({ pos: i, type: 'R', depth });
+                    dqPairs.push({ left: leftPos, right: i, depth });
+                }
+                // Else: orphan right quote — keep as ASCII (no conversion)
+            }
+
+            // Apply double-quote conversions
+            let maxNest = 0;
+            for (const r of dqResults) {
+                if (r.depth > maxNest) maxNest = r.depth;
+                if (r.depth % 2 === 1) {
+                    // Odd depth → fullwidth double quotes
+                    chars[r.pos] = r.type === 'L' ? LDQ : RDQ;
+                } else {
+                    // Even depth → fullwidth single quotes
+                    chars[r.pos] = r.type === 'L' ? LSQ : RSQ;
+                }
+            }
+
+            // --- 2. Process single quotes (') inside double-quote pairs ---
+            // Collect ' positions that fall within any completed " pair
+            const insideSqPos = [];
+            for (let i = 0; i < chars.length; i++) {
+                if (chars[i] !== "'") continue;
+                for (const pair of dqPairs) {
+                    if (pair.left < i && i < pair.right) {
+                        insideSqPos.push(i);
+                        break;
+                    }
+                }
+            }
+
+            // Pair ' quotes sequentially across all containing pairs
+            // Left/right alternation: first ' is LSQ, second is RSQ, etc.
+            for (let pi = 0; pi < insideSqPos.length; pi++) {
+                const pos = insideSqPos[pi];
+                chars[pos] = (pi % 2 === 0) ? LSQ : RSQ;
+            }
+            if (insideSqPos.length > 0 && maxNest < 2) maxNest = 2;
+
+            return { text: chars.join(''), maxNest };
+        }
+
+        /**
+         * Compute statistics for a full input → output conversion.
+         */
+        function computeStats(input, output) {
+            let total = 0, conv = 0, skipped = 0;
+
+            for (const ch of input) {
+                if (ch === '"' || ch === "'") total++;
+            }
+            for (const ch of output) {
+                if (ch === LDQ || ch === RDQ || ch === LSQ || ch === RSQ) conv++;
+                if (ch === '"' || ch === "'") skipped++;
+            }
+
+            return { total, converted: conv, skipped };
+        }
+
+        // ======================================================================
+        //  MAIN PIPELINE
+        // ======================================================================
+
+        function convertQuotes(input) {
+            if (!input) return { output: '', stats: { total: 0, converted: 0, skipped: 0, maxNest: 0, time: 0 } };
+
+            const startTime = performance.now();
+            const protectedMap = new Map();
+            _pid = 0;
+
+            // Phase 0: Protect HTML entities
+            let text = protectEntities(input, protectedMap);
+
+            // Phase 1: Protect HTML tags
+            text = protectHtmlTags(text, protectedMap);
+
+            // Phase 2: Protect Markdown syntax
+            text = protectMarkdown(text, protectedMap);
+
+            // Phase 3: Split into lines, convert per-line
+            const lines = text.split('\n');
+            let maxNest = 0;
+            const convertedLines = lines.map(line => {
+                if (hasCJK(line)) {
+                    const result = convertLine(line);
+                    if (result.maxNest > maxNest) maxNest = result.maxNest;
+                    return result.text;
+                }
+                return line; // Pure ASCII / no CJK → skip
+            });
+            text = convertedLines.join('\n');
+
+            // Phase 4: Restore protected content
+            const output = restoreProtected(text, protectedMap);
+
+            const elapsed = performance.now() - startTime;
+
+            // Stats
+            const { total, converted, skipped } = computeStats(input, output);
+
+            return {
+                output,
+                stats: { total, converted, skipped, maxNest, time: Math.round(elapsed) }
+            };
+        }
+
+        // ======================================================================
+        //  UI CONTROLLER
+        // ======================================================================
+
+        const inputEl = document.getElementById('inputArea');
+        const outputEl = document.getElementById('outputArea');
+        const btnPaste = document.getElementById('btnPaste');
+        const btnClear = document.getElementById('btnClear');
+        const btnCopy = document.getElementById('btnCopy');
+        const btnDownload = document.getElementById('btnDownload');
+        const statTotal = document.getElementById('statTotal');
+        const statConverted = document.getElementById('statConverted');
+        const statSkipped = document.getElementById('statSkipped');
+        const statNest = document.getElementById('statNestDepth');
+        const statTime = document.getElementById('statTime');
+        const inputStats = document.getElementById('inputStats');
+        const outputStats = document.getElementById('outputStats');
+        const testContainer = document.getElementById('testButtons');
+
+        let debounceTimer = null;
+        let previousInput = '';
+
+        function runConversion() {
+            const input = inputEl.value;
+            if (input === previousInput) return;
+            previousInput = input;
+
+            if (!input.trim()) {
+                outputEl.innerHTML = '<span class="text-gray-400 select-none">&#x2B9C; 转换结果将自动显示在这里</span>';
+                statTotal.textContent = '0';
+                statConverted.textContent = '0';
+                statSkipped.textContent = '0';
+                statNest.textContent = '0';
+                statTime.textContent = '';
+                inputStats.textContent = '0 字';
+                outputStats.textContent = '0 字';
+                return;
+            }
+
+            const { output, stats } = convertQuotes(input);
+            outputEl.textContent = output;
+
+            // Update stats
+            statTotal.textContent = stats.total;
+            statConverted.textContent = stats.converted;
+            statSkipped.textContent = stats.skipped;
+            statNest.textContent = stats.maxNest;
+            statTime.textContent = `⚡ ${stats.time}ms`;
+            inputStats.textContent = `${input.length} 字`;
+            outputStats.textContent = `${output.length} 字`;
+        }
+
+        function scheduleConversion() {
+            if (debounceTimer) clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(runConversion, 200);
+        }
+
+        // --- Input events ---
+        inputEl.addEventListener('input', scheduleConversion);
+        inputEl.addEventListener('paste', () => setTimeout(scheduleConversion, 50));
+
+        // --- Paste button ---
+        btnPaste.addEventListener('click', async () => {
+            try {
+                const text = await navigator.clipboard.readText();
+                if (text) {
+                    inputEl.value = text;
+                    previousInput = '';
+                    runConversion();
+                    inputEl.focus();
+                    // Scroll textarea to top
+                    inputEl.scrollTop = 0;
+                }
+            } catch (err) {
+                if (err.name === 'NotAllowedError' || err.name === 'SecurityError') {
+                    // Fallback: focus and tell user to Ctrl+V
+                    inputEl.focus();
+                    alert('无法自动读取剪贴板，请使用 Ctrl+V / Cmd+V 粘贴。');
+                } else {
+                    console.warn('Clipboard read failed:', err);
+                }
+            }
+        });
+
+        // --- Clear button ---
+        btnClear.addEventListener('click', () => {
+            inputEl.value = '';
+            previousInput = '';
+            runConversion();
+            inputEl.focus();
+        });
+
+        // --- Copy button ---
+        btnCopy.addEventListener('click', async () => {
+            const text = outputEl.textContent;
+            if (!text || text.startsWith('⬜')) return;
+            try {
+                await navigator.clipboard.writeText(text);
+                // Brief visual feedback
+                const orig = btnCopy.innerHTML;
+                btnCopy.innerHTML = '<span class="text-base">&#x2714;</span> 已复制';
+                btnCopy.classList.add('text-emerald-600', 'border-emerald-400');
+                setTimeout(() => {
+                    btnCopy.innerHTML = orig;
+                    btnCopy.classList.remove('text-emerald-600', 'border-emerald-400');
+                }, 1200);
+            } catch (err) {
+                // Fallback: select text
+                const range = document.createRange();
+                range.selectNodeContents(outputEl);
+                const sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
+        });
+
+        // --- Download button ---
+        btnDownload.addEventListener('click', () => {
+            const text = outputEl.textContent;
+            if (!text || text.startsWith('⬜')) return;
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'converted.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        // ======================================================================
+        //  TEST CASES
+        // ======================================================================
+
+        const testCases = [
+            {
+                name: '基础中文',
+                desc: '节1',
+                input: `他看着我，认真地说道："这是一个非常基础的中文测试。"\n"你好！"她挥了挥手，"今天天气真不错。"\n张三说："李四曾经对我说过，'这件事情不能告诉别人'。"\n在句子结尾处出现的引号测试："这就是所谓的规范"。\n这里是"连续"的"多个"包含词语的"引号"测试。`
+            },
+            {
+                name: '纯英文',
+                desc: '节2 — 应全部跳过',
+                input: `As the famous saying goes: "To be or not to be, that is the question."\nThe system threw an "IndexError" exception during runtime.\nHe replied, "I will be there in 5 minutes," and then hung up the phone.\nPlease read the chapter titled "Introduction to Artificial Intelligence".`
+            },
+            {
+                name: '中英混排',
+                desc: '节3',
+                input: `专家在报告中指出："Large Language Models (LLMs) 的发展速度超乎想象。"\n"The quick brown fox" 是一句经典的英文全字母句，而"我爱吃苹果"则是纯中文。\n他指着屏幕上的 "Warning" 标志说："这里存在极大的安全隐患。"\n我们刚刚发布了 "Version 2.0" 版本。`
+            },
+            {
+                name: 'HTML',
+                desc: '节4 — 属性内引号不变',
+                input: `请访问<a href="https://example.com">我的个人博客</a>。\n这段文字包含了一个带有样式的标签：<span style="color: red;">高亮显示的内容</span>。\n\n在这个 <div id="content"> 中，包含了一些"被引号包裹的普通中文文本"。`
+            },
+            {
+                name: 'Markdown',
+                desc: '节5 — Title / URL 不变',
+                input: `这是一个带有 Title 属性的 Markdown 链接：[点击访问 Google](https://google.com "Google")\n插入一张图片：![示例图片](https://example.com/img.png "示例图片描述")\n\n> 引用块内的文本同样需要测试："这是一段被引用的名言。"`
+            },
+            {
+                name: '边界情况',
+                desc: '节6',
+                input: `空字符串测试：""\n连续引号测试：这里出现了""双重引号""的情况。\n转义字符测试：文本中可能会出现像 &quot; 这样的转义情况，"看看你的程序能否处理"转义"中的引号"。\n未闭合的引号：这里有一个"孤立的，没有匹配项的引号，这可能会导致正则或解析器出现回溯问题。\n特殊符号紧贴：这件商品的价格是 "$99.99"，折扣后是 "¥500.00"。\n数字包裹：这是第 "1" 次警告，还有 "2" 次机会。`
+            },
+            {
+                name: 'Markdown 链接',
+                desc: '节7 — 混合引号',
+                input: `请点击["带引号的链接文本"](https://example.com)查看详情。\n文章中有一张图片：!["这是示例图片"](https://example.com/img.png)\n参考[官方文档](https://example.com "这是文档标题")了解更多。\n详见["引用名称"][ref]的定义。\n[ref]: https://example.com "参考标题"`
+            }
+        ];
+
+        function renderTestButtons() {
+            testContainer.innerHTML = '';
+            testCases.forEach((tc, idx) => {
+                const btn = document.createElement('button');
+                btn.className =
+                    'test-btn px-4 py-1.5 rounded-full text-sm font-medium border transition ' +
+                    'bg-white border border-gray-300 ' +
+                    'text-gray-700 hover:bg-blue-50 hover:border-blue-300';
+                btn.textContent = tc.name;
+                btn.title = tc.desc;
+                btn.addEventListener('click', () => {
+                    inputEl.value = tc.input;
+                    previousInput = '';
+                    runConversion();
+                    inputEl.scrollTop = 0;
+                    outputEl.scrollTop = 0;
+                });
+                testContainer.appendChild(btn);
+            });
+
+            // "全部加载" button
+            const allBtn = document.createElement('button');
+            allBtn.className =
+                'test-btn px-4 py-1.5 rounded-full text-sm font-medium border transition ' +
+                'bg-blue-600 text-white border-blue-600 hover:bg-blue-700 shadow-sm';
+            allBtn.textContent = '全部加载';
+            allBtn.title = '加载全部 7 组测试用例';
+            allBtn.addEventListener('click', () => {
+                inputEl.value = testCases.map(tc => tc.input).join('\n\n---\n\n');
+                previousInput = '';
+                runConversion();
+                inputEl.scrollTop = 0;
+                outputEl.scrollTop = 0;
+            });
+            testContainer.appendChild(allBtn);
+        }
+
+        renderTestButtons();
+
+        // ======================================================================
+        //  KEYBOARD SHORTCUTS
+        // ======================================================================
+        document.addEventListener('keydown', (e) => {
+            // Ctrl+Enter / Cmd+Enter → force immediate conversion
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                if (debounceTimer) clearTimeout(debounceTimer);
+                runConversion();
+                e.preventDefault();
+            }
+        });
+
+        // ======================================================================
+        //  INIT
+        // ======================================================================
+        // Show initial state
+        outputEl.textContent = '';
+        statTotal.textContent = '0';
+        statConverted.textContent = '0';
+        statSkipped.textContent = '0';
+        statNest.textContent = '0';
+        statTime.textContent = '';
+
+        console.log('🔧 引号转换工具已加载');
+        console.log(`📐 测试用例: ${testCases.length} 组`);
+
+    })();
+    </script>
+
+</body>
+</html>
