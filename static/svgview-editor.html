@@ -828,6 +828,68 @@
             }
         }
 
+        // ==================== 从 SVG 标题区自动提取标题 ====================
+        // 策略：优先识别顶部标题栏矩形（y≈0、宽度接近 SVG 宽度、高度 30~120）内
+        //       字号最大的 text 元素；找不到时回退到全局字号最大的 text。
+        function extractTitleFromSvg(svgElement) {
+            if (!svgElement) return '';
+
+            // 解析 SVG 宽度（优先 viewBox，其次 width 属性）
+            let svgWidth = 0;
+            const viewBox = svgElement.getAttribute('viewBox');
+            if (viewBox) {
+                const v = viewBox.split(/[\s,]+/);
+                if (v.length >= 4) svgWidth = parseFloat(v[2]);
+            }
+            if (!svgWidth) {
+                const wAttr = svgElement.getAttribute('width');
+                if (wAttr) svgWidth = parseFloat(String(wAttr).replace(/[^0-9.]/g, ''));
+            }
+
+            // 识别顶部标题栏矩形
+            const rects = Array.from(svgElement.querySelectorAll('rect'));
+            let titleRect = null;
+            for (const rect of rects) {
+                const y = parseFloat(rect.getAttribute('y') || 0);
+                const rw = parseFloat(rect.getAttribute('width') || 0);
+                const rh = parseFloat(rect.getAttribute('height') || 0);
+                // 顶部矩形：y 接近 0，高度在 30~120 之间，宽度至少占 SVG 宽度的 80%
+                if (y <= 10 && rh >= 30 && rh <= 120 && rw >= svgWidth * 0.8) {
+                    titleRect = { y: y, height: rh };
+                    break;
+                }
+            }
+
+            // 收集所有 text 元素及其字号、y 坐标
+            const texts = Array.from(svgElement.querySelectorAll('text'));
+            if (texts.length === 0) return '';
+            const textInfos = texts.map(t => {
+                const fs = parseFloat(t.getAttribute('font-size') || 0);
+                const ty = parseFloat(t.getAttribute('y') || 0);
+                const txt = (t.textContent || '').trim();
+                return { text: txt, fontSize: fs, y: ty };
+            }).filter(t => t.text);
+
+            // 优先：标题栏内字号最大的 text
+            if (titleRect) {
+                const inTitle = textInfos
+                    .filter(t => t.y >= titleRect.y - 2 && t.y <= titleRect.y + titleRect.height + 10)
+                    .sort((a, b) => b.fontSize - a.fontSize);
+                if (inTitle.length > 0 && inTitle[0].fontSize > 0) {
+                    return sanitizeFilename(inTitle[0].text);
+                }
+            }
+
+            // 回退：全局字号最大的 text
+            const sorted = textInfos.filter(t => t.fontSize > 0).sort((a, b) => b.fontSize - a.fontSize);
+            return sorted.length > 0 ? sanitizeFilename(sorted[0].text) : '';
+        }
+
+        // 清理为合法文件名（替换 Windows/Mac 不允许的字符）
+        function sanitizeFilename(name) {
+            return name.replace(/[\\\/:*?"<>|]/g, '_').replace(/\s+/g, ' ').trim();
+        }
+
         // ==================== 下载/复制功能 ====================
         function getCleanSvgCode() {
             let svgCode = svgEditor.value.trim();
@@ -962,6 +1024,9 @@
                 if (text) {
                     svgEditor.value = text;
                     updatePreview();
+                    // 粘贴后强制用 SVG 标题区提取的标题覆盖文件名
+                    const title = extractTitleFromSvg(svgPreview.querySelector('svg'));
+                    if (title) titleInput.value = title;
                     showToast('粘贴成功', 'success');
                 }
             } catch (error) {
@@ -980,8 +1045,9 @@
                     reader.onload = function(e) {
                         svgEditor.value = e.target.result;
                         updatePreview();
-                        const fileName = file.name.replace(/\.[^/.]+$/, "");
-                        titleInput.value = fileName;
+                        // 载入后优先用 SVG 标题区提取的标题，提取不到则回退到文件名
+                        const title = extractTitleFromSvg(svgPreview.querySelector('svg'));
+                        titleInput.value = title || file.name.replace(/\.[^/.]+$/, "");
                         showToast('文件载入成功', 'success');
                     };
                     reader.readAsText(file);
