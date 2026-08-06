@@ -8,7 +8,6 @@ on:
 
 permissions:
   contents: write
-  pages: write
 
 concurrency:
   group: "pages"
@@ -17,12 +16,14 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.head_commit.message, '[deploy-docs]') }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
@@ -33,8 +34,12 @@ jobs:
       - name: Build
         run: hugo --config hugo.toml --minify
 
-      - name: Deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+      - name: Commit and push docs
+        run: |
+          rm -rf docs
+          cp -r public docs
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add docs
+          git diff --cached --quiet || git commit -m "[deploy-docs] Update GitHub Pages content"
+          git push
