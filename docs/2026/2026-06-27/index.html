@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>多个国产模型联合，就能挑战Claude Fable 5？ | EarlMind</title>
+<meta name="keywords" content="">
+<meta name="description" content="GPT 5.6发布了，但大概率步Claude Fable 5的后尘，大部分普通人尤其是中国用户，短期用不到。
+在有限模型可选的前提下，如何提升你的大模型输出上限？
+大模型聚合网站OpenRouter倒是提出了一个有趣的思路——Funsion。">
+<meta name="author" content="Earl">
+<link rel="canonical" href="https://earlmind.com/2026/2026-06-27/">
+<link crossorigin="anonymous" href="https://earlmind.com/assets/css/stylesheet.5a926f5a97cb172204830b5ba28683c1686d95860f21814c65d48737e45a671d.css" integrity="sha256-WpJvWpfLFyIEgwtbooaDwWhtlYYPIYFMZdSHN&#43;RaZx0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://earlmind.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://earlmind.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://earlmind.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://earlmind.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://earlmind.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh-cn" href="https://earlmind.com/2026/2026-06-27/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-BBE8BTPTWL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-BBE8BTPTWL');
+        }
+      </script><meta property="og:url" content="https://earlmind.com/2026/2026-06-27/">
+  <meta property="og:site_name" content="EarlMind">
+  <meta property="og:title" content="多个国产模型联合，就能挑战Claude Fable 5？">
+  <meta property="og:description" content="GPT 5.6发布了，但大概率步Claude Fable 5的后尘，大部分普通人尤其是中国用户，短期用不到。
+在有限模型可选的前提下，如何提升你的大模型输出上限？
+大模型聚合网站OpenRouter倒是提出了一个有趣的思路——Funsion。">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-06-27T11:00:05+08:00">
+    <meta property="article:modified_time" content="2026-06-27T11:00:05+08:00">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="多个国产模型联合，就能挑战Claude Fable 5？">
+<meta name="twitter:description" content="GPT 5.6发布了，但大概率步Claude Fable 5的后尘，大部分普通人尤其是中国用户，短期用不到。
+在有限模型可选的前提下，如何提升你的大模型输出上限？
+大模型聚合网站OpenRouter倒是提出了一个有趣的思路——Funsion。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://earlmind.com/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "多个国产模型联合，就能挑战Claude Fable 5？",
+      "item": "https://earlmind.com/2026/2026-06-27/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "多个国产模型联合，就能挑战Claude Fable 5？",
+  "name": "多个国产模型联合，就能挑战Claude Fable 5？",
+  "description": "GPT 5.6发布了，但大概率步Claude Fable 5的后尘，大部分普通人尤其是中国用户，短期用不到。\n在有限模型可选的前提下，如何提升你的大模型输出上限？\n大模型聚合网站OpenRouter倒是提出了一个有趣的思路——Funsion。\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "GPT 5.6发布了，但大概率步Claude Fable 5的后尘，大部分普通人尤其是中国用户，短期用不到。\n在有限模型可选的前提下，如何提升你的大模型输出上限？\n大模型聚合网站OpenRouter倒是提出了一个有趣的思路——Funsion。\n传统模型厂商，在提升自家模型输出上限上，更多是从思考预算、Harness之类上入手，OpenRouter因为是模型聚合网站，所以思路就会偏向于多模型整合——这恰恰是单一模型厂商的盲区，或者说不愿意尝试探索的领域。\nOpenRouter的Fusion，最早是以聊天框的形式上线，你可以确定几个模型去思考，并选定一个模型将他们思考的结果综合后输出。\n比如下面这个是我之前的尝试，用了三个廉价模型去翻译，然后交给Opus 4.6来综述。\n翻译这个事儿，很难打分，评判模型产出好坏。\nOpenRouter这次是引入DRACO测试集，这是Perplexity AI推出，包含 100 个深度研究任务，涵盖 10 个领域：学术研究、金融、法律、医学、技术、用户体验设计、常识、大海捞针式检索、个性化协助以及产品比较。\n下面是OpenRouter公布的测试结果。标记Solo的就是单一模型的结果，Funsion的则是走上述多模型给答案高级模型综述（OpenRouter这次统一用了Opus 4.8）的结果。\n当然，哪怕是Opus 4.8 + Opus 4.8 ，然后再用Opus 4.8 综述，也会有惊喜，相比单一Opus 4.8，分数能从58.8%提升到65.5%，已经赶超Claude Fable 5的65.3%了。这个结果其实不奇怪，大模型领域本来就有很多类似的“奇淫巧技”，比如一个问题复制粘贴两遍，会比只有一遍的提问获得更好的结果——这种不会发生在人类身上的智能呈现，在大模型上却是常态。\n不过对于OpenRouter，或许这个测试最值得关注的是Gemini 3 Flash + Kimi K2.6 + DeepSeek V4 Pro 的组合，交由Opus 4.8综述后也有64.7%的得分，只是略微弱于Claude Fable 5。\n站在2026年的6月，只谈模型的智能上限，不谈模型的成本，是不够的。\n尤其是对于不能买月付会员，必须真金白银购买API的企业级用户。\nOpenRouter特地制作了一张成本与产出的散点图，请注意我用红色虚钱标记的部分，Gemini 3 Flash + Kimi K2.6 + DeepSeek V4 Pro的组合，在获得与Claude Fable 5相若的产出同时，成本只有一半。\n对OpenRouter，做的是模型聚合的生意，所以他将这套原本只能用Chatbox的模式，做成了API接口，中间过程全部由OpenRouter完成，用户就像调用普通模型一样来调用，开发难度锐减。\n当然，于我而言，更好奇的是，如果综述模型也改用国产低成本模型会如何？\n毕竟在上面的测试排行中，DeepSeek V4 Pro单模型的成绩，竟然力压GPT 5.5和Claude Opus 4.8。以至于OpenRouter只能在问答部分，单独增加一个回答。\n“三个臭皮匠，顶个诸葛亮”，这句传统老话，在大模型领域，似乎有了新的含义。\n对于单一模型上限还有差异，但是性价比普遍比较高的国产开源模型而言，OpenRouter的这种探索，其实对于动摇海外顶级模型的性能优势，具有很大的挑战潜力。当然，上述结果只是基于DRACO测试集，还期待有更多的同类测试，尤其是在编程能力上的测试，能够陆续有来。\n",
+  "wordCount" : "1333",
+  "inLanguage": "zh-cn",
+  "datePublished": "2026-06-27T11:00:05+08:00",
+  "dateModified": "2026-06-27T11:00:05+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Earl"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://earlmind.com/2026/2026-06-27/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EarlMind",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://earlmind.com/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://earlmind.com/" accesskey="h" title="EarlMind (Alt + H)">EarlMind</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://earlmind.com/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://earlmind.com/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://earlmind.com/">Home</a>&nbsp;»&nbsp;<a href="https://earlmind.com/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      多个国产模型联合，就能挑战Claude Fable 5？
+    </h1>
+    <div class="post-meta"><span title='2026-06-27 11:00:05 +0800 +0800'>June 27, 2026</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Earl</span>
+
+</div>
+  </header> 
+
+  <div class="post-content"><p>GPT 5.6发布了，但大概率步Claude Fable 5的后尘，大部分普通人尤其是中国用户，短期用不到。</p>
+<p>在有限模型可选的前提下，如何提升你的大模型输出上限？</p>
+<p>大模型聚合网站OpenRouter倒是提出了一个有趣的思路——Funsion。</p>
+<p>传统模型厂商，在提升自家模型输出上限上，更多是从思考预算、Harness之类上入手，OpenRouter因为是模型聚合网站，所以思路就会偏向于多模型整合——这恰恰是单一模型厂商的盲区，或者说不愿意尝试探索的领域。</p>
+<p>OpenRouter的Fusion，最早是以聊天框的形式上线，你可以确定几个模型去思考，并选定一个模型将他们思考的结果综合后输出。</p>
+<p>比如下面这个是我之前的尝试，用了三个廉价模型去翻译，然后交给Opus 4.6来综述。</p>
+<p><img alt="image-20260627093130666" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260627_103937_795_3f443f02_tmp315isxlj.png"></p>
+<p>翻译这个事儿，很难打分，评判模型产出好坏。</p>
+<p>OpenRouter这次是引入DRACO测试集，这是Perplexity AI推出，包含 100 个深度研究任务，涵盖 10 个领域：学术研究、金融、法律、医学、技术、用户体验设计、常识、大海捞针式检索、个性化协助以及产品比较。</p>
+<p>下面是OpenRouter公布的测试结果。标记Solo的就是单一模型的结果，Funsion的则是走上述多模型给答案高级模型综述（OpenRouter这次统一用了Opus 4.8）的结果。</p>
+<p>当然，哪怕是Opus 4.8 + Opus 4.8 ，然后再用Opus 4.8 综述，也会有惊喜，相比单一Opus 4.8，分数能从58.8%提升到65.5%，已经赶超Claude Fable 5的65.3%了。这个结果其实不奇怪，大模型领域本来就有很多类似的“奇淫巧技”，比如一个问题复制粘贴两遍，会比只有一遍的提问获得更好的结果——这种不会发生在人类身上的智能呈现，在大模型上却是常态。</p>
+<p><img alt="表格1" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260627_103937_084_474658c7_table_1.png"></p>
+<!-- table-source
+| Type   | Model(s)                                                     |     Score |
+| ------ | ------------------------------------------------------------ | --------: |
+| Fusion | Fable 5 + GPT-5.5** *synthesized by Opus 4.8*                | **69.0%** |
+| Fusion | Opus 4.8 + GPT-5.5 + Gemini 3.1 Pro *synthesized by Opus 4.8* | **68.3%** |
+| Fusion | Opus 4.8 + GPT-5.5 *synthesized by Opus 4.8*                 | **67.6%** |
+| Fusion | Opus 4.8 + Opus 4.8 *synthesized by Opus 4.8*                | **65.5%** |
+| Solo   | Claude Fable 5**                                             |     65.3% |
+| Fusion | Gemini 3 Flash + Kimi K2.6 + DeepSeek V4 Pro *synthesized by Opus 4.8* | **64.7%** |
+| Solo   | DeepSeek V4 Pro                                              |     60.3% |
+| Solo   | GPT-5.5                                                      |     60.0% |
+| Solo   | Claude Opus 4.8                                              |     58.8% |
+| Solo   | Kimi K2.6                                                    |     53.7% |
+| Solo   | Gemini 3.1 Pro                                               |     45.4% |
+| Solo   | Gemini 3 Flash                                               |     43.1% |
+-->
+<p>不过对于OpenRouter，或许这个测试最值得关注的是Gemini 3 Flash + Kimi K2.6 + DeepSeek V4 Pro 的组合，交由Opus 4.8综述后也有64.7%的得分，只是略微弱于Claude Fable 5。</p>
+<p>站在2026年的6月，只谈模型的智能上限，不谈模型的成本，是不够的。</p>
+<p>尤其是对于不能买月付会员，必须真金白银购买API的企业级用户。</p>
+<p>OpenRouter特地制作了一张成本与产出的散点图，请注意我用红色虚钱标记的部分，Gemini 3 Flash + Kimi K2.6 + DeepSeek V4 Pro的组合，在获得与Claude Fable 5相若的产出同时，<strong>成本只有一半</strong>。</p>
+<p><img alt="image-20260627094439908" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260627_103937_788_9c063746_tmpbptdirkg.png"></p>
+<p>对OpenRouter，做的是模型聚合的生意，所以他将这套原本只能用Chatbox的模式，做成了API接口，中间过程全部由OpenRouter完成，用户就像调用普通模型一样来调用，开发难度锐减。</p>
+<p>当然，于我而言，更好奇的是，如果综述模型也改用国产低成本模型会如何？</p>
+<p>毕竟在上面的测试排行中，DeepSeek V4 Pro单模型的成绩，竟然力压GPT 5.5和Claude Opus 4.8。以至于OpenRouter只能在问答部分，单独增加一个回答。</p>
+<p><img alt="image-20260627103601895" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260627_103937_799_0c9a794e_tmp1g3pinxh.png"></p>
+<p>“三个臭皮匠，顶个诸葛亮”，这句传统老话，在大模型领域，似乎有了新的含义。</p>
+<p>对于单一模型上限还有差异，但是性价比普遍比较高的国产开源模型而言，OpenRouter的这种探索，其实对于动摇海外顶级模型的性能优势，具有很大的挑战潜力。当然，上述结果只是基于DRACO测试集，还期待有更多的同类测试，尤其是在编程能力上的测试，能够陆续有来。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://earlmind.com/2026/2026-07-04/">
+    <span class="title">« </span>
+    <br>
+    <span>Wind Alice很好用，但作为Wind付费用户我不开心</span>
+  </a>
+  <a class="next" href="https://earlmind.com/2026/2026-06-23/">
+    <span class="title"> »</span>
+    <br>
+    <span>警惕美股AI牛市的缩圈</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://earlmind.com/">EarlMind</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a><div style="text-align: center; margin-top: 10px;">
+    <a href="mailto:earlzhang@gmail.com" target="_blank" rel="noopener noreferrer me" title="Email" style="display: inline-block; color: var(--secondary);">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+    </a>
+</div>
+
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

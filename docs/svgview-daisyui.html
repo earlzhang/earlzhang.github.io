@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="svg.ico" type="image/x-icon">
+    <title>SVG 预览工具</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-base-200 min-h-screen flex flex-col">
+    <div class="toast toast-top toast-center z-50" id="toast-container"></div>
+    
+    <div class="navbar bg-base-100 shadow-md">
+        <div class="flex-1">
+            <a class="btn btn-ghost text-xl">
+                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+                SVG 预览工具
+            </a>
+        </div>
+    </div>
+    
+    <div class="flex-1 flex flex-col md:flex-row p-4 gap-4 h-[calc(100vh-64px)]">
+        <div class="flex-1 flex flex-col gap-2 min-h-0">
+            <div class="flex flex-wrap gap-2 p-3 bg-base-100 rounded-box shadow">
+                <button id="paste-button" class="btn btn-primary btn-sm">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                    </svg>
+                    粘贴
+                </button>
+                <button id="load-button" class="btn btn-secondary btn-sm">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    载入
+                </button>
+                <input type="text" id="title-input" placeholder="文件名（可选）" class="input input-bordered input-sm w-full max-w-xs">
+            </div>
+            <textarea id="svg-editor" class="textarea textarea-bordered flex-1 font-mono text-sm" placeholder="在此输入 SVG 代码..."><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="100" cy="100" r="80" fill="#3498db" />
+  <rect x="60" y="60" width="80" height="80" fill="#e74c3c" />
+  <polygon points="100,40 120,70 150,70 125,90 135,120 100,105 65,120 75,90 50,70 80,70" fill="#f1c40f" />
+</svg></textarea>
+        </div>
+        
+        <div class="flex-1 flex flex-col gap-2 min-h-0">
+            <div class="flex-1 bg-base-100 rounded-box shadow p-4 overflow-auto flex items-center justify-center" id="svg-preview"></div>
+            <div class="flex flex-wrap gap-2 p-3 bg-base-100 rounded-box shadow items-center">
+                <button id="download-svg" class="btn btn-success btn-sm">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    下载 SVG
+                </button>
+                <button id="download-png" class="btn btn-info btn-sm">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    下载 PNG
+                </button>
+                <button id="copy-to-clipboard" class="btn btn-warning btn-sm">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    复制到剪贴板
+                </button>
+                <div class="flex items-center gap-2">
+                    <span class="text-sm">DPI:</span>
+                    <select id="png-dpi" class="select select-bordered select-sm">
+                        <option value="96">96</option>
+                        <option value="100">100</option>
+                        <option value="150">150</option>
+                        <option value="200" selected>200</option>
+                        <option value="300">300</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const svgEditor = document.getElementById('svg-editor');
+            const svgPreview = document.getElementById('svg-preview');
+            const downloadSvgBtn = document.getElementById('download-svg');
+            const downloadPngBtn = document.getElementById('download-png');
+            const pngDpiSelect = document.getElementById('png-dpi');
+            const pasteButton = document.getElementById('paste-button');
+            const loadButton = document.getElementById('load-button');
+            const titleInput = document.getElementById('title-input');
+            
+            updatePreview();
+            
+            svgEditor.addEventListener('input', updatePreview);
+            
+            function showToast(message, type = 'info') {
+                const toastContainer = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = `alert alert-${type} shadow-lg`;
+                
+                const icons = {
+                    success: '<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>',
+                    error: '<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>',
+                    warning: '<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>',
+                    info: '<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>'
+                };
+                
+                toast.innerHTML = `
+                    <span>${icons[type] || icons.info}</span>
+                    <span>${message}</span>
+                `;
+                
+                toastContainer.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.remove();
+                }, 2000);
+            }
+            
+            function updatePreview() {
+                try {
+                    const errorMsg = document.querySelector('.error-message');
+                    if (errorMsg) {
+                        errorMsg.remove();
+                    }
+                    
+                    let svgCode = svgEditor.value.trim();
+                    
+                    if (svgCode.startsWith('```svg')) {
+                        svgCode = svgCode.slice(5);
+                    }
+                    if (svgCode.endsWith('```')) {
+                        svgCode = svgCode.slice(0, -3);
+                    }
+                    svgCode = svgCode.trim();
+                    
+                    svgPreview.innerHTML = svgCode;
+                    
+                    const svgElement = svgPreview.querySelector('svg');
+                    if (svgElement) {
+                        svgElement.style.maxWidth = '100%';
+                        svgElement.style.maxHeight = '100%';
+                    }
+                } catch (error) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'error-message text-error';
+                    errorDiv.textContent = `SVG 解析错误: ${error.message}`;
+                    svgPreview.innerHTML = '';
+                    svgPreview.appendChild(errorDiv);
+                }
+            }
+            
+            downloadSvgBtn.addEventListener('click', function() {
+                try {
+                    let svgCode = svgEditor.value.trim();
+                    if (svgCode.startsWith('```svg')) {
+                        svgCode = svgCode.slice(5);
+                    }
+                    if (svgCode.endsWith('```')) {
+                        svgCode = svgCode.slice(0, -3);
+                    }
+                    const blob = new Blob([svgCode.trim()], { type: 'image/svg+xml' });
+                    downloadFile(blob, 'image.svg');
+            showToast('SVG 下载成功', 'success');
+                } catch (error) {
+                    showToast(`下载 SVG 失败: ${error.message}`, 'error');
+                }
+            });
+            
+            function convertSvgToPng(callback, dpi = 200) {
+                try {
+                    const svgElement = svgPreview.querySelector('svg');
+                    if (!svgElement) {
+                        throw new Error('没有找到有效的 SVG 元素');
+                    }
+                    
+                    const svgClone = svgElement.cloneNode(true);
+                    
+                    let width, height;
+                    
+                    const viewBox = svgElement.getAttribute('viewBox');
+                    if (viewBox) {
+                        const viewBoxValues = viewBox.split(' ');
+                        if (viewBoxValues.length >= 4) {
+                            width = parseFloat(viewBoxValues[2]);
+                            height = parseFloat(viewBoxValues[3]);
+                        }
+                    }
+                    
+                    if (!width || !height) {
+                        width = svgElement.getAttribute('width');
+                        height = svgElement.getAttribute('height');
+                        
+                        if (width && typeof width === 'string') {
+                            width = parseFloat(width.replace(/[^0-9.]/g, ''));
+                        }
+                        if (height && typeof height === 'string') {
+                            height = parseFloat(height.replace(/[^0-9.]/g, ''));
+                        }
+                    }
+                    
+                    if (!width || !height || isNaN(width) || isNaN(height) || width <= 0 || height <= 0) {
+                        try {
+                            const bbox = svgElement.getBBox();
+                            width = bbox.width;
+                            height = bbox.height;
+                        } catch (e) {
+                            const rect = svgElement.getBoundingClientRect();
+                            width = rect.width;
+                            height = rect.height;
+                        }
+                    }
+                    
+                    width = (width && width > 0) ? width : 800;
+                    height = (height && height > 0) ? height : 600;
+                    
+                    const dpiScale = dpi / 96;
+                    const scaledWidth = Math.round(width * dpiScale);
+                    const scaledHeight = Math.round(height * dpiScale);
+                    
+                    const svgString = new XMLSerializer().serializeToString(svgClone);
+                    const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+                    const svgUrl = URL.createObjectURL(svgBlob);
+                    
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = scaledWidth;
+                        canvas.height = scaledHeight;
+                        const ctx = canvas.getContext('2d');
+                        
+                        ctx.fillStyle = '#ffffff';
+                        ctx.fillRect(0, 0, scaledWidth, scaledHeight);
+                        
+                        ctx.drawImage(img, 0, 0, scaledWidth, scaledHeight);
+                        
+                        callback(canvas, svgUrl);
+                    };
+                    
+                    img.onerror = function() {
+                        showToast('PNG 转换失败，请检查 SVG 代码是否有效', 'error');
+                        URL.revokeObjectURL(svgUrl);
+                    };
+                    
+                    img.src = svgUrl;
+                } catch (error) {
+                    showToast(`SVG 转换失败: ${error.message}`, 'error');
+                }
+            }
+
+            downloadPngBtn.addEventListener('click', function() {
+                const selectedDpi = parseInt(pngDpiSelect.value);
+                
+                convertSvgToPng(function(canvas, svgUrl) {
+                    canvas.toBlob(function(blob) {
+                        downloadFile(blob, 'image.png');
+                        URL.revokeObjectURL(svgUrl);
+                        showToast('PNG 下载成功', 'success');
+                    }, 'image/png');
+                }, selectedDpi);
+            });
+            
+            const copyToClipboardBtn = document.getElementById('copy-to-clipboard');
+            copyToClipboardBtn.addEventListener('click', function() {
+                const selectedDpi = parseInt(pngDpiSelect.value);
+                
+                convertSvgToPng(function(canvas, svgUrl) {
+                    try {
+                        canvas.toBlob(function(blob) {
+                            const item = new ClipboardItem({ 'image/png': blob });
+                            
+                            navigator.clipboard.write([item])
+                                .then(() => {
+                                    showToast('已成功复制图像到剪贴板', 'success');
+                                })
+                                .catch(err => {
+                                    showToast(`复制到剪贴板失败: ${err.message}`, 'error');
+                                })
+                                .finally(() => {
+                                    URL.revokeObjectURL(svgUrl);
+                                });
+                        }, 'image/png');
+                    } catch (error) {
+                        showToast(`复制到剪贴板失败: ${error.message}`, 'error');
+                        URL.revokeObjectURL(svgUrl);
+                    }
+                });
+            });
+            
+            function downloadFile(blob, defaultFilename) {
+                const title = titleInput.value.trim();
+                const filename = title ? title : defaultFilename;
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(function() {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 0);
+            }
+            
+            pasteButton.addEventListener('click', async function() {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    if (text) {
+                        svgEditor.value = text;
+                        updatePreview();
+                        showToast('粘贴成功', 'success');
+                    }
+                } catch (error) {
+                    showToast(`粘贴失败: ${error.message}`, 'error');
+                }
+            });
+            
+            loadButton.addEventListener('click', function() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = '.svg';
+                input.onchange = function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            svgEditor.value = e.target.result;
+                            updatePreview();
+                            const fileName = file.name.replace(/\.[^/.]+$/, "");
+                            titleInput.value = fileName;
+                            showToast('文件载入成功', 'success');
+                        };
+                        reader.readAsText(file);
+                    }
+                };
+                input.click();
+            });
+        });
+    </script>
+</body>
+</html>

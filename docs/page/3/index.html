@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="auto" data-theme="auto">
+
+<head>
+	<meta name="generator" content="Hugo 0.164.0"><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>EarlMind</title>
+
+<meta name="description" content="">
+<meta name="author" content="Earl">
+<link rel="canonical" href="https://earlmind.com/">
+<link crossorigin="anonymous" href="https://earlmind.com/assets/css/stylesheet.5a926f5a97cb172204830b5ba28683c1686d95860f21814c65d48737e45a671d.css" integrity="sha256-WpJvWpfLFyIEgwtbooaDwWhtlYYPIYFMZdSHN&#43;RaZx0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://earlmind.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://earlmind.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://earlmind.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://earlmind.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://earlmind.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://earlmind.com/index.xml" title="rss">
+<link rel="alternate" type="application/json" href="https://earlmind.com/index.json" title="json">
+<link rel="alternate" hreflang="zh-cn" href="https://earlmind.com/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-BBE8BTPTWL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-BBE8BTPTWL');
+        }
+      </script><meta property="og:url" content="https://earlmind.com/">
+  <meta property="og:site_name" content="EarlMind">
+  <meta property="og:title" content="EarlMind">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="EarlMind">
+<meta name="twitter:description" content="">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "EarlMind",
+  "url": "https://earlmind.com/",
+  "description": "",
+  "logo": "https://earlmind.com/favicon.ico",
+  "sameAs": [
+      "mailto:earlzhang@gmail.com"
+  ]
+}
+</script>
+</head>
+<body class="list" id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://earlmind.com/" accesskey="h" title="EarlMind (Alt + H)">EarlMind</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://earlmind.com/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://earlmind.com/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Qwen 3.6 Flash的视觉理解能力强得有点离谱
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>之前用Qwen 3.6 Flash，识别了我的股票账户逐日收益数据，对其性价比有了一点认识。
+假期中，给小学二年级的娃默写单词，正好想到类似这样的英文横线本，对多模态模型是否会构成障碍。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-05-05 13:56:56 +0800 +0800'>May 5, 2026</span>&nbsp;·&nbsp;<span>2 min</span>&nbsp;·&nbsp;<span>Earl</span></footer>
+  <a class="entry-link" aria-label="post link to Qwen 3.6 Flash的视觉理解能力强得有点离谱" href="https://earlmind.com/2026/2026-05-05/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Deepseek V4对存储、光模块需求的打击尚待显现
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>五一期间，密集在Agent模式下，体验Deepseek V4，尤其是便宜的Deepseek V4 Flash。
+一边用，一边算价格，一边感叹：Deepseek V4的缓存读取价格，真是便宜到离谱。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-05-02 12:06:20 +0800 +0800'>May 2, 2026</span>&nbsp;·&nbsp;<span>5 min</span>&nbsp;·&nbsp;<span>Earl</span></footer>
+  <a class="entry-link" aria-label="post link to Deepseek V4对存储、光模块需求的打击尚待显现" href="https://earlmind.com/2026/2026-05-02/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">用Qwen 3.6 Flash复盘股票账户
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>五一长假，看了下前四个月的股票账户表现，12.8%还算是一个过得去的数据。
+当然，我是多资产轮动的思路，所以其实对回撤的看重，甚至要胜于收益本身——尤其是春节过后引入BIAS的止盈机制，就是为了控回撤。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-05-01 10:25:43 +0800 +0800'>May 1, 2026</span>&nbsp;·&nbsp;<span>2 min</span>&nbsp;·&nbsp;<span>Earl</span></footer>
+  <a class="entry-link" aria-label="post link to 用Qwen 3.6 Flash复盘股票账户" href="https://earlmind.com/2026/2026-05-01/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">当你用AI帮娃做手工，多模态能力的差距体现了
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>娃刷到了一个纸盒小猫的视频，说自己也要做一个。
+在作者小红书账号的评论区找到了图纸，长下面这个样子。
+这图纸，直接打印吧，肯定一言难尽。
+一方面底纹打在卡纸上废墨水，另一方面那些数字标记也麻烦。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-04-30 15:48:05 +0800 +0800'>April 30, 2026</span>&nbsp;·&nbsp;<span>2 min</span>&nbsp;·&nbsp;<span>Earl</span></footer>
+  <a class="entry-link" aria-label="post link to 当你用AI帮娃做手工，多模态能力的差距体现了" href="https://earlmind.com/2026/2026-04-30/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Workbuddy还没接住Deepseek V4溢出的厚爱
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>CodeBuddy，腾讯家Agent工具。此前因为Deepseek V4官方发布微信中意外的提及，关注度又高了一把。
+是的，在一众编程和Agent大咖中，出现CodeBuddy是有点突兀的，以至于许多人甚至猜测这是否Deepseek的示好，甚至暗示未来的腾讯入股有希望。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-04-28 20:54:51 +0800 +0800'>April 28, 2026</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Earl</span></footer>
+  <a class="entry-link" aria-label="post link to Workbuddy还没接住Deepseek V4溢出的厚爱" href="https://earlmind.com/2026/2026-04-28-6/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">唯一的主语
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>之前在写关于大模型双引号问题时，用了一篇Claude 4.6 Opus写的对房东的猫新歌《你得先是你自己》的品鉴。
+有读者说是房东的猫的粉丝，想看全文。那就将全文贴上来，差不多1400字。最后，还会附上相关提示词。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-04-28 14:25:16 +0800 +0800'>April 28, 2026</span>&nbsp;·&nbsp;<span>8 min</span>&nbsp;·&nbsp;<span>Earl</span></footer>
+  <a class="entry-link" aria-label="post link to 唯一的主语" href="https://earlmind.com/2026/2026-04-28-5/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">一个双引号的背后，是码字人最后的体面
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>在微信公众号读长文，每次看到夹杂在中文中的大片英文双引号，总是忍不住一声叹息。
+这，应该，又是一个用Claude写稿，还不注意修正双引号bug的人吧。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-04-28 12:02:48 +0800 +0800'>April 28, 2026</span>&nbsp;·&nbsp;<span>5 min</span>&nbsp;·&nbsp;<span>Earl</span></footer>
+  <a class="entry-link" aria-label="post link to 一个双引号的背后，是码字人最后的体面" href="https://earlmind.com/2026/2026-04-28-3/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Qwen 3.6最让我惊喜的还是多模态的Flash
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>刷Openrouter，发现上线了一个名为Qwen 3.6 Flash的模型。
+Qwen家的模型，一向是档位最细致的，Max、Plus、Turbo、Flash，至少四档。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-04-28 11:25:16 +0800 +0800'>April 28, 2026</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Earl</span></footer>
+  <a class="entry-link" aria-label="post link to Qwen 3.6最让我惊喜的还是多模态的Flash" href="https://earlmind.com/2026/2026-04-28-4/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Deepseek V4 Flash是沉浸式翻译的绝配
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Deepseek V4发布了。
+Deepseek V4 Pro又限时降价了。原本Deepseek V4 Pro的性能只是与其他国产大模型相若，缺乏惊喜，但一旦百万token的输出价格从24元腰斩再腰斩到6元，那就有点香了。虽然这次说是限时折扣，到5月5日，似乎只是让大家五一长假多多体验。但我总觉得，这似乎是一个“价格预告”，提前剧透下半年昇腾950批量上市之后，Deepseek V4 Pro的“大幅降价”能有多狠。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-04-26 12:01:38 +0800 +0800'>April 26, 2026</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Earl</span></footer>
+  <a class="entry-link" aria-label="post link to Deepseek V4 Flash是沉浸式翻译的绝配" href="https://earlmind.com/2026/2026-04-28-2/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Deepseek V4的真正冲击，不在跑分
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>DeepSeek-V4 预览版终于发布了，在2026年4月24日的中午。
+不久之前，英伟达的黄仁勋在Dwarkesh播客的那期节目Jensen Huang – TPU competition, why we should sell chips to China, &amp; Nvidia’s supply chain moat上说：
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-04-25 12:00:42 +0800 +0800'>April 25, 2026</span>&nbsp;·&nbsp;<span>7 min</span>&nbsp;·&nbsp;<span>Earl</span></footer>
+  <a class="entry-link" aria-label="post link to Deepseek V4的真正冲击，不在跑分" href="https://earlmind.com/2026/2026-04-28/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="https://earlmind.com/page/2/">
+      «&nbsp;&nbsp;
+    </a>
+    <a class="next" href="https://earlmind.com/page/4/">&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://earlmind.com/">EarlMind</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a><div style="text-align: center; margin-top: 10px;">
+    <a href="mailto:earlzhang@gmail.com" target="_blank" rel="noopener noreferrer me" title="Email" style="display: inline-block; color: var(--secondary);">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+    </a>
+</div>
+
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
