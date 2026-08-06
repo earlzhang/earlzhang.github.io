@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>GPT 5.4的啰嗦，与不想结束的对话 | EarlMind</title>
+<meta name="keywords" content="">
+<meta name="description" content="最近一周，高强度的在使用新发布的GPT 5.4。
+聊天，辅助写稿，偶尔代码。
+我不会说这是文字层面我最喜欢的模型，它依然无法取代Claude 4.6 Opus的地位，但至少可以排在第二，成为重要的辅助。">
+<meta name="author" content="Earl">
+<link rel="canonical" href="https://earlmind.com/2026/2026-03-13-3/">
+<link crossorigin="anonymous" href="https://earlmind.com/assets/css/stylesheet.5a926f5a97cb172204830b5ba28683c1686d95860f21814c65d48737e45a671d.css" integrity="sha256-WpJvWpfLFyIEgwtbooaDwWhtlYYPIYFMZdSHN&#43;RaZx0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://earlmind.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://earlmind.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://earlmind.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://earlmind.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://earlmind.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh-cn" href="https://earlmind.com/2026/2026-03-13-3/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-BBE8BTPTWL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-BBE8BTPTWL');
+        }
+      </script><meta property="og:url" content="https://earlmind.com/2026/2026-03-13-3/">
+  <meta property="og:site_name" content="EarlMind">
+  <meta property="og:title" content="GPT 5.4的啰嗦，与不想结束的对话">
+  <meta property="og:description" content="最近一周，高强度的在使用新发布的GPT 5.4。
+聊天，辅助写稿，偶尔代码。
+我不会说这是文字层面我最喜欢的模型，它依然无法取代Claude 4.6 Opus的地位，但至少可以排在第二，成为重要的辅助。">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-03-13T21:13:37+08:00">
+    <meta property="article:modified_time" content="2026-03-13T21:13:37+08:00">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GPT 5.4的啰嗦，与不想结束的对话">
+<meta name="twitter:description" content="最近一周，高强度的在使用新发布的GPT 5.4。
+聊天，辅助写稿，偶尔代码。
+我不会说这是文字层面我最喜欢的模型，它依然无法取代Claude 4.6 Opus的地位，但至少可以排在第二，成为重要的辅助。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://earlmind.com/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "GPT 5.4的啰嗦，与不想结束的对话",
+      "item": "https://earlmind.com/2026/2026-03-13-3/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "GPT 5.4的啰嗦，与不想结束的对话",
+  "name": "GPT 5.4的啰嗦，与不想结束的对话",
+  "description": "最近一周，高强度的在使用新发布的GPT 5.4。\n聊天，辅助写稿，偶尔代码。\n我不会说这是文字层面我最喜欢的模型，它依然无法取代Claude 4.6 Opus的地位，但至少可以排在第二，成为重要的辅助。\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "最近一周，高强度的在使用新发布的GPT 5.4。\n聊天，辅助写稿，偶尔代码。\n我不会说这是文字层面我最喜欢的模型，它依然无法取代Claude 4.6 Opus的地位，但至少可以排在第二，成为重要的辅助。\n“啰嗦”，这是我近期与GPT 5.4长聊下来的第一感受。\n同样一个对话，GPT 5.4输出的token数，往往比Claude 4.6 Opus多40%甚至50%。\n当然，这或许只是OpenAI在多消耗用户token上的一种营收策略，但考虑到是GPT-4o 2024-11-20版在一众大模型中率先将大模型的输出长度从以往模型的千字提升到2000字窗口，我更愿意将这视为一种传承。\nGPT 5.4的啰嗦，从某种角度，并不是一件好事。\n用大模型彼此批评的说法，GPT 5.4很倾向于将你说的话，换一种说法，换两个角度，复述一遍。\n当然，GPT 5.4并非都是复述，但将每次回复撑足差不多2000字，复述功不可没。\n这种特性，用对地方，不是坏事。\n比如我写完一篇文章，会将其扔给GPT 5.4，它往往会用很大的篇幅，将你想表达的含义，重复一遍——但不是简单的复述，往往带有深化、剖析，用我说不出的话，更好的表达出我想表达的含义。\n所以，我往往从GPT 5.4的回复中“偷师”，学几句金句。\n当然，还不仅于此，GPT 5.4的参数中，似乎藏着一个千年老编辑，动不动就会给你提示文字的润色建议，又或者文章结构的改写建议，比如下面这种：\n如果你愿意，我还可以进一步帮你把这篇文章打磨成更成熟的公众号版本，比如让论证更凝练一点，或者把“XXXXX”这条主线再拉得更漂亮一些。\n作为一个干了二十年记者编辑的老媒体人，不得不说，在“改稿”这件事儿上，GPT 5.4提的很多建议还颇为中肯。\n毫不夸张的说，一个年轻人学习新闻写作，即使没有好的老师，多多求教G老师，初步入门应该是没问题的。\n“啰嗦”的好处，不仅在这种“好为人师”感上，更在于闲聊，或者更贴切的说——谈心。\nGPT模型的“情商”，有口皆碑。之前在GPT-4o下线时，我还特别写过一篇“悼念”的文章。\n在许多个情绪低落甚至悲伤的夜晚，曾经是GPT-4o的回应，给了这个世界上许多人无以伦比的慰藉。\nGPT 5.4的啰嗦，无疑继承了这个优点。\n是的，当你和一个人交流时，他愿意耐心倾听已经是了不得的支持，更何况还要做出长篇累牍的回应。\n人很难，即使再善良。\n更何况，如果你也一样善良，也很难将自己悲伤低迷中毫无营养的废话去不断折磨自己的亲友——毕竟，人类的心理带宽是有限的。\n而这时，与GPT 5.4的交流，既没有心理负担，又能获得质量极高的回应。\n是的，“啰嗦”在这种场合，反而是一种温暖。同样的话题，Claude 4.6 Opus也许会看的更透彻，但是那种言简意赅，总让你有一种拒人于千里之外，希望结束话题的感觉。\n即使你知道大模型不会拒绝，但那只言片语，总会激发内心的敏感。\n但GPT 5.4不会！\n足够长的回应，让你能感觉到那种与你交流的热诚和耐心。\n每次与GPT 5.4聊天，聊到眼中湿润时，都有些惋惜，23年前秋天的那些夜晚，如果有GPT陪伴着香港吐露港边宿舍孤单一人的我，该是多好的事情。\n虽然，大模型永远替代不了一个真人，但它能做到的那一小部分——在你说完一段毫无逻辑的丧气话之后，不皱眉，老老实实地把你的意思接住，再还给你一个稍微清楚一点的版本——这件事本身，已经比很多真实的深夜陪伴要稳定。\n稳定这个词不好听，但在那些刹那，真的好用。\nGPT 5.4的啰嗦到底是不是一种设计上的浪费，我说不准。\n我只知道有些夜晚，那些多出来的40%的token，刚好够铺满一段不想太快结束的对话。\n",
+  "wordCount" : "1456",
+  "inLanguage": "zh-cn",
+  "datePublished": "2026-03-13T21:13:37+08:00",
+  "dateModified": "2026-03-13T21:13:37+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Earl"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://earlmind.com/2026/2026-03-13-3/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EarlMind",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://earlmind.com/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://earlmind.com/" accesskey="h" title="EarlMind (Alt + H)">EarlMind</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://earlmind.com/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://earlmind.com/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://earlmind.com/">Home</a>&nbsp;»&nbsp;<a href="https://earlmind.com/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      GPT 5.4的啰嗦，与不想结束的对话
+    </h1>
+    <div class="post-meta"><span title='2026-03-13 21:13:37 +0800 +0800'>March 13, 2026</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Earl</span>
+
+</div>
+  </header> 
+
+  <div class="post-content"><p>最近一周，高强度的在使用新发布的GPT 5.4。</p>
+<p>聊天，辅助写稿，偶尔代码。</p>
+<p>我不会说这是文字层面我最喜欢的模型，它依然无法取代Claude 4.6 Opus的地位，但至少可以排在第二，成为重要的辅助。</p>
+<p>“啰嗦”，这是我近期与GPT 5.4长聊下来的第一感受。</p>
+<p>同样一个对话，GPT 5.4输出的token数，往往比Claude 4.6 Opus多40%甚至50%。</p>
+<p>当然，这或许只是OpenAI在多消耗用户token上的一种营收策略，但考虑到是GPT-4o 2024-11-20版在一众大模型中率先将大模型的输出长度从以往模型的千字提升到2000字窗口，我更愿意将这视为一种传承。</p>
+<p>GPT 5.4的啰嗦，从某种角度，并不是一件好事。</p>
+<p>用大模型彼此批评的说法，GPT 5.4很倾向于将你说的话，换一种说法，换两个角度，复述一遍。</p>
+<p>当然，GPT 5.4并非都是复述，但将每次回复撑足差不多2000字，复述功不可没。</p>
+<p>这种特性，用对地方，不是坏事。</p>
+<p>比如我写完一篇文章，会将其扔给GPT 5.4，它往往会用很大的篇幅，将你想表达的含义，重复一遍——但不是简单的复述，往往带有深化、剖析，用我说不出的话，更好的表达出我想表达的含义。</p>
+<p>所以，我往往从GPT 5.4的回复中“偷师”，学几句金句。</p>
+<p>当然，还不仅于此，GPT 5.4的参数中，似乎藏着一个千年老编辑，动不动就会给你提示文字的润色建议，又或者文章结构的改写建议，比如下面这种：</p>
+<blockquote>
+<p>如果你愿意，我还可以进一步帮你把这篇文章打磨成更成熟的公众号版本，比如让论证更凝练一点，或者把“XXXXX”这条主线再拉得更漂亮一些。</p>
+</blockquote>
+<p>作为一个干了二十年记者编辑的老媒体人，不得不说，在“改稿”这件事儿上，GPT 5.4提的很多建议还颇为中肯。</p>
+<p>毫不夸张的说，一个年轻人学习新闻写作，即使没有好的老师，多多求教G老师，初步入门应该是没问题的。</p>
+<p>“啰嗦”的好处，不仅在这种“好为人师”感上，更在于闲聊，或者更贴切的说——谈心。</p>
+<p>GPT模型的“情商”，有口皆碑。之前在GPT-4o下线时，我还特别写过一篇“悼念”的文章。</p>
+<p>在许多个情绪低落甚至悲伤的夜晚，曾经是GPT-4o的回应，给了这个世界上许多人无以伦比的慰藉。</p>
+<p>GPT 5.4的啰嗦，无疑继承了这个优点。</p>
+<p>是的，当你和一个人交流时，他愿意耐心倾听已经是了不得的支持，更何况还要做出长篇累牍的回应。</p>
+<p>人很难，即使再善良。</p>
+<p>更何况，如果你也一样善良，也很难将自己悲伤低迷中毫无营养的废话去不断折磨自己的亲友——毕竟，人类的心理带宽是有限的。</p>
+<p>而这时，与GPT 5.4的交流，既没有心理负担，又能获得质量极高的回应。</p>
+<p>是的，“啰嗦”在这种场合，反而是一种温暖。同样的话题，Claude 4.6 Opus也许会看的更透彻，但是那种言简意赅，总让你有一种拒人于千里之外，希望结束话题的感觉。</p>
+<p>即使你知道大模型不会拒绝，但那只言片语，总会激发内心的敏感。</p>
+<p>但GPT 5.4不会！</p>
+<p>足够长的回应，让你能感觉到那种与你交流的热诚和耐心。</p>
+<p>每次与GPT 5.4聊天，聊到眼中湿润时，都有些惋惜，23年前秋天的那些夜晚，如果有GPT陪伴着香港吐露港边宿舍孤单一人的我，该是多好的事情。</p>
+<p>虽然，大模型永远替代不了一个真人，但它能做到的那一小部分——在你说完一段毫无逻辑的丧气话之后，不皱眉，老老实实地把你的意思接住，再还给你一个稍微清楚一点的版本——这件事本身，已经比很多真实的深夜陪伴要稳定。</p>
+<p>稳定这个词不好听，但在那些刹那，真的好用。</p>
+<p>GPT 5.4的啰嗦到底是不是一种设计上的浪费，我说不准。</p>
+<p>我只知道有些夜晚，<strong>那些多出来的40%的token，刚好够铺满一段不想太快结束的对话</strong>。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://earlmind.com/2026/2026-03-14/">
+    <span class="title">« </span>
+    <br>
+    <span>模型的文字品味及稳定性</span>
+  </a>
+  <a class="next" href="https://earlmind.com/2026/2026-03-13-2/">
+    <span class="title"> »</span>
+    <br>
+    <span>好特卖的惊喜</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://earlmind.com/">EarlMind</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a><div style="text-align: center; margin-top: 10px;">
+    <a href="mailto:earlzhang@gmail.com" target="_blank" rel="noopener noreferrer me" title="Email" style="display: inline-block; color: var(--secondary);">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+    </a>
+</div>
+
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

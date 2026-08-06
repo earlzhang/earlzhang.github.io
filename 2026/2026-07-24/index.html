@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>AI编程软件里看Excel/CSV，终于不用再“裸眼识数”了 | EarlMind</title>
+<meta name="keywords" content="">
+<meta name="description" content="Vibe Coding，目前大体两大流派。
+CLI是一派，以Claude Code为代表，都在终端下操作。
+VS Code套壳，是另一派，从早年的Cursor、Windsurf到Antigravity，从国内的TRAE到Qoder还有CodeBuddy，都是站在微软VS Code巨人的肩膀上，进行二次开发。">
+<meta name="author" content="Earl">
+<link rel="canonical" href="https://earlmind.com/2026/2026-07-24/">
+<link crossorigin="anonymous" href="https://earlmind.com/assets/css/stylesheet.5a926f5a97cb172204830b5ba28683c1686d95860f21814c65d48737e45a671d.css" integrity="sha256-WpJvWpfLFyIEgwtbooaDwWhtlYYPIYFMZdSHN&#43;RaZx0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://earlmind.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://earlmind.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://earlmind.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://earlmind.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://earlmind.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh-cn" href="https://earlmind.com/2026/2026-07-24/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-BBE8BTPTWL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-BBE8BTPTWL');
+        }
+      </script><meta property="og:url" content="https://earlmind.com/2026/2026-07-24/">
+  <meta property="og:site_name" content="EarlMind">
+  <meta property="og:title" content="AI编程软件里看Excel/CSV，终于不用再“裸眼识数”了">
+  <meta property="og:description" content="Vibe Coding，目前大体两大流派。
+CLI是一派，以Claude Code为代表，都在终端下操作。
+VS Code套壳，是另一派，从早年的Cursor、Windsurf到Antigravity，从国内的TRAE到Qoder还有CodeBuddy，都是站在微软VS Code巨人的肩膀上，进行二次开发。">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-07-24T22:29:35+08:00">
+    <meta property="article:modified_time" content="2026-07-24T22:29:35+08:00">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AI编程软件里看Excel/CSV，终于不用再“裸眼识数”了">
+<meta name="twitter:description" content="Vibe Coding，目前大体两大流派。
+CLI是一派，以Claude Code为代表，都在终端下操作。
+VS Code套壳，是另一派，从早年的Cursor、Windsurf到Antigravity，从国内的TRAE到Qoder还有CodeBuddy，都是站在微软VS Code巨人的肩膀上，进行二次开发。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://earlmind.com/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "AI编程软件里看Excel/CSV，终于不用再“裸眼识数”了",
+      "item": "https://earlmind.com/2026/2026-07-24/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "AI编程软件里看Excel/CSV，终于不用再“裸眼识数”了",
+  "name": "AI编程软件里看Excel\/CSV，终于不用再“裸眼识数”了",
+  "description": "Vibe Coding，目前大体两大流派。\nCLI是一派，以Claude Code为代表，都在终端下操作。\nVS Code套壳，是另一派，从早年的Cursor、Windsurf到Antigravity，从国内的TRAE到Qoder还有CodeBuddy，都是站在微软VS Code巨人的肩膀上，进行二次开发。\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "Vibe Coding，目前大体两大流派。\nCLI是一派，以Claude Code为代表，都在终端下操作。\nVS Code套壳，是另一派，从早年的Cursor、Windsurf到Antigravity，从国内的TRAE到Qoder还有CodeBuddy，都是站在微软VS Code巨人的肩膀上，进行二次开发。\n我个人，是后一派的拥趸，GUI界面还是有太多方便的地方，尤其是多窗口管理。\n因为平时做数据分析多，所以和CSV、Excel这些数据文件打交道多，其次则是Markdown的文档。\n所以最近发现一个VS Code的插件，爱不释手——当然，也适用于以上及尚未提到但同样基于VS Code开发的Vibe Coding软件。\n这个插件名字很长，叫“XLSX, CSV, TSV \u0026 Markdown Editor”，开发者是muhammad-ahmad。他的功能，就如名字所言，对以上几个格式，做了非常强的支持。\n先说CSV和Excel这两种数据格式。CSV传统VS Code下可以当做纯文本格式浏览，类似RainbowCSV可以用颜色做区分，但我希望的，却是类似Excel那种行列式的浏览。\n此外，Excel的XLSX文件，默认VS Code是无法打开的。\n但是装了这个插件，这两类数据文件，就都是类似Excel软件下的显示模式了，看起来非常清爽。而且对于上千行的数据，滚动起来也依然流畅。\n关键是，类似日期这种数值，你甚至能召唤出日历模块来修改，而不是手工打入数字。\n仅仅是上述对Excel文件这样的支持，就让我欣喜若狂了。\n没想到，它在Markdown文件上，同样有一套。\n首先，它在显示Markdown文件时，默认左边有大纲栏。AI生成的Markdown文件，特别喜欢用H1、H2的格式来提纲化，默认带大纲的阅读模式，就格外适合这类。\n此外，当你点击Preview Edit后，就会进入一个类似Word这样的可视化编辑器。类似1到3级标题、加粗、列表、引用之类常见的格式，你都可以通过按钮来设置。\n移动到表格上还会出现增加删除行和列的按钮，如果要在表格中进行编辑，则要先激活某个单元格，也算是相当方便了。\n这个插件另一个优点就是，你可以设置是否作为这类格式的默认打开。\n比如Excel和CSV文件，我是作为默认打开插件的。但是Markdown文件，我的主力编辑器是Typora，所以我设置为默认不用此插件打开。当需要编辑时，点击专门的按钮，用Typora打开，如果需要用它来预览，就是点击绿色按钮，就会出现前面出现的带大纲的预览界面。\n这个插件的功能不复杂，但都相当好用。\n对VS Code类AI编程软件而言，是极好的功能加强插件。\n",
+  "wordCount" : "1069",
+  "inLanguage": "zh-cn",
+  "datePublished": "2026-07-24T22:29:35+08:00",
+  "dateModified": "2026-07-24T22:29:35+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Earl"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://earlmind.com/2026/2026-07-24/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EarlMind",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://earlmind.com/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://earlmind.com/" accesskey="h" title="EarlMind (Alt + H)">EarlMind</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://earlmind.com/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://earlmind.com/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://earlmind.com/">Home</a>&nbsp;»&nbsp;<a href="https://earlmind.com/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      AI编程软件里看Excel/CSV，终于不用再“裸眼识数”了
+    </h1>
+    <div class="post-meta"><span title='2026-07-24 22:29:35 +0800 +0800'>July 24, 2026</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Earl</span>
+
+</div>
+  </header> 
+
+  <div class="post-content"><p>Vibe Coding，目前大体两大流派。</p>
+<p>CLI是一派，以Claude Code为代表，都在终端下操作。</p>
+<p>VS Code套壳，是另一派，从早年的Cursor、Windsurf到Antigravity，从国内的TRAE到Qoder还有CodeBuddy，都是站在微软VS Code巨人的肩膀上，进行二次开发。</p>
+<p>我个人，是后一派的拥趸，GUI界面还是有太多方便的地方，尤其是多窗口管理。</p>
+<p>因为平时做数据分析多，所以和CSV、Excel这些数据文件打交道多，其次则是Markdown的文档。</p>
+<p>所以最近发现一个VS Code的插件，爱不释手——当然，也适用于以上及尚未提到但同样基于VS Code开发的Vibe Coding软件。</p>
+<p>这个插件名字很长，叫“XLSX, CSV, TSV &amp; Markdown Editor”，开发者是muhammad-ahmad。他的功能，就如名字所言，对以上几个格式，做了非常强的支持。</p>
+<p><img alt="image-20260724220317615" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260724_222934_837_d740134a_tmp3dcovdkm.png"></p>
+<p>先说CSV和Excel这两种数据格式。CSV传统VS Code下可以当做纯文本格式浏览，类似RainbowCSV可以用颜色做区分，但我希望的，却是类似Excel那种行列式的浏览。</p>
+<p>此外，Excel的XLSX文件，默认VS Code是无法打开的。</p>
+<p>但是装了这个插件，这两类数据文件，就都是类似Excel软件下的显示模式了，看起来非常清爽。而且对于上千行的数据，滚动起来也依然流畅。</p>
+<p><img alt="image-20260724220524415" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260724_222934_857_0ba955cd_tmp6ahwp8zk.png"></p>
+<p>关键是，类似日期这种数值，你甚至能召唤出日历模块来修改，而不是手工打入数字。</p>
+<p><img alt="image-20260724220644665" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260724_222934_796_e56ac7f4_tmp94rcer3b.png"></p>
+<p>仅仅是上述对Excel文件这样的支持，就让我欣喜若狂了。</p>
+<p>没想到，它在Markdown文件上，同样有一套。</p>
+<p>首先，它在显示Markdown文件时，默认左边有大纲栏。AI生成的Markdown文件，特别喜欢用H1、H2的格式来提纲化，默认带大纲的阅读模式，就格外适合这类。</p>
+<p><img alt="image-20260724220855836" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260724_222934_866_7ab9a8a0_tmpj20iardy.png"></p>
+<p>此外，当你点击Preview Edit后，就会进入一个类似Word这样的可视化编辑器。类似1到3级标题、加粗、列表、引用之类常见的格式，你都可以通过按钮来设置。</p>
+<p><img alt="image-20260724221036349" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260724_222934_875_1e7446b7_tmpsvy5b2jl.png"></p>
+<p>移动到表格上还会出现增加删除行和列的按钮，如果要在表格中进行编辑，则要先激活某个单元格，也算是相当方便了。</p>
+<p><img alt="image-20260724221153898" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260724_222934_963_9cfa8ab2_tmpe4o_ftwc.png"></p>
+<p>这个插件另一个优点就是，你可以设置是否作为这类格式的默认打开。</p>
+<p>比如Excel和CSV文件，我是作为默认打开插件的。但是Markdown文件，我的主力编辑器是Typora，所以我设置为默认不用此插件打开。当需要编辑时，点击专门的按钮，用Typora打开，如果需要用它来预览，就是点击绿色按钮，就会出现前面出现的带大纲的预览界面。</p>
+<p><img alt="image-20260724221417243" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260724_222934_987_4238d201_tmpsgeg9b5s.png"></p>
+<p>这个插件的功能不复杂，但都相当好用。</p>
+<p>对VS Code类AI编程软件而言，是极好的功能加强插件。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://earlmind.com/2026/2026-07-25/">
+    <span class="title">« </span>
+    <br>
+    <span>苹果iMac屏幕黑纹求生记：从官方4800元到第三方2280元</span>
+  </a>
+  <a class="next" href="https://earlmind.com/2026/2026-07-22/">
+    <span class="title"> »</span>
+    <br>
+    <span>「所以」后面，还有一个「呢」</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://earlmind.com/">EarlMind</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a><div style="text-align: center; margin-top: 10px;">
+    <a href="mailto:earlzhang@gmail.com" target="_blank" rel="noopener noreferrer me" title="Email" style="display: inline-block; color: var(--secondary);">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+    </a>
+</div>
+
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

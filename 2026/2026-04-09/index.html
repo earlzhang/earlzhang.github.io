@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Voyager：给 Gemini 装上它本该有的翅膀 | EarlMind</title>
+<meta name="keywords" content="">
+<meta name="description" content="御三家的大模型里，我一直站 Gemini。不是因为觉得它最强，而是另外两家对中国用户实在不友好。日常用 Gemini 网页版做基础交互，倒也凑合。
+但“凑合”这个词本身就说明问题。习惯了 Cherry Studio 那种精心设计的交互体验，再回到 Gemini 原生界面，处处觉得笨拙。最典型的痛点：Deep Research 生成的报告，竟然无法直接复制成 Markdown。你得先导出到 Google Docs，再想办法转成 Markdown——一个本该一步完成的操作，硬生生变成了三步。">
+<meta name="author" content="Earl">
+<link rel="canonical" href="https://earlmind.com/2026/2026-04-09/">
+<link crossorigin="anonymous" href="https://earlmind.com/assets/css/stylesheet.5a926f5a97cb172204830b5ba28683c1686d95860f21814c65d48737e45a671d.css" integrity="sha256-WpJvWpfLFyIEgwtbooaDwWhtlYYPIYFMZdSHN&#43;RaZx0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://earlmind.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://earlmind.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://earlmind.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://earlmind.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://earlmind.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh-cn" href="https://earlmind.com/2026/2026-04-09/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-BBE8BTPTWL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-BBE8BTPTWL');
+        }
+      </script><meta property="og:url" content="https://earlmind.com/2026/2026-04-09/">
+  <meta property="og:site_name" content="EarlMind">
+  <meta property="og:title" content="Voyager：给 Gemini 装上它本该有的翅膀">
+  <meta property="og:description" content="御三家的大模型里，我一直站 Gemini。不是因为觉得它最强，而是另外两家对中国用户实在不友好。日常用 Gemini 网页版做基础交互，倒也凑合。
+但“凑合”这个词本身就说明问题。习惯了 Cherry Studio 那种精心设计的交互体验，再回到 Gemini 原生界面，处处觉得笨拙。最典型的痛点：Deep Research 生成的报告，竟然无法直接复制成 Markdown。你得先导出到 Google Docs，再想办法转成 Markdown——一个本该一步完成的操作，硬生生变成了三步。">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-04-09T13:36:16+08:00">
+    <meta property="article:modified_time" content="2026-04-09T13:36:16+08:00">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Voyager：给 Gemini 装上它本该有的翅膀">
+<meta name="twitter:description" content="御三家的大模型里，我一直站 Gemini。不是因为觉得它最强，而是另外两家对中国用户实在不友好。日常用 Gemini 网页版做基础交互，倒也凑合。
+但“凑合”这个词本身就说明问题。习惯了 Cherry Studio 那种精心设计的交互体验，再回到 Gemini 原生界面，处处觉得笨拙。最典型的痛点：Deep Research 生成的报告，竟然无法直接复制成 Markdown。你得先导出到 Google Docs，再想办法转成 Markdown——一个本该一步完成的操作，硬生生变成了三步。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://earlmind.com/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Voyager：给 Gemini 装上它本该有的翅膀",
+      "item": "https://earlmind.com/2026/2026-04-09/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Voyager：给 Gemini 装上它本该有的翅膀",
+  "name": "Voyager：给 Gemini 装上它本该有的翅膀",
+  "description": "御三家的大模型里，我一直站 Gemini。不是因为觉得它最强，而是另外两家对中国用户实在不友好。日常用 Gemini 网页版做基础交互，倒也凑合。\n但“凑合”这个词本身就说明问题。习惯了 Cherry Studio 那种精心设计的交互体验，再回到 Gemini 原生界面，处处觉得笨拙。最典型的痛点：Deep Research 生成的报告，竟然无法直接复制成 Markdown。你得先导出到 Google Docs，再想办法转成 Markdown——一个本该一步完成的操作，硬生生变成了三步。\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "御三家的大模型里，我一直站 Gemini。不是因为觉得它最强，而是另外两家对中国用户实在不友好。日常用 Gemini 网页版做基础交互，倒也凑合。\n但“凑合”这个词本身就说明问题。习惯了 Cherry Studio 那种精心设计的交互体验，再回到 Gemini 原生界面，处处觉得笨拙。最典型的痛点：Deep Research 生成的报告，竟然无法直接复制成 Markdown。你得先导出到 Google Docs，再想办法转成 Markdown——一个本该一步完成的操作，硬生生变成了三步。\n直到我遇到 Voyager，一个专门为 Gemini 优化的浏览器插件，才觉得这个体验终于“完整”了。\nVoyager 是什么 Voyager 是一个浏览器扩展，目前支持 Chrome、Edge、Firefox 和 Safari，由开发者 Nagi-ovo 独立维护。它的定位很清晰：不是替代 Gemini，而是补全 Gemini 原生界面缺失的那些\"本该有\"的功能。安装之后，你的 Gemini 页面会多出一套增强层——时间轴、文件夹、导出、提示词管理……每一个功能都精准踩在原生体验的痛点上。\n下面按功能逐条拆解。\n时间轴：把线性对话变成可导航的空间 长对话是 Gemini 的灾难区。上下翻滚找某条回复，体验极差。Voyager 在页面右侧添加了一条时间轴，每个节点代表一轮对话。点击直接跳转，悬停预览内容，长按还可以加星标——相当于给对话打了书签。\n更妙的是键盘导航。默认 j/k 上下跳转节点，gg/GG 直达首尾，活脱脱一个 Vim Mode。快捷键还支持自定义，流动模式和跳跃模式两种动画风格可选。右键节点可以设置层级和折叠子节点，对那种反复追问的深度分支对话尤其好用。\n点评：这个功能我太熟悉了——Cherry Studio 早就有了。但 Voyager 的实现更精致，Vim 风格的键盘导航和节点层级折叠是 Cherry Studio 没有的。如果你是键盘流用户，时间轴的体验会比纯鼠标操作顺畅得多。\n文件夹：给对话装个文件系统 Gemini 原生的对话管理基本等于没有管理。一堆对话堆在那里，想找某个历史对话全靠记忆和运气。Voyager 加了一套完整的文件夹系统：拖拽归档、无限嵌套、双击改名、多选批量操作，手感接近本地文件管理器。\nGemini 专属增强还包括自定义文件夹颜色和账号隔离——如果你有多个 Google 账号，对话列表互不干扰。\n最有意思的是 AI 自动整理。点一下 AI Organize，Voyager 会把你的对话结构复制到剪贴板，你粘贴给 Gemini，它帮你生成分类方案（JSON 格式），再导回 Voyager 即可。这个设计的巧妙之处在于：作者没有自己写分类算法，而是直接让 Gemini 来做分类，然后执行 Gemini 的分类结果——用魔法打败魔法。\n点评：自动整理目前只能处理未归类的对话，且一次二十来个，不算全能。但思路很巧，作为\"懒人第一步\"够用了。手动拖拽的体验本身就很流畅，重度用户完全可以用手动方式建立自己的分类体系。\nDeep Research 导出：解决最大的痛点 这是我装 Voyager 的最初理由。Gemini Deep Research 的报告，很长一段时间原生只能导出到 Google Docs(不过装完才发现，似乎Gemini新近改版加上了复制Markdown功能)。Voyager 直接提供 Markdown、PDF、JSON 和图片四种导出格式，一键完成。\n更实用的是“思考过程导出”。Deep Research 在生成报告前会经历多个思考阶段，每个阶段包含推理逻辑和参考网站。Voyager 可以把这些思考过程一键导出为结构化的 Markdown 文件，双语标题，时间戳命名。对于需要溯源引用的场景，这比只有最终报告有用得多。\n所有处理都在浏览器本地完成，不上传任何数据。\n点评：这是 Voyager 最刚性的功能。如果你用 Deep Research 做过研究，就知道原生导出流程有多蠢。\n对话导出：数据归你 不限于 Deep Research，普通对话也支持 Markdown、PDF、JSON 三种格式导出。鼠标悬停在 Gemini Logo 上出现导出图标，选格式，下载，三步搞定。Markdown 格式可以直接喂给 Obsidian 或 Notion，JSON 留给开发者做二次处理。\nSafari 用户注意：浏览器限制下 Markdown 导出无法提取图片，建议走 PDF。\n指令宝库：跨站可用的提示词管理器 写过好用的 Prompt，用完就丢？Voyager 的指令宝库让你捕获、打标签、一键调用。输入框旁边有个浮窗图标，写完满意的 Prompt 点一下就存进去了，下次搜索标签即可部署。\n关键亮点：这个提示词管理器不限于 Gemini。在设置里添加 chatgpt.com、claude.ai 等网站，授权后就能在这些页面上使用同一个提示词库。一份 Prompt，全平台通用。\n点评：跨站支持是杀手级特性。如果你同时用多个 AI 平台，指令宝库省去了在各平台间复制粘贴提示词的麻烦。\n云同步：Google Drive 做桥 文件夹结构和提示词库可以同步到 Google Drive。授权 Google 账号后，上传到云端或从云端下载合并，多设备间保持一致。数据存在你自己的 Drive 空间里，不经过第三方服务器。\n官方也坦诚提醒：云同步并非万无一失，建议定期通过本地文件方式手动备份全量配置。\n其他实用功能 Voyager 的功能清单很长，以上是核心项。还有一批小功能，单个不惊艳，但缺了就会别扭：\n引用回复：选中任意文字，悬浮按钮一键插入 Markdown 引用格式到输入框，比手动复制粘贴加 \u003e 快得多 默认模型：在模型选择器里点星标设定默认，新建对话自动切换，不用每次手动选 发送行为：改成 Ctrl+Enter 发送、Enter 换行，写长 Prompt 不再误触发送 消息时间戳：自动记录每条消息的发送时间，精确到秒，本地持久化 对话分支（实验性）：在任意节点分叉对话，探索不同方向而不破坏原有历史 公式复制：悬停公式出现复制按钮，可选 LaTeX 或 MathML（兼容 Word） Mermaid 图表：自动渲染流程图、时序图等，支持全屏缩放 NanoBanana 水印去除：反向 Alpha 混合算法无损去除 Gemini 生成图片的水印，本地处理（Safari 暂不支持） 标签页标题同步：浏览器标签页标题自动更新为对话标题，多标签时不再全是 “Gemini” 侧边栏自动收起：鼠标离开自动收起，悬停展开，全屏沉浸对话 视觉特效：飘雪、樱花、雨，氛围向功能，关闭时粒子自然退场 上下文同步（实验性）：通过 CoBridge 插件将对话上下文同步到 VS Code / Cursor / Trae，生成 AI_CONTEXT.md 供 IDE 里的 AI 读取 AI Studio 也能用 最后提醒一点：Voyager 的部分功能不限于 Gemini，在免费的 Google AI Studio 上同样可用。AI Studio 本身免费，配合 Voyager 的时间轴和文件夹，等于白嫖了一套增强的 AI 交互环境。对学生和轻度用户来说，这个组合的性价比极高。\n小结 Voyager 的设计哲学很清楚：不造轮子，补轮子。每一个功能都对应 Gemini 原生界面的一个具体缺陷，没有花架子。时间轴解决导航，文件夹解决管理，导出解决数据锁定，指令宝库解决重复劳动。如果你是 Gemini 的日常用户，Voyager堪称必选项。\n插件在 Chrome 应用店、Edge Add-ons、Firefox Add-ons 均可安装，Safari 也有原生版本。追求最新功能可以从 GitHub Releases 下载手动安装。\n官方文档：https://voyager.nagi.fun/\n",
+  "wordCount" : "2681",
+  "inLanguage": "zh-cn",
+  "datePublished": "2026-04-09T13:36:16+08:00",
+  "dateModified": "2026-04-09T13:36:16+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Earl"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://earlmind.com/2026/2026-04-09/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EarlMind",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://earlmind.com/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://earlmind.com/" accesskey="h" title="EarlMind (Alt + H)">EarlMind</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://earlmind.com/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://earlmind.com/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://earlmind.com/">Home</a>&nbsp;»&nbsp;<a href="https://earlmind.com/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      Voyager：给 Gemini 装上它本该有的翅膀
+    </h1>
+    <div class="post-meta"><span title='2026-04-09 13:36:16 +0800 +0800'>April 9, 2026</span>&nbsp;·&nbsp;<span>6 min</span>&nbsp;·&nbsp;<span>Earl</span>
+
+</div>
+  </header> <div class="toc">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#voyager-%e6%98%af%e4%bb%80%e4%b9%88" aria-label="Voyager 是什么">Voyager 是什么</a></li>
+                <li>
+                    <a href="#%e6%97%b6%e9%97%b4%e8%bd%b4%e6%8a%8a%e7%ba%bf%e6%80%a7%e5%af%b9%e8%af%9d%e5%8f%98%e6%88%90%e5%8f%af%e5%af%bc%e8%88%aa%e7%9a%84%e7%a9%ba%e9%97%b4" aria-label="时间轴：把线性对话变成可导航的空间">时间轴：把线性对话变成可导航的空间</a></li>
+                <li>
+                    <a href="#%e6%96%87%e4%bb%b6%e5%a4%b9%e7%bb%99%e5%af%b9%e8%af%9d%e8%a3%85%e4%b8%aa%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f" aria-label="文件夹：给对话装个文件系统">文件夹：给对话装个文件系统</a></li>
+                <li>
+                    <a href="#deep-research-%e5%af%bc%e5%87%ba%e8%a7%a3%e5%86%b3%e6%9c%80%e5%a4%a7%e7%9a%84%e7%97%9b%e7%82%b9" aria-label="Deep Research 导出：解决最大的痛点">Deep Research 导出：解决最大的痛点</a></li>
+                <li>
+                    <a href="#%e5%af%b9%e8%af%9d%e5%af%bc%e5%87%ba%e6%95%b0%e6%8d%ae%e5%bd%92%e4%bd%a0" aria-label="对话导出：数据归你">对话导出：数据归你</a></li>
+                <li>
+                    <a href="#%e6%8c%87%e4%bb%a4%e5%ae%9d%e5%ba%93%e8%b7%a8%e7%ab%99%e5%8f%af%e7%94%a8%e7%9a%84%e6%8f%90%e7%a4%ba%e8%af%8d%e7%ae%a1%e7%90%86%e5%99%a8" aria-label="指令宝库：跨站可用的提示词管理器">指令宝库：跨站可用的提示词管理器</a></li>
+                <li>
+                    <a href="#%e4%ba%91%e5%90%8c%e6%ad%a5google-drive-%e5%81%9a%e6%a1%a5" aria-label="云同步：Google Drive 做桥">云同步：Google Drive 做桥</a></li>
+                <li>
+                    <a href="#%e5%85%b6%e4%bb%96%e5%ae%9e%e7%94%a8%e5%8a%9f%e8%83%bd" aria-label="其他实用功能">其他实用功能</a></li>
+                <li>
+                    <a href="#ai-studio-%e4%b9%9f%e8%83%bd%e7%94%a8" aria-label="AI Studio 也能用">AI Studio 也能用</a></li>
+                <li>
+                    <a href="#%e5%b0%8f%e7%bb%93" aria-label="小结">小结</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>御三家的大模型里，我一直站 Gemini。不是因为觉得它最强，而是另外两家对中国用户实在不友好。日常用 Gemini 网页版做基础交互，倒也凑合。</p>
+<p>但“凑合”这个词本身就说明问题。习惯了 Cherry Studio 那种精心设计的交互体验，再回到 Gemini 原生界面，处处觉得笨拙。最典型的痛点：Deep Research 生成的报告，竟然无法直接复制成 Markdown。你得先导出到 Google Docs，再想办法转成 Markdown——一个本该一步完成的操作，硬生生变成了三步。</p>
+<p>直到我遇到 Voyager，一个专门为 Gemini 优化的浏览器插件，才觉得这个体验终于“完整”了。</p>
+<h2 id="voyager-是什么">Voyager 是什么<a hidden class="anchor" aria-hidden="true" href="#voyager-是什么">#</a></h2>
+<p>Voyager 是一个浏览器扩展，目前支持 Chrome、Edge、Firefox 和 Safari，由开发者 Nagi-ovo 独立维护。它的定位很清晰：不是替代 Gemini，而是补全 Gemini 原生界面缺失的那些&quot;本该有&quot;的功能。安装之后，你的 Gemini 页面会多出一套增强层——时间轴、文件夹、导出、提示词管理……每一个功能都精准踩在原生体验的痛点上。</p>
+<p>下面按功能逐条拆解。</p>
+<h2 id="时间轴把线性对话变成可导航的空间">时间轴：把线性对话变成可导航的空间<a hidden class="anchor" aria-hidden="true" href="#时间轴把线性对话变成可导航的空间">#</a></h2>
+<p>长对话是 Gemini 的灾难区。上下翻滚找某条回复，体验极差。Voyager 在页面右侧添加了一条时间轴，每个节点代表一轮对话。点击直接跳转，悬停预览内容，长按还可以加星标——相当于给对话打了书签。</p>
+<p>更妙的是键盘导航。默认 <code>j</code>/<code>k</code> 上下跳转节点，<code>gg</code>/<code>GG</code> 直达首尾，活脱脱一个 Vim Mode。快捷键还支持自定义，流动模式和跳跃模式两种动画风格可选。右键节点可以设置层级和折叠子节点，对那种反复追问的深度分支对话尤其好用。</p>
+<p>点评：这个功能我太熟悉了——Cherry Studio 早就有了。但 Voyager 的实现更精致，Vim 风格的键盘导航和节点层级折叠是 Cherry Studio 没有的。如果你是键盘流用户，时间轴的体验会比纯鼠标操作顺畅得多。</p>
+<h2 id="文件夹给对话装个文件系统">文件夹：给对话装个文件系统<a hidden class="anchor" aria-hidden="true" href="#文件夹给对话装个文件系统">#</a></h2>
+<p>Gemini 原生的对话管理基本等于没有管理。一堆对话堆在那里，想找某个历史对话全靠记忆和运气。Voyager 加了一套完整的文件夹系统：拖拽归档、无限嵌套、双击改名、多选批量操作，手感接近本地文件管理器。</p>
+<p>Gemini 专属增强还包括自定义文件夹颜色和账号隔离——如果你有多个 Google 账号，对话列表互不干扰。</p>
+<p>最有意思的是 <strong>AI 自动整理</strong>。点一下 AI Organize，Voyager 会把你的对话结构复制到剪贴板，你粘贴给 Gemini，它帮你生成分类方案（JSON 格式），再导回 Voyager 即可。这个设计的巧妙之处在于：作者没有自己写分类算法，而是直接让 Gemini 来做分类，然后执行 Gemini 的分类结果——用魔法打败魔法。</p>
+<p>点评：自动整理目前只能处理未归类的对话，且一次二十来个，不算全能。但思路很巧，作为&quot;懒人第一步&quot;够用了。手动拖拽的体验本身就很流畅，重度用户完全可以用手动方式建立自己的分类体系。</p>
+<h2 id="deep-research-导出解决最大的痛点">Deep Research 导出：解决最大的痛点<a hidden class="anchor" aria-hidden="true" href="#deep-research-导出解决最大的痛点">#</a></h2>
+<p>这是我装 Voyager 的最初理由。Gemini Deep Research 的报告，很长一段时间原生只能导出到 Google Docs(不过装完才发现，似乎Gemini新近改版加上了复制Markdown功能)。Voyager 直接提供 Markdown、PDF、JSON 和图片四种导出格式，一键完成。</p>
+<p>更实用的是“思考过程导出”。Deep Research 在生成报告前会经历多个思考阶段，每个阶段包含推理逻辑和参考网站。Voyager 可以把这些思考过程一键导出为结构化的 Markdown 文件，双语标题，时间戳命名。对于需要溯源引用的场景，这比只有最终报告有用得多。</p>
+<p>所有处理都在浏览器本地完成，不上传任何数据。</p>
+<p>点评：这是 Voyager 最刚性的功能。如果你用 Deep Research 做过研究，就知道原生导出流程有多蠢。</p>
+<h2 id="对话导出数据归你">对话导出：数据归你<a hidden class="anchor" aria-hidden="true" href="#对话导出数据归你">#</a></h2>
+<p>不限于 Deep Research，普通对话也支持 Markdown、PDF、JSON 三种格式导出。鼠标悬停在 Gemini Logo 上出现导出图标，选格式，下载，三步搞定。Markdown 格式可以直接喂给 Obsidian 或 Notion，JSON 留给开发者做二次处理。</p>
+<p>Safari 用户注意：浏览器限制下 Markdown 导出无法提取图片，建议走 PDF。</p>
+<h2 id="指令宝库跨站可用的提示词管理器">指令宝库：跨站可用的提示词管理器<a hidden class="anchor" aria-hidden="true" href="#指令宝库跨站可用的提示词管理器">#</a></h2>
+<p>写过好用的 Prompt，用完就丢？Voyager 的指令宝库让你捕获、打标签、一键调用。输入框旁边有个浮窗图标，写完满意的 Prompt 点一下就存进去了，下次搜索标签即可部署。</p>
+<p>关键亮点：这个提示词管理器不限于 Gemini。在设置里添加 <code>chatgpt.com</code>、<code>claude.ai</code> 等网站，授权后就能在这些页面上使用同一个提示词库。一份 Prompt，全平台通用。</p>
+<p>点评：跨站支持是杀手级特性。如果你同时用多个 AI 平台，指令宝库省去了在各平台间复制粘贴提示词的麻烦。</p>
+<h2 id="云同步google-drive-做桥">云同步：Google Drive 做桥<a hidden class="anchor" aria-hidden="true" href="#云同步google-drive-做桥">#</a></h2>
+<p>文件夹结构和提示词库可以同步到 Google Drive。授权 Google 账号后，上传到云端或从云端下载合并，多设备间保持一致。数据存在你自己的 Drive 空间里，不经过第三方服务器。</p>
+<p>官方也坦诚提醒：云同步并非万无一失，建议定期通过本地文件方式手动备份全量配置。</p>
+<h2 id="其他实用功能">其他实用功能<a hidden class="anchor" aria-hidden="true" href="#其他实用功能">#</a></h2>
+<p>Voyager 的功能清单很长，以上是核心项。还有一批小功能，单个不惊艳，但缺了就会别扭：</p>
+<ul>
+<li><strong>引用回复</strong>：选中任意文字，悬浮按钮一键插入 Markdown 引用格式到输入框，比手动复制粘贴加 <code>&gt;</code> 快得多</li>
+<li><strong>默认模型</strong>：在模型选择器里点星标设定默认，新建对话自动切换，不用每次手动选</li>
+<li><strong>发送行为</strong>：改成 Ctrl+Enter 发送、Enter 换行，写长 Prompt 不再误触发送</li>
+<li><strong>消息时间戳</strong>：自动记录每条消息的发送时间，精确到秒，本地持久化</li>
+<li><strong>对话分支</strong>（实验性）：在任意节点分叉对话，探索不同方向而不破坏原有历史</li>
+<li><strong>公式复制</strong>：悬停公式出现复制按钮，可选 LaTeX 或 MathML（兼容 Word）</li>
+<li><strong>Mermaid 图表</strong>：自动渲染流程图、时序图等，支持全屏缩放</li>
+<li><strong>NanoBanana 水印去除</strong>：反向 Alpha 混合算法无损去除 Gemini 生成图片的水印，本地处理（Safari 暂不支持）</li>
+<li><strong>标签页标题同步</strong>：浏览器标签页标题自动更新为对话标题，多标签时不再全是 &ldquo;Gemini&rdquo;</li>
+<li><strong>侧边栏自动收起</strong>：鼠标离开自动收起，悬停展开，全屏沉浸对话</li>
+<li><strong>视觉特效</strong>：飘雪、樱花、雨，氛围向功能，关闭时粒子自然退场</li>
+<li><strong>上下文同步</strong>（实验性）：通过 CoBridge 插件将对话上下文同步到 VS Code / Cursor / Trae，生成 <code>AI_CONTEXT.md</code> 供 IDE 里的 AI 读取</li>
+</ul>
+<h2 id="ai-studio-也能用">AI Studio 也能用<a hidden class="anchor" aria-hidden="true" href="#ai-studio-也能用">#</a></h2>
+<p>最后提醒一点：Voyager 的部分功能不限于 Gemini，在免费的 Google AI Studio 上同样可用。AI Studio 本身免费，配合 Voyager 的时间轴和文件夹，等于白嫖了一套增强的 AI 交互环境。对学生和轻度用户来说，这个组合的性价比极高。</p>
+<h2 id="小结">小结<a hidden class="anchor" aria-hidden="true" href="#小结">#</a></h2>
+<p>Voyager 的设计哲学很清楚：不造轮子，补轮子。每一个功能都对应 Gemini 原生界面的一个具体缺陷，没有花架子。时间轴解决导航，文件夹解决管理，导出解决数据锁定，指令宝库解决重复劳动。如果你是 Gemini 的日常用户，Voyager堪称必选项。</p>
+<p>插件在 Chrome 应用店、Edge Add-ons、Firefox Add-ons 均可安装，Safari 也有原生版本。追求最新功能可以从 GitHub Releases 下载手动安装。</p>
+<p>官方文档：https://voyager.nagi.fun/</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://earlmind.com/2026/2026-04-10/">
+    <span class="title">« </span>
+    <br>
+    <span>微商卖课附体的GPT 5.4</span>
+  </a>
+  <a class="next" href="https://earlmind.com/2026/2026-04-08/">
+    <span class="title"> »</span>
+    <br>
+    <span>旧世界谁来打破</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://earlmind.com/">EarlMind</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a><div style="text-align: center; margin-top: 10px;">
+    <a href="mailto:earlzhang@gmail.com" target="_blank" rel="noopener noreferrer me" title="Email" style="display: inline-block; color: var(--secondary);">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+    </a>
+</div>
+
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

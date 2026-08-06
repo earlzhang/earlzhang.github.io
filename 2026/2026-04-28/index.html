@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Deepseek V4的真正冲击，不在跑分 | EarlMind</title>
+<meta name="keywords" content="">
+<meta name="description" content="DeepSeek-V4 预览版终于发布了，在2026年4月24日的中午。
+
+不久之前，英伟达的黄仁勋在Dwarkesh播客的那期节目Jensen Huang – TPU competition, why we should sell chips to China, &amp; Nvidia’s supply chain moat上说：">
+<meta name="author" content="Earl">
+<link rel="canonical" href="https://earlmind.com/2026/2026-04-28/">
+<link crossorigin="anonymous" href="https://earlmind.com/assets/css/stylesheet.5a926f5a97cb172204830b5ba28683c1686d95860f21814c65d48737e45a671d.css" integrity="sha256-WpJvWpfLFyIEgwtbooaDwWhtlYYPIYFMZdSHN&#43;RaZx0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://earlmind.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://earlmind.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://earlmind.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://earlmind.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://earlmind.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh-cn" href="https://earlmind.com/2026/2026-04-28/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-BBE8BTPTWL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-BBE8BTPTWL');
+        }
+      </script><meta property="og:url" content="https://earlmind.com/2026/2026-04-28/">
+  <meta property="og:site_name" content="EarlMind">
+  <meta property="og:title" content="Deepseek V4的真正冲击，不在跑分">
+  <meta property="og:description" content="DeepSeek-V4 预览版终于发布了，在2026年4月24日的中午。
+不久之前，英伟达的黄仁勋在Dwarkesh播客的那期节目Jensen Huang – TPU competition, why we should sell chips to China, &amp; Nvidia’s supply chain moat上说：">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-04-25T12:00:42+08:00">
+    <meta property="article:modified_time" content="2026-04-25T12:00:42+08:00">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Deepseek V4的真正冲击，不在跑分">
+<meta name="twitter:description" content="DeepSeek-V4 预览版终于发布了，在2026年4月24日的中午。
+
+不久之前，英伟达的黄仁勋在Dwarkesh播客的那期节目Jensen Huang – TPU competition, why we should sell chips to China, &amp; Nvidia’s supply chain moat上说：">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://earlmind.com/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Deepseek V4的真正冲击，不在跑分",
+      "item": "https://earlmind.com/2026/2026-04-28/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Deepseek V4的真正冲击，不在跑分",
+  "name": "Deepseek V4的真正冲击，不在跑分",
+  "description": "DeepSeek-V4 预览版终于发布了，在2026年4月24日的中午。\n不久之前，英伟达的黄仁勋在Dwarkesh播客的那期节目Jensen Huang – TPU competition, why we should sell chips to China, \u0026amp; Nvidia’s supply chain moat上说：\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "DeepSeek-V4 预览版终于发布了，在2026年4月24日的中午。\n不久之前，英伟达的黄仁勋在Dwarkesh播客的那期节目Jensen Huang – TPU competition, why we should sell chips to China, \u0026 Nvidia’s supply chain moat上说：\nDeepSeek 首次在华为上发布的那一天，对我们国家来说将是一个糟糕的结果。(DeepSeek is not an inconsequential advance. The day that DeepSeek comes out on Huawei first, that is a horrible outcome for our nation.)\n当然，从4月25日美股的交易来看，暂时对英伟达，算不上horrible，股价大涨4.32%，逼近去年10月末的高点。\n或许，包括GLM 5.1、Minimax M2.7、Kimi K2.6在内的一批中国模型，已经带来了太多类似的跑分结果，Deepseek V4并不如昔日的Deepseek R1能给我们一些“aha moment”的震撼，以至于英伟达的股民，更愿意顺从纳斯达克100一路向上的趋势，挑战新高。\n但老黄的“horrible outcome”，显然不能视为简单的危言耸听，只不过需要时间的发酵。\n这里就作为一个普通大模型用户，来聊聊Deepseek何时可能带来“horrible outcome”——当然，对于中国国产芯片的相关股民，可能就是一个“harvest time”。\nDeepseek开始商业化 对于Deepseek，我是极有感情的。\n我查了一下我的Deepseek API平台注册时间，是2024年7月19日。那时候，还只有Deepseek 2.5，R1的名声大噪是差不多半年后的事情。\n在那个时代，Deepseek就是以“价格屠夫”而闻名的，当时被视为创新，如今近乎标配的全局缓存，从下图可以看到发布时间还早于Deepseek V2.5。\n从那个时代开始，Deepseek的骨子里，就像是一个研究大模型的学术机构，兴趣在于探索大模型的疆界。这种学术味，一个最大的特点就是，“工业化”程度是不够的，始终走单一级别模型，没有模型阶梯。\n如果你用过海外御三家的模型，能明显感觉到他们有着清晰的模型阶梯，至少两级。比如谷歌主力模型是Gemini 3.1 Pro，但也有Gemini 3.0 Flash辅助；OpenAI是在主力模型之下，有名为Mini的模型，之上后来又加了Pro，变成了三档；Claude目前则是Opus、Sonnet和Haiku。\n不是所有的任务都需要最强力的模型。而且有些模型需要的只是简单快速。这时候入门级模型就能以更低的价格更快的速度提供够用的体验。\n这其实在全球算力紧张的背景下，可以避免模型能力的“滥用”。如果你观察Claude Code的Agent工作，有时候就能观察到他自主降级使用Haiku完成一些基本的工作；Gemini Cli也是如此，大量基础工作让Gemini 3.0 Flash完成，高级活才交给Gemini 3.1 Pro。\n但在模型分档问题上，国产模型或许因为弯道超车的需求，往往是比较忽视的——唯一的例外，或许是Qwen，从Max、Plus到Turbo，再加一些小模型，尺寸多到眼花缭乱，这也是全球大模型用户对Qwen一直交口称赞的地方，甚至连当年技惊四座的Deepseek R1推出时，也有基于Qwen的蒸馏小模型版。\n下表是我做的一个统计，可以看到人称“国产御三家”的Kimi、智谱和Minimax，在次级模型上，要么没发力，要么很久没更新，这样的产品线，在Agent时代，其实会带来极大的算力浪费。\n但这次，一向只有单一档次的Deepseek，反而是有了Pro和Flash两档模型，性能和价格，都兼顾了。\n| | | 注：均为缓存未命中，且短上下文起始价格 最近张小珺《独家对话罗福莉：AI范式已然巨变！》有一个细节非常有趣，罗福莉在用上Openclaw的第一天，全程使用Claude 4.6 Opus，花费将近1000美元。\n问题是，这个用法有几个人能承受？\n别说Claude 4.6 Opus这样的顶级模型，哪怕是国产御三家的模型，如果不走Coding Plan，许多API付费用户都感觉用不起了。\n如果相信Agent未来会越来越重要，那么多个模型的搭配，也会越来越重要。在这个问题上，Deepseek V4显然做了迥异于国产御三家的一个选择。\n联系近期Deepseek以200亿美元估值谋求融资3亿美元的传闻，似乎Deepseek正在走出那个纯学术化的过去，更开始像一家企业去思考。\n多档模型，考虑的是用户的实际需求(尤其是非编程用户和Agent的性价比需求)，融资或许也会考虑员工薪酬、变现等实在的需求，毕竟过去一年多，从Deepseek出走的核心员工并不少。\n作为非上市企业的Deepseek 当然，Deepseek最让黄仁勋忌惮的，或许依然是那个私人非上市企业的身份，这意味着Deepseek可以随心所欲的做一些“难而正确的事情”——是的，我说的是与国产芯片的适配。\n虽然目前在Deepseek V4是否用国产芯片训练模型上没有定论，但推理使用时用国产芯片，却是板上钉钉的。\n这次Deepseek V4发布时，最让中国国产芯片股东们兴奋的，是一行小字：\n下半年昇腾950超节点批量上市后，Pro的价格会大幅下调。\n“大幅下调”是什么概念？\nDeepseek，作为“价格屠夫”，给我们示范。\n2025年8月21日，Deepseek V3.1发布时，大家觉得模型性能也就这样，百万token输入4元/输出12元的价格也有点小贵。\n但不过是一个多月后的9月29日，DeepSeek-V3.2-Exp的发布，把百万token的价格打到了2元输入，3元输出，一下子就真香了！\n当下，Deepseek V4 Pro的定价和性能，或许让人觉得还有些“路人”，但若价格腰斩甚至更多，那时Deepseek V4的竞争力或许才会凸显。\n更重要的是，国产芯片的竞争力会进一步显现。\n周五(4月25日)，中国A股全指半导体指数大涨1.65%。“国产替代”，是中国半导体股过去几年能够持续上涨的根本逻辑，而Deepseek从去年3.1开始，也为这一逻辑在不断添砖加瓦。\n最著名的，当属Deepseek V3.1发布时，Deepseek微信小编在评论区的那句留言：\n次日(8月22日)，中国A股全指半导体指数暴涨8.26%，而同日中证A股仅上涨1.65%，足可见市场对这一表态的亢奋。\n我统计了一下，目前A股跟踪各类芯片股的ETF规模有1781.61亿元，而以芯片股为核心的科创50ETF规模也有1355.32亿元。Deepseek传闻中的3亿美元融资，不过20亿人民币而已。相比上面两类ETF合计3000亿元+的规模，不到1%。\n作为科创50ETF的持有人，你问我是否愿意拿出不到1%的净值入股Deepseek，我是双手双脚赞成的。都不用在乎Deepseek本身的投资是否能赚钱，光光是让国产芯片逻辑继续走下去，就值了。\n相信有我这样想法的持有人，应该不在少数。\n是的，国产芯片要崛起，不仅需要芯片业的努力，也要大模型产业的配合。\n正如古龙常言，真正最了解你的，往往是你的敌人。黄仁勋之所以点名Deepseek，也正是知道愿意在国产化道路上花最大苦功夫的，必然是Deepseek。\n毕竟，对于大模型业务已经在上市公司框架下的玩家，有太多现实的牵绊，而Deepseek反而可以更纯粹。\n在大模型这样类似学术研究的领域，纯粹是一种可怕的力量。\n所以，黄仁勋的“horrible outcome”何时到来？\n答案或许藏在他自己的话里。他没有说“if”，他说的是“the day that”。不是会不会发生，而是什么时候发生。\n有意思的是，在同一段对话中，黄仁勋还说了一句很少被引用的话：“Because they’re limited in compute, they also come up with extremely smart algorithms.”——正因为算力受限，他们反而发展出更聪明的算法。\n这几乎就是Deepseek的注脚。\n资源的匮乏没有成为枷锁，反而成了磨刀石。从R1时代的推理、V3.2时代的“价格屠夫”路线，乃至V4对国产芯片推理的适配，都在印证同一个逻辑：当纯粹的研究热情遇上真实的约束条件，解题路径往往比资源充裕时更具创造性。\n下半年，昇腾950超节点批量上市。届时Deepseek V4 Pro的价格大幅下调，而全球的开发者用脚投票。那或许就是“the day”的开始——不是惊天动地的一天，而是许多个寻常日子的累积，直到某天回头看，才发现局面已经不可逆转。\n对英伟达的股东而言，这大概不算好消息。但对于科创50和半导体ETF的持有人来说，这正是拭目以待的剧本。\n",
+  "wordCount" : "3358",
+  "inLanguage": "zh-cn",
+  "datePublished": "2026-04-25T12:00:42+08:00",
+  "dateModified": "2026-04-25T12:00:42+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Earl"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://earlmind.com/2026/2026-04-28/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EarlMind",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://earlmind.com/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://earlmind.com/" accesskey="h" title="EarlMind (Alt + H)">EarlMind</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://earlmind.com/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://earlmind.com/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://earlmind.com/">Home</a>&nbsp;»&nbsp;<a href="https://earlmind.com/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      Deepseek V4的真正冲击，不在跑分
+    </h1>
+    <div class="post-meta"><span title='2026-04-25 12:00:42 +0800 +0800'>April 25, 2026</span>&nbsp;·&nbsp;<span>7 min</span>&nbsp;·&nbsp;<span>Earl</span>
+
+</div>
+  </header> <div class="toc">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#deepseek%e5%bc%80%e5%a7%8b%e5%95%86%e4%b8%9a%e5%8c%96" aria-label="Deepseek开始商业化">Deepseek开始商业化</a><ul>
+                        <ul>
+                        <ul>
+                        <ul>
+                        
+                <li>
+                    <a href="#%e6%b3%a8%e5%9d%87%e4%b8%ba%e7%bc%93%e5%ad%98%e6%9c%aa%e5%91%bd%e4%b8%ad%e4%b8%94%e7%9f%ad%e4%b8%8a%e4%b8%8b%e6%96%87%e8%b5%b7%e5%a7%8b%e4%bb%b7%e6%a0%bc" aria-label="注：均为缓存未命中，且短上下文起始价格">注：均为缓存未命中，且短上下文起始价格</a></li></ul>
+                    </ul>
+                    </ul>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#%e4%bd%9c%e4%b8%ba%e9%9d%9e%e4%b8%8a%e5%b8%82%e4%bc%81%e4%b8%9a%e7%9a%84deepseek" aria-label="作为非上市企业的Deepseek">作为非上市企业的Deepseek</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p><a href="https://mp.weixin.qq.com/s/8bxXqS2R8Fx5-1TLDBiEDg">DeepSeek-V4 预览版终于发布了</a>，在2026年4月24日的中午。</p>
+<p><img alt="Deepseek V4发布公众号截图" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260425_231906_204_d6435458_tmpsd9tgb1a.png"></p>
+<p>不久之前，英伟达的黄仁勋在Dwarkesh播客的那期节目<a href="https://www.dwarkesh.com/p/jensen-huang">Jensen Huang – TPU competition, why we should sell chips to China, &amp; Nvidia’s supply chain moat</a>上说：</p>
+<blockquote>
+<p>DeepSeek 首次在华为上发布的那一天，对我们国家来说将是一个糟糕的结果。(DeepSeek is not an inconsequential advance. The day that DeepSeek comes out on Huawei first, that is a horrible outcome for our nation.)</p>
+</blockquote>
+<p><img alt="alt text" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260425_231906_237_55874f2e_tmpmazy99jd.png"></p>
+<p>当然，从4月25日美股的交易来看，暂时对英伟达，算不上horrible，股价大涨4.32%，逼近去年10月末的高点。</p>
+<p><img alt="alt text" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260425_231906_213_f3815949_tmp3x6_rvwd.png"></p>
+<p>或许，包括GLM 5.1、Minimax M2.7、Kimi K2.6在内的一批中国模型，已经带来了太多类似的跑分结果，Deepseek V4并不如昔日的Deepseek R1能给我们一些“aha moment”的震撼，以至于英伟达的股民，更愿意顺从纳斯达克100一路向上的趋势，挑战新高。</p>
+<p>但老黄的“horrible outcome”，显然不能视为简单的危言耸听，只不过需要时间的发酵。</p>
+<p>这里就作为一个普通大模型用户，来聊聊Deepseek何时可能带来“horrible outcome”——当然，对于中国国产芯片的相关股民，可能就是一个“harvest time”。</p>
+<h2 id="deepseek开始商业化">Deepseek开始商业化<a hidden class="anchor" aria-hidden="true" href="#deepseek开始商业化">#</a></h2>
+<p>对于Deepseek，我是极有感情的。</p>
+<p>我查了一下我的Deepseek API平台注册时间，是2024年7月19日。那时候，还只有Deepseek 2.5，R1的名声大噪是差不多半年后的事情。</p>
+<p><img alt="我的Deepseek API平台注册时间" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260425_231906_126_65f14db5_tmpz69b1xo6.png"></p>
+<p>在那个时代，Deepseek就是以“价格屠夫”而闻名的，当时被视为创新，如今近乎标配的全局缓存，从下图可以看到发布时间还早于Deepseek V2.5。</p>
+<p><img alt="alt text" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260425_231906_171_e2552738_tmp123fxrvp.png"></p>
+<p>从那个时代开始，Deepseek的骨子里，就像是一个研究大模型的学术机构，兴趣在于探索大模型的疆界。这种学术味，一个最大的特点就是，“工业化”程度是不够的，始终走单一级别模型，没有模型阶梯。</p>
+<p>如果你用过海外御三家的模型，能明显感觉到他们有着清晰的模型阶梯，至少两级。比如谷歌主力模型是Gemini 3.1 Pro，但也有Gemini 3.0 Flash辅助；OpenAI是在主力模型之下，有名为Mini的模型，之上后来又加了Pro，变成了三档；Claude目前则是Opus、Sonnet和Haiku。</p>
+<p><strong>不是所有的任务都需要最强力的模型</strong>。而且有些模型需要的只是简单快速。这时候入门级模型就能以更低的价格更快的速度提供够用的体验。</p>
+<p>这其实在全球算力紧张的背景下，可以避免模型能力的“滥用”。如果你观察Claude Code的Agent工作，有时候就能观察到他自主降级使用Haiku完成一些基本的工作；Gemini Cli也是如此，大量基础工作让Gemini 3.0 Flash完成，高级活才交给Gemini 3.1 Pro。</p>
+<p>但在模型分档问题上，国产模型或许因为弯道超车的需求，往往是比较忽视的——唯一的例外，或许是Qwen，从Max、Plus到Turbo，再加一些小模型，尺寸多到眼花缭乱，这也是全球大模型用户对Qwen一直交口称赞的地方，甚至连当年技惊四座的Deepseek R1推出时，也有基于Qwen的蒸馏小模型版。</p>
+<p>下表是我做的一个统计，可以看到人称“国产御三家”的Kimi、智谱和Minimax，在次级模型上，要么没发力，要么很久没更新，这样的产品线，在Agent时代，其实会带来极大的算力浪费。</p>
+<p>但这次，<strong>一向只有单一档次的Deepseek，反而是有了Pro和Flash两档模型，性能和价格，都兼顾了</strong>。</p>
+<p><img alt="表格1" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260425_231905_264_57b3023c_table_1.png"></p>
+<!-- table-source
+| 模型厂商 | 顶级模型                                  | 次级模型                                   |
+| -------- | ----------------------------------------- | ------------------------------------------ |
+| Kimi     | Kimi K2.6<br />输入6.50元/输出27.00元     |                                            |
+| 智谱     | GLM-5.1<br />输入6.00元/输出24.00元       | GLM-4.7 FlashX<br />输入0.50元/输出3.00元  |
+| MiniMax  | MiniMax-M2.7<br />输入2.10元/输出8.40元   |                                            |
+| Qwen     | Qwen 3.6 Max<br />输入9.00元/输出54.00元  | Qwen 3.6 Plus<br />输入2.00元/输出12.00元  |
+| Deepseek | V4 Pro<br />输入12.00元/输出24.00元       | V4 Flash<br />输入1.00元/输出2.00元        |
+| 小米Mimo | MiMo-V2.5 Pro<br />输入7.00元/输出21.00元 | MiMo-V2.0 Flash<br />输入0.70元/输出2.10元 |
+| -->      |                                           |                                            |
+<h6 id="注均为缓存未命中且短上下文起始价格">注：均为缓存未命中，且短上下文起始价格<a hidden class="anchor" aria-hidden="true" href="#注均为缓存未命中且短上下文起始价格">#</a></h6>
+<p>最近张小珺《<a href="https://mp.weixin.qq.com/s/zqnJuv5OVsNGEefM7RguqQ">独家对话罗福莉：AI范式已然巨变！</a>》有一个细节非常有趣，罗福莉在用上Openclaw的第一天，全程使用Claude 4.6 Opus，花费将近1000美元。</p>
+<p>问题是，这个用法有几个人能承受？</p>
+<p>别说Claude 4.6 Opus这样的顶级模型，哪怕是国产御三家的模型，如果不走Coding Plan，许多API付费用户都感觉用不起了。</p>
+<p>如果相信Agent未来会越来越重要，那么多个模型的搭配，也会越来越重要。在这个问题上，Deepseek V4显然做了迥异于国产御三家的一个选择。</p>
+<p>联系近期Deepseek以200亿美元估值谋求融资3亿美元的传闻，似乎Deepseek正在走出那个纯学术化的过去，更开始像一家企业去思考。</p>
+<p>多档模型，考虑的是用户的实际需求(尤其是非编程用户和Agent的性价比需求)，融资或许也会考虑员工薪酬、变现等实在的需求，毕竟过去一年多，从Deepseek出走的核心员工并不少。</p>
+<h2 id="作为非上市企业的deepseek">作为非上市企业的Deepseek<a hidden class="anchor" aria-hidden="true" href="#作为非上市企业的deepseek">#</a></h2>
+<p>当然，Deepseek最让黄仁勋忌惮的，或许依然是那个私人非上市企业的身份，这意味着Deepseek可以随心所欲的做一些“难而正确的事情”——是的，我说的是与国产芯片的适配。</p>
+<p>虽然目前在Deepseek V4是否用国产芯片训练模型上没有定论，但推理使用时用国产芯片，却是板上钉钉的。</p>
+<p>这次Deepseek V4发布时，最让中国国产芯片股东们兴奋的，是一行小字：</p>
+<p><img alt="alt text" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260425_231906_244_e5050c56_tmpv6yidmv7.png"></p>
+<blockquote>
+<p>下半年昇腾950超节点批量上市后，Pro的价格会大幅下调。</p>
+</blockquote>
+<p>“大幅下调”是什么概念？</p>
+<p>Deepseek，作为“价格屠夫”，给我们示范。</p>
+<p>2025年8月21日，Deepseek V3.1<a href="https://mp.weixin.qq.com/s/WUbmBSapVyvxZe6HobD5Qw">发布</a>时，大家觉得模型性能也就这样，百万token输入4元/输出12元的价格也有点小贵。</p>
+<p>但不过是一个多月后的9月29日，DeepSeek-V3.2-Exp的<a href="https://mp.weixin.qq.com/s/6hKi5F_S2zQ4g6SyF0UNow">发布</a>，把百万token的价格打到了2元输入，3元输出，一下子就真香了！</p>
+<p><img alt="alt text" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260425_231906_327_805c2bc9_tmpeh49s8on.png"></p>
+<p>当下，Deepseek V4 Pro的定价和性能，或许让人觉得还有些“路人”，但若价格腰斩甚至更多，那时Deepseek V4的竞争力或许才会凸显。</p>
+<p>更重要的是，<strong>国产芯片的竞争力会进一步显现</strong>。</p>
+<p>周五(4月25日)，中国A股全指半导体指数大涨1.65%。“国产替代”，是中国半导体股过去几年能够持续上涨的根本逻辑，而Deepseek从去年3.1开始，也为这一逻辑在不断添砖加瓦。</p>
+<p>最著名的，当属Deepseek V3.1发布时，Deepseek微信小编在评论区的那句留言：</p>
+<p><img alt="alt text" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260425_231906_307_61fc07c1_tmphirh9dbh.png"></p>
+<p>次日(8月22日)，中国A股全指半导体指数暴涨8.26%，而同日中证A股仅上涨1.65%，足可见市场对这一表态的亢奋。</p>
+<p>我统计了一下，目前A股跟踪各类芯片股的ETF规模有1781.61亿元，而以芯片股为核心的科创50ETF规模也有1355.32亿元。Deepseek传闻中的3亿美元融资，不过20亿人民币而已。相比上面两类ETF合计3000亿元+的规模，不到1%。</p>
+<p>作为科创50ETF的持有人，你问我是否愿意拿出不到1%的净值入股Deepseek，我是双手双脚赞成的。都不用在乎Deepseek本身的投资是否能赚钱，光光是让国产芯片逻辑继续走下去，就值了。</p>
+<p>相信有我这样想法的持有人，应该不在少数。</p>
+<p>是的，国产芯片要崛起，不仅需要芯片业的努力，也要大模型产业的配合。</p>
+<p>正如古龙常言，真正最了解你的，往往是你的敌人。黄仁勋之所以点名Deepseek，也正是知道愿意在国产化道路上花最大苦功夫的，必然是Deepseek。</p>
+<p>毕竟，对于大模型业务已经在上市公司框架下的玩家，有太多现实的牵绊，而Deepseek反而可以更纯粹。</p>
+<p>在大模型这样类似学术研究的领域，<strong>纯粹是一种可怕的力量</strong>。</p>
+<p>所以，黄仁勋的“horrible outcome”何时到来？</p>
+<p>答案或许藏在他自己的话里。他没有说“if”，他说的是“the day that”。不是会不会发生，而是什么时候发生。</p>
+<p>有意思的是，在同一段对话中，黄仁勋还说了一句很少被引用的话：“Because they&rsquo;re limited in compute, they also come up with extremely smart algorithms.”——正因为算力受限，他们反而发展出更聪明的算法。</p>
+<p>这几乎就是Deepseek的注脚。</p>
+<p>资源的匮乏没有成为枷锁，反而成了磨刀石。从R1时代的推理、V3.2时代的“价格屠夫”路线，乃至V4对国产芯片推理的适配，都在印证同一个逻辑：当纯粹的研究热情遇上真实的约束条件，解题路径往往比资源充裕时更具创造性。</p>
+<p>下半年，昇腾950超节点批量上市。届时Deepseek V4 Pro的价格大幅下调，而全球的开发者用脚投票。那或许就是“the day”的开始——不是惊天动地的一天，而是许多个寻常日子的累积，直到某天回头看，才发现局面已经不可逆转。</p>
+<p>对英伟达的股东而言，这大概不算好消息。但对于科创50和半导体ETF的持有人来说，这正是拭目以待的剧本。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://earlmind.com/2026/2026-04-28-2/">
+    <span class="title">« </span>
+    <br>
+    <span>Deepseek V4 Flash是沉浸式翻译的绝配</span>
+  </a>
+  <a class="next" href="https://earlmind.com/2026/2026-04-20/">
+    <span class="title"> »</span>
+    <br>
+    <span>Qwen需要超大杯</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://earlmind.com/">EarlMind</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a><div style="text-align: center; margin-top: 10px;">
+    <a href="mailto:earlzhang@gmail.com" target="_blank" rel="noopener noreferrer me" title="Email" style="display: inline-block; color: var(--secondary);">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+    </a>
+</div>
+
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTML 表格 → Markdown 表格</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gray-50 text-gray-800 dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-900 dark:text-slate-100 p-6 transition-colors">
+
+  <!-- Header -->
+  <header class="max-w-7xl mx-auto mb-6">
+    <h1 class="text-2xl font-bold tracking-tight">
+      <span class="text-emerald-600 dark:text-emerald-400">HTML</span> 表格
+      <span class="text-gray-400 dark:text-slate-500 mx-2">→</span>
+      <span class="text-sky-600 dark:text-sky-400">Markdown</span> 表格
+    </h1>
+    <p class="text-sm text-gray-500 dark:text-slate-400 mt-1">在左侧粘贴 HTML 表格代码，右侧自动生成对应的 Markdown 表格</p>
+  </header>
+
+  <!-- Main area -->
+  <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+    <!-- Left: Input -->
+    <section class="flex flex-col">
+      <label for="html-input" class="text-sm font-medium text-emerald-700 dark:text-emerald-300 mb-1 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>
+        HTML 表格
+        <span class="text-xs text-gray-400 dark:text-slate-500 font-normal ml-1">(&lt;table&gt; … &lt;/table&gt;)</span>
+      </label>
+      <textarea id="html-input"
+        class="flex-1 min-h-[420px] w-full rounded-lg border bg-white border-gray-300 text-gray-800 placeholder-gray-400 dark:bg-slate-800/70 dark:border-slate-600 dark:text-slate-100 dark:placeholder-slate-500 p-4 font-mono text-sm leading-relaxed resize-y focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition"
+        placeholder='粘贴 HTML 表格代码，例如：
+
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Name&lt;/th&gt;
+    &lt;th&gt;Age&lt;/th&gt;
+    &lt;th&gt;City&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Alice&lt;/td&gt;
+    &lt;td&gt;30&lt;/td&gt;
+    &lt;td&gt;New York&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Bob&lt;/td&gt;
+    &lt;td&gt;25&lt;/td&gt;
+    &lt;td&gt;London&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;'></textarea>
+      <div class="flex items-center gap-3 mt-3">
+        <button id="paste-btn"
+          class="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-emerald-400/50">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+          粘贴
+        </button>
+        <button id="clear-btn"
+          class="px-4 py-2 rounded-lg border border-gray-300 dark:border-slate-600 hover:border-gray-400 dark:hover:border-slate-500 text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200 text-sm transition">
+          清空
+        </button>
+        <span id="status" class="text-xs text-gray-400 dark:text-slate-500 ml-auto"></span>
+      </div>
+    </section>
+
+    <!-- Right: Output -->
+    <section class="flex flex-col">
+      <label for="md-output" class="text-sm font-medium text-sky-700 dark:text-sky-300 mb-1 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-sky-500 dark:bg-sky-400"></span>
+        Markdown 表格
+      </label>
+      <textarea id="md-output" readonly
+        class="flex-1 min-h-[420px] w-full rounded-lg border bg-gray-50 border-gray-300 text-gray-800 placeholder-gray-300 dark:bg-slate-800/40 dark:border-slate-600 dark:text-slate-100 dark:placeholder-slate-600 p-4 font-mono text-sm leading-relaxed resize-y focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:border-sky-500 transition"
+        placeholder="转换后的 Markdown 表格会显示在这里…"></textarea>
+      <div class="flex items-center gap-3 mt-3">
+        <button id="copy-btn"
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-sky-600 hover:bg-sky-50 dark:hover:bg-sky-600/20 text-sky-700 dark:text-sky-300 text-sm transition focus:outline-none focus:ring-2 focus:ring-sky-400/50">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+          复制
+        </button>
+        <span id="copy-status" class="text-xs text-gray-400 dark:text-slate-500"></span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Preview area -->
+  <section class="max-w-7xl mx-auto mt-8">
+    <details class="group">
+      <summary class="text-sm text-gray-500 dark:text-slate-500 cursor-pointer hover:text-gray-700 dark:hover:text-slate-300 transition select-none">
+        <span class="group-open:hidden">▶</span>
+        <span class="hidden group-open:inline">▼</span>
+        Markdown 渲染预览
+      </summary>
+      <div id="preview" class="mt-3 rounded-lg border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800/30 p-6 overflow-x-auto"></div>
+    </details>
+  </section>
+
+  <!-- Footer hint -->
+  <p class="max-w-7xl mx-auto mt-8 text-xs text-gray-400 dark:text-slate-600 text-center">
+    支持 &lt;table&gt;、&lt;thead&gt;、&lt;tbody&gt;、&lt;tr&gt;、&lt;th&gt;、&lt;td&gt; 以及 colspan / rowspan 属性。
+    自动忽略空行和缩进。
+  </p>
+
+  <script>
+    (function() {
+      const htmlInput = document.getElementById('html-input');
+      const mdOutput  = document.getElementById('md-output');
+      const preview   = document.getElementById('preview');
+      const status    = document.getElementById('status');
+      const copyStatus = document.getElementById('copy-status');
+
+      // ─── 核心转换 ────────────────────────────────────────
+
+      function htmlTableToMarkdown(html) {
+        // 1. 解析 <table> 内容 —— 简单 DOM 解析，不依赖浏览器完整 DOM
+        const table = extractTableStructure(html);
+        if (!table || table.rows.length === 0) {
+          return null;
+        }
+
+        // 2. 展平 colspan/rowspan —— 构建二维网格
+        const grid = buildGrid(table);
+
+        // 3. 确定表头行数
+        //    优先级: <thead> 行数 > 有 <th> 的行 > 第一行（即使全是 <td>）
+        let headerRows = table.headerRowCount;
+        if (headerRows === 0 && grid.length > 0) {
+          // 找第一个至少有一格是 <th> 的行，否则直接用第一行
+          const thRowIdx = grid.findIndex(row => row.some(c => c.isTh));
+          if (thRowIdx >= 0) {
+            headerRows = thRowIdx + 1;
+          } else {
+            // 没有任何 <th> —— 默认第一行作为表头
+            headerRows = 1;
+          }
+        }
+
+        // 4. 分块：表头 / 分隔线 / 表体
+        const headRows = grid.slice(0, headerRows);
+        const bodyRows = grid.slice(headerRows);
+
+        if (headRows.length === 0 && bodyRows.length === 0) {
+          return null;
+        }
+
+        // 5. 列数 = 最宽行
+        const colCount = grid.reduce((max, r) => Math.max(max, r.length), 0);
+        if (colCount === 0) return null;
+
+        // 6. 计算每列最大宽度（用于对齐）
+        const colWidths = new Array(colCount).fill(0);
+        grid.forEach(row => {
+          row.forEach((cell, ci) => {
+            const text = cell.text.trim();
+            // 中文字符算 2 个宽度
+            const w = visualWidth(text);
+            if (ci < colCount && w > colWidths[ci]) {
+              colWidths[ci] = w;
+            }
+          });
+        });
+
+        // 7. 渲染一行
+        function renderRow(cells, isSep = false) {
+          const padded = new Array(colCount).fill('');
+          cells.forEach((cell, ci) => {
+            if (ci < colCount) {
+              const text = isSep ? '' : cell.text.trim();
+              padded[ci] = text;
+            }
+          });
+          // 填充空单元格使列数一致
+          for (let i = cells.length; i < colCount; i++) {
+            padded[i] = '';
+          }
+          return '| ' + padded.map((t, ci) => {
+            const w = colWidths[ci];
+            const display = isSep ? '' : t;
+            if (isSep) {
+              // 分隔行用 '-' 补齐宽度
+              const dashes = w < 3 ? 3 : w;
+              return '-'.repeat(dashes);
+            }
+            return display + ' '.repeat(w - visualWidth(display));
+          }).join(' | ') + ' |';
+        }
+
+        // 8. 分隔线
+        function renderSep() {
+          return '| ' + colWidths.map(w => {
+            const d = w < 3 ? 3 : w;
+            return '-'.repeat(d);
+          }).join(' | ') + ' |';
+        }
+
+        // 9. 组装
+        const lines = [];
+
+        // 表头行
+        headRows.forEach(r => lines.push(renderRow(r)));
+
+        // 分隔线
+        lines.push(renderSep());
+
+        // 表体行
+        bodyRows.forEach(r => lines.push(renderRow(r)));
+
+        return lines.join('\n');
+      }
+
+      // ─── 解析 HTML Table ────────────────────────────────
+
+      function extractTableStructure(html) {
+        // 清理：移除换行/多余空格，方便正则
+        const cleaned = html
+          .replace(/>\s+</g, '><')
+          .replace(/\s+/g, ' ')
+          .trim();
+
+        // 定位 <table>
+        const tableMatch = cleaned.match(/<table\b[^>]*>([\s\S]*)<\/table\s*>/i);
+        if (!tableMatch) return null;
+
+        let inner = tableMatch[1];
+
+        let headerRowCount = 0;
+
+        // 收集行
+        const rows = [];
+
+        // 优先处理 <thead>
+        const theadMatch = inner.match(/<thead\b[^>]*>([\s\S]*?)<\/thead\s*>/i);
+        if (theadMatch) {
+          const headRows = extractRowsFromFragment(theadMatch[1], true);
+          rows.push(...headRows);
+          headerRowCount = headRows.length;
+          // 从 inner 移除 <thead> 部分
+          inner = inner.replace(/<thead\b[^>]*>[\s\S]*?<\/thead\s*>/i, '');
+        }
+
+        // 处理 <tbody>
+        const tbodyMatch = inner.match(/<tbody\b[^>]*>([\s\S]*?)<\/tbody\s*>/i);
+        if (tbodyMatch) {
+          const bodyRows = extractRowsFromFragment(tbodyMatch[1], false);
+          rows.push(...bodyRows);
+          inner = inner.replace(/<tbody\b[^>]*>[\s\S]*?<\/tbody\s*>/i, '');
+        }
+
+        // 剩余的 <tr>（不在 thead/tbody 内）
+        const extraRows = extractRowsFromFragment(inner, false);
+        rows.push(...extraRows);
+
+        return { rows, headerRowCount };
+      }
+
+      function extractRowsFromFragment(fragment, forceTh) {
+        const rows = [];
+        const trRegex = /<tr\b[^>]*>([\s\S]*?)<\/tr\s*>/gi;
+        let m;
+        while ((m = trRegex.exec(fragment)) !== null) {
+          const cells = extractCellsFromRow(m[1], forceTh);
+          if (cells.length > 0) {
+            rows.push(cells);
+          }
+        }
+        return rows;
+      }
+
+      function extractCellsFromRow(rowInner, forceTh) {
+        const cells = [];
+        // <th> 和 <td>，带属性
+        const cellRegex = /<(th|td)\b([^>]*)>([\s\S]*?)<\/\1\s*>/gi;
+        let m;
+        while ((m = cellRegex.exec(rowInner)) !== null) {
+          const tagName = m[1].toLowerCase();
+          const attrs = m[2];
+          const content = m[3].trim();
+          const isTh = forceTh || tagName === 'th';
+
+          // 解析 colspan / rowspan
+          const colspan = parseInt((attrs.match(/colspan\s*=\s*["']?(\d+)["']?/i) || [])[1], 10) || 1;
+          const rowspan = parseInt((attrs.match(/rowspan\s*=\s*["']?(\d+)["']?/i) || [])[1], 10) || 1;
+
+          cells.push({
+            text: content,
+            isTh,
+            colspan,
+            rowspan,
+          });
+        }
+        return cells;
+      }
+
+      // ─── 构建网格（展开 colspan / rowspan）────────────
+
+      function buildGrid(table) {
+        const cells = table.rows; // cells[rowIndex] = cell[]
+        const H = cells.length;
+        if (H === 0) return [];
+
+        // 先确定最大列数
+        let maxCol = 0;
+        cells.forEach(row => {
+          let col = 0;
+          row.forEach(cell => {
+            col += cell.colspan;
+          });
+          if (col > maxCol) maxCol = col;
+        });
+        if (maxCol === 0) return [];
+
+        // 占位矩阵
+        const grid = []; // grid[row][col] = { text, isTh } | null
+        for (let r = 0; r < H; r++) {
+          grid[r] = new Array(maxCol).fill(null);
+        }
+
+        // 放置 cell，处理 rowspan 向下填充
+        for (let r = 0; r < H; r++) {
+          const row = cells[r];
+          let ci = 0;
+          for (let c = 0; c < row.length; c++) {
+            const cell = row[c];
+            // 跳过已被 rowspan 占用的列
+            while (ci < maxCol && grid[r][ci] !== null) {
+              ci++;
+            }
+            if (ci >= maxCol) break;
+
+            const cs = cell.colspan;
+            const rs = cell.rowspan;
+            const text = cell.text;
+            const isTh = cell.isTh;
+
+            for (let dr = 0; dr < rs && r + dr < H; dr++) {
+              for (let dc = 0; dc < cs && ci + dc < maxCol; dc++) {
+                // 只在第一行放文字
+                if (dr === 0) {
+                  grid[r + dr][ci + dc] = { text, isTh, colspan: cs, rowspan: rs };
+                } else {
+                  grid[r + dr][ci + dc] = { text: '', isTh, colspan: cs, rowspan: rs };
+                }
+              }
+            }
+            ci += cs;
+          }
+        }
+
+        return grid;
+      }
+
+      // ─── 视觉宽度（中文字符算 2）──────────────────────
+
+      function visualWidth(str) {
+        let w = 0;
+        for (const ch of str) {
+          if (ch === '\t') { w += 4; continue; }
+          const code = ch.charCodeAt(0);
+          if (code >= 0x4E00 && code <= 0x9FFF)  w += 2; // CJK
+          else if (code >= 0x3000 && code <= 0x303F) w += 2; // CJK 标点
+          else if (code >= 0xFF00 && code <= 0xFFEF) w += 2; // 全角
+          else w += 1;
+        }
+        return w;
+      }
+
+      // ─── UI 事件 ────────────────────────────────────────
+
+      function convert() {
+        const html = htmlInput.value.trim();
+        if (!html) {
+          mdOutput.value = '';
+          preview.innerHTML = '';
+          status.textContent = '';
+          return;
+        }
+
+        const result = htmlTableToMarkdown(html);
+
+        if (result === null) {
+          mdOutput.value = '';
+          preview.innerHTML = '';
+          status.textContent = '⚠️ 未找到有效的 <table>';
+          status.className = 'text-xs text-amber-600 dark:text-amber-400 ml-auto';
+          return;
+        }
+
+        mdOutput.value = result;
+        status.textContent = `✅ ${result.split('\n').length} 行`;
+        status.className = 'text-xs text-emerald-600 dark:text-emerald-400 ml-auto';
+
+        // 渲染预览
+        renderPreview(result);
+      }
+
+      function renderPreview(md) {
+        // 把简单的 Markdown 表格转成 HTML 预览
+        const lines = md.split('\n').filter(l => l.trim());
+        if (lines.length < 2) {
+          preview.innerHTML = '<span class="text-gray-400 dark:text-slate-500 text-sm">表格行数不足，无法预览</span>';
+          return;
+        }
+
+        // 去掉首尾空管道并切分
+        function splitRow(line) {
+          return line.trim()
+            .replace(/^\|/, '')
+            .replace(/\|$/, '')
+            .split('|')
+            .map(s => s.trim());
+        }
+
+        const headerLine = lines[0];
+        const sepLine   = lines[1];
+        const bodyLines = lines.slice(2);
+
+        const headers = splitRow(headerLine);
+
+        let html = '<table class="min-w-full border-collapse border border-gray-300 dark:border-slate-600 text-sm">\n';
+
+        // thead
+        html += '  <thead>\n    <tr>\n';
+        headers.forEach(h => {
+          html += `      <th class="border border-gray-300 dark:border-slate-600 px-3 py-2 bg-gray-100 dark:bg-slate-700/50 text-left font-medium text-gray-700 dark:text-sky-200">${escapeHtml(h)}</th>\n`;
+        });
+        html += '    </tr>\n  </thead>\n';
+
+        // tbody
+        html += '  <tbody>\n';
+        bodyLines.forEach(line => {
+          const cols = splitRow(line);
+          html += '    <tr>\n';
+          for (let i = 0; i < Math.max(headers.length, cols.length); i++) {
+            const val = cols[i] || '';
+            html += `      <td class="border border-gray-300 dark:border-slate-600 px-3 py-1.5 text-gray-600 dark:text-slate-200">${escapeHtml(val)}</td>\n`;
+          }
+          html += '    </tr>\n';
+        });
+        html += '  </tbody>\n</table>';
+
+        preview.innerHTML = html;
+      }
+
+      function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+      }
+
+      // ─── 复制 ──────────────────────────────────────────
+
+      document.getElementById('copy-btn').addEventListener('click', async () => {
+        const text = mdOutput.value.trim();
+        if (!text) {
+          copyStatus.textContent = '没有内容可复制';
+          return;
+        }
+        try {
+          await navigator.clipboard.writeText(text);
+          copyStatus.textContent = '✅ 已复制';
+        } catch {
+          // fallback
+          mdOutput.select();
+          document.execCommand('copy');
+          copyStatus.textContent = '✅ 已复制（传统方式）';
+        }
+        setTimeout(() => { copyStatus.textContent = ''; }, 2500);
+      });
+
+      // ─── 事件绑定 ──────────────────────────────────────
+
+      document.getElementById('paste-btn').addEventListener('click', async () => {
+        try {
+          const text = await navigator.clipboard.readText();
+          htmlInput.value = text;
+          convert();
+          htmlInput.focus();
+        } catch {
+          status.textContent = '⚠️ 无法读取剪贴板，请手动粘贴';
+          status.className = 'text-xs text-amber-600 dark:text-amber-400 ml-auto';
+        }
+      });
+
+      document.getElementById('clear-btn').addEventListener('click', () => {
+        htmlInput.value = '';
+        mdOutput.value = '';
+        preview.innerHTML = '';
+        status.textContent = '';
+        copyStatus.textContent = '';
+        htmlInput.focus();
+      });
+
+      // 自动转换（防抖）
+      let debounceTimer;
+      htmlInput.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(convert, 400);
+      });
+
+      // Ctrl / Cmd + Enter 快捷转换
+      htmlInput.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+          e.preventDefault();
+          convert();
+        }
+      });
+
+      // 页面加载后自动转换示例
+      window.addEventListener('DOMContentLoaded', () => {
+        // 默认填入示例
+        htmlInput.value = `<table>
+  <tr>
+    <th>姓名</th>
+    <th>年龄</th>
+    <th>城市</th>
+  </tr>
+  <tr>
+    <td>Alice</td>
+    <td>30</td>
+    <td>纽约</td>
+  </tr>
+  <tr>
+    <td>Bob</td>
+    <td>25</td>
+    <td>伦敦</td>
+  </tr>
+  <tr>
+    <td>小明</td>
+    <td>28</td>
+    <td>北京</td>
+  </tr>
+</table>`;
+        convert();
+      });
+
+    })();
+  </script>
+
+</body>
+</html>

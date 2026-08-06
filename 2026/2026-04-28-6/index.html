@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Workbuddy还没接住Deepseek V4溢出的厚爱 | EarlMind</title>
+<meta name="keywords" content="">
+<meta name="description" content="CodeBuddy，腾讯家Agent工具。此前因为Deepseek V4官方发布微信中意外的提及，关注度又高了一把。
+是的，在一众编程和Agent大咖中，出现CodeBuddy是有点突兀的，以至于许多人甚至猜测这是否Deepseek的示好，甚至暗示未来的腾讯入股有希望。">
+<meta name="author" content="Earl">
+<link rel="canonical" href="https://earlmind.com/2026/2026-04-28-6/">
+<link crossorigin="anonymous" href="https://earlmind.com/assets/css/stylesheet.5a926f5a97cb172204830b5ba28683c1686d95860f21814c65d48737e45a671d.css" integrity="sha256-WpJvWpfLFyIEgwtbooaDwWhtlYYPIYFMZdSHN&#43;RaZx0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://earlmind.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://earlmind.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://earlmind.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://earlmind.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://earlmind.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh-cn" href="https://earlmind.com/2026/2026-04-28-6/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-BBE8BTPTWL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-BBE8BTPTWL');
+        }
+      </script><meta property="og:url" content="https://earlmind.com/2026/2026-04-28-6/">
+  <meta property="og:site_name" content="EarlMind">
+  <meta property="og:title" content="Workbuddy还没接住Deepseek V4溢出的厚爱">
+  <meta property="og:description" content="CodeBuddy，腾讯家Agent工具。此前因为Deepseek V4官方发布微信中意外的提及，关注度又高了一把。
+是的，在一众编程和Agent大咖中，出现CodeBuddy是有点突兀的，以至于许多人甚至猜测这是否Deepseek的示好，甚至暗示未来的腾讯入股有希望。">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-04-28T20:54:51+08:00">
+    <meta property="article:modified_time" content="2026-04-28T20:54:51+08:00">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Workbuddy还没接住Deepseek V4溢出的厚爱">
+<meta name="twitter:description" content="CodeBuddy，腾讯家Agent工具。此前因为Deepseek V4官方发布微信中意外的提及，关注度又高了一把。
+是的，在一众编程和Agent大咖中，出现CodeBuddy是有点突兀的，以至于许多人甚至猜测这是否Deepseek的示好，甚至暗示未来的腾讯入股有希望。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://earlmind.com/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Workbuddy还没接住Deepseek V4溢出的厚爱",
+      "item": "https://earlmind.com/2026/2026-04-28-6/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Workbuddy还没接住Deepseek V4溢出的厚爱",
+  "name": "Workbuddy还没接住Deepseek V4溢出的厚爱",
+  "description": "CodeBuddy，腾讯家Agent工具。此前因为Deepseek V4官方发布微信中意外的提及，关注度又高了一把。\n是的，在一众编程和Agent大咖中，出现CodeBuddy是有点突兀的，以至于许多人甚至猜测这是否Deepseek的示好，甚至暗示未来的腾讯入股有希望。\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "CodeBuddy，腾讯家Agent工具。此前因为Deepseek V4官方发布微信中意外的提及，关注度又高了一把。\n是的，在一众编程和Agent大咖中，出现CodeBuddy是有点突兀的，以至于许多人甚至猜测这是否Deepseek的示好，甚至暗示未来的腾讯入股有希望。\n也正因为这个原因，我顺带将它家的WorkBuddy，一个主打办公的Agent也安装尝试了一把。\n很可惜，感觉至少WorkBuddy还接不住Deepseek溢出的厚爱。\n目前，WorkBuddy的内置模型，还是老样子，虽然Hy3 Preview作为亲儿子有了，但是Deepseek还是停留在V3.2时代。\n当然，WorkBuddy还是支持自定义模型的，所以我就接上了DeepSeek的API，用上了Deepseek V4 Flash。\n很可惜，很快就遇到了报错：\n这个错，是Deepseek V4 Flash的坑。\n以下是我请Gemini帮我综述的解释：\nBug 的核心逻辑：为什么会报错？ 传统的 OpenAI 或 Anthropic 协议中，模型思考（Thinking）和执行工具（Tool Call）通常是独立的，或者在下一轮对话中不需要回传思考过程。\n但 DeepSeek V4 的新规定要求：\n必须回传（Round-trip）： 在开启“思考模式”下，如果模型在第一轮进行了工具调用，那么它生成的 reasoning_content（思维链内容）必须作为历史上下文，在第二轮请求中完整地传回给 API。\n后果： 如果框架在处理消息时，为了节省 Token 或遵循旧协议将 reasoning_content 字段剥离（Strip）掉，DeepSeek API 会直接返回 HTTP 400 错误：The reasoning_content in the thinking mode must be passed back to the API.\n是的，这次对Deepseek V4的发布，小小的失望也在这里，官微说：\nDeepSeek-V4 针对 Claude Code 、OpenClaw、OpenCode、CodeBuddy 等主流的 Agent 产品进行了适配和优化\n但这个bug，只要用Deepseek V4 Flash随便用一会儿只要调用了工具，就能出现，难道Deepseek的测试，仅限于高端的Deepseek V4 Pro？这就有点“何不食肉糜”了。\n这个bug，不大。所以类似OpenClaw、Hermes之类，都是很快修复了。\nOpenClaw毕竟全球用的人多，4月24日Deepseek V4发布当天，就发新版修复了。\nHermes也是差不多的速度。\n但是，哪怕是2026年4月28日今天使用Workbuddy，自行调用Deepseek V4 Flash，依然是讨厌的思考传入问题。\n只能说，拥抱国产模型，但Agent基建也很重要，要享受快速的更新打补丁，还得用几大生态。\n当然，我知道Workbuddy是主打白领的，本来就求稳，内置都还没上Deepseek V4 Flash。\n不过本来觉得好歹接一波Deepseek V4传过并溢出的厚爱，只能说，是我想多了。\n",
+  "wordCount" : "1125",
+  "inLanguage": "zh-cn",
+  "datePublished": "2026-04-28T20:54:51+08:00",
+  "dateModified": "2026-04-28T20:54:51+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Earl"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://earlmind.com/2026/2026-04-28-6/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EarlMind",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://earlmind.com/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://earlmind.com/" accesskey="h" title="EarlMind (Alt + H)">EarlMind</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://earlmind.com/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://earlmind.com/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://earlmind.com/">Home</a>&nbsp;»&nbsp;<a href="https://earlmind.com/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      Workbuddy还没接住Deepseek V4溢出的厚爱
+    </h1>
+    <div class="post-meta"><span title='2026-04-28 20:54:51 +0800 +0800'>April 28, 2026</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Earl</span>
+
+</div>
+  </header> 
+
+  <div class="post-content"><p><a href="https://www.codebuddy.cn/ide/">CodeBuddy</a>，腾讯家Agent工具。此前因为Deepseek V4官方发布微信中<a href="https://mp.weixin.qq.com/s/8bxXqS2R8Fx5-1TLDBiEDg">意外的提及</a>，关注度又高了一把。</p>
+<p>是的，在一众编程和Agent大咖中，出现CodeBuddy是有点突兀的，以至于许多人甚至猜测这是否Deepseek的示好，甚至暗示未来的腾讯入股有希望。</p>
+<p><img alt="alt text" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260428_204930_856_a1c10e63_tmpzq64gosd.png"></p>
+<p>也正因为这个原因，我顺带将它家的<a href="https://www.codebuddy.cn/work/">WorkBuddy</a>，一个主打办公的Agent也安装尝试了一把。</p>
+<p>很可惜，感觉至少WorkBuddy还接不住Deepseek溢出的厚爱。</p>
+<p>目前，WorkBuddy的内置模型，还是老样子，虽然Hy3 Preview作为亲儿子有了，但是Deepseek还是停留在V3.2时代。</p>
+<p><img alt="alt text" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260428_204930_698_3db489cc_image-1.png"></p>
+<p>当然，WorkBuddy还是支持自定义模型的，所以我就接上了DeepSeek的API，用上了Deepseek V4 Flash。</p>
+<p>很可惜，很快就遇到了报错：</p>
+<p><img alt="alt text" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260428_204930_805_7da7ebe4_tmpaibwr2wj.png"></p>
+<p>这个错，是Deepseek V4 Flash的坑。</p>
+<p>以下是我请Gemini帮我综述的解释：</p>
+<blockquote>
+<p>Bug 的核心逻辑：为什么会报错？
+传统的 OpenAI 或 Anthropic 协议中，模型思考（Thinking）和执行工具（Tool Call）通常是独立的，或者在下一轮对话中不需要回传思考过程。</p>
+<p>但 DeepSeek V4 的新规定要求：</p>
+<p>必须回传（Round-trip）： 在开启“思考模式”下，如果模型在第一轮进行了工具调用，那么它生成的 reasoning_content（思维链内容）必须作为历史上下文，在第二轮请求中完整地传回给 API。</p>
+<p>后果： 如果框架在处理消息时，为了节省 Token 或遵循旧协议将 reasoning_content 字段剥离（Strip）掉，DeepSeek API 会直接返回 HTTP 400 错误：The reasoning_content in the thinking mode must be passed back to the API.</p>
+</blockquote>
+<p>是的，这次对Deepseek V4的发布，小小的失望也在这里，官微说：</p>
+<blockquote>
+<p>DeepSeek-V4 针对 Claude Code 、OpenClaw、OpenCode、CodeBuddy 等主流的 Agent 产品进行了适配和优化</p>
+</blockquote>
+<p>但这个bug，只要用Deepseek V4 Flash随便用一会儿只要调用了工具，就能出现，难道Deepseek的测试，仅限于高端的Deepseek V4 Pro？这就有点“何不食肉糜”了。</p>
+<p>这个bug，不大。所以类似OpenClaw、Hermes之类，都是很快修复了。</p>
+<p>OpenClaw毕竟全球用的人多，4月24日Deepseek V4发布当天，就发新版修复了。</p>
+<p><img alt="alt text" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260428_204930_844_4dc48002_tmpe81tcayw.png"></p>
+<p>Hermes也是差不多的速度。</p>
+<p><img alt="alt text" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260428_204930_862_d70310bf_tmpmoky00it.png"></p>
+<p>但是，哪怕是2026年4月28日今天使用Workbuddy，自行调用Deepseek V4 Flash，依然是讨厌的思考传入问题。</p>
+<p>只能说，拥抱国产模型，但Agent基建也很重要，要享受快速的更新打补丁，还得用几大生态。</p>
+<p>当然，我知道Workbuddy是主打白领的，本来就求稳，内置都还没上Deepseek V4 Flash。</p>
+<p>不过本来觉得好歹接一波Deepseek V4传过并溢出的厚爱，只能说，是我想多了。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://earlmind.com/2026/2026-04-30/">
+    <span class="title">« </span>
+    <br>
+    <span>当你用AI帮娃做手工，多模态能力的差距体现了</span>
+  </a>
+  <a class="next" href="https://earlmind.com/2026/2026-04-28-5/">
+    <span class="title"> »</span>
+    <br>
+    <span>唯一的主语</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://earlmind.com/">EarlMind</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a><div style="text-align: center; margin-top: 10px;">
+    <a href="mailto:earlzhang@gmail.com" target="_blank" rel="noopener noreferrer me" title="Email" style="display: inline-block; color: var(--secondary);">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+    </a>
+</div>
+
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
