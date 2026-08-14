@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Deepseek涨价后，查一次纳指溢价率0.24元，我更坚定用脚本了 | EarlMind</title>
+<meta name="keywords" content="">
+<meta name="description" content="昨晚，大家心心念念等待Deepseek V4 Pro正式版的发布，以及Deepseek Harness的发布。
+没想到，顺便还等到了涨价通知。
+下图来自网络，制作者不可考，但也凸显了这波涨价的凶猛，尤其是高峰时段缓存命中的价格，12倍！">
+<meta name="author" content="Earl">
+<link rel="canonical" href="https://earlmind.com/2026/2026-08-14/">
+<link crossorigin="anonymous" href="https://earlmind.com/assets/css/stylesheet.5a926f5a97cb172204830b5ba28683c1686d95860f21814c65d48737e45a671d.css" integrity="sha256-WpJvWpfLFyIEgwtbooaDwWhtlYYPIYFMZdSHN&#43;RaZx0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://earlmind.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://earlmind.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://earlmind.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://earlmind.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://earlmind.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh-cn" href="https://earlmind.com/2026/2026-08-14/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-BBE8BTPTWL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-BBE8BTPTWL');
+        }
+      </script><meta property="og:url" content="https://earlmind.com/2026/2026-08-14/">
+  <meta property="og:site_name" content="EarlMind">
+  <meta property="og:title" content="Deepseek涨价后，查一次纳指溢价率0.24元，我更坚定用脚本了">
+  <meta property="og:description" content="昨晚，大家心心念念等待Deepseek V4 Pro正式版的发布，以及Deepseek Harness的发布。
+没想到，顺便还等到了涨价通知。
+下图来自网络，制作者不可考，但也凸显了这波涨价的凶猛，尤其是高峰时段缓存命中的价格，12倍！">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-08-14T09:42:57+08:00">
+    <meta property="article:modified_time" content="2026-08-14T09:42:57+08:00">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Deepseek涨价后，查一次纳指溢价率0.24元，我更坚定用脚本了">
+<meta name="twitter:description" content="昨晚，大家心心念念等待Deepseek V4 Pro正式版的发布，以及Deepseek Harness的发布。
+没想到，顺便还等到了涨价通知。
+下图来自网络，制作者不可考，但也凸显了这波涨价的凶猛，尤其是高峰时段缓存命中的价格，12倍！">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://earlmind.com/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Deepseek涨价后，查一次纳指溢价率0.24元，我更坚定用脚本了",
+      "item": "https://earlmind.com/2026/2026-08-14/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Deepseek涨价后，查一次纳指溢价率0.24元，我更坚定用脚本了",
+  "name": "Deepseek涨价后，查一次纳指溢价率0.24元，我更坚定用脚本了",
+  "description": "昨晚，大家心心念念等待Deepseek V4 Pro正式版的发布，以及Deepseek Harness的发布。\n没想到，顺便还等到了涨价通知。\n下图来自网络，制作者不可考，但也凸显了这波涨价的凶猛，尤其是高峰时段缓存命中的价格，12倍！\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "昨晚，大家心心念念等待Deepseek V4 Pro正式版的发布，以及Deepseek Harness的发布。\n没想到，顺便还等到了涨价通知。\n下图来自网络，制作者不可考，但也凸显了这波涨价的凶猛，尤其是高峰时段缓存命中的价格，12倍！\n要知道，Deepseek原先最引以为傲的，就是硬盘缓存技术带来极低的缓存命中读取价格，但现在一下子高了太多。\n这一下子，让昨天写的《ETF skill用完别收手：固化成脚本，数据查询秒出》含金量更高了。\n原先，我很习惯用Deepseek V4 Flash来驱动各类金融数据查数Skill，这个模型价格便宜速度又快，哪怕不是这波正式版升级，此前也足够应付查数这类简单需求了。\n但涨价之后，就不一样了。\n别忘了金融数据，尤其是实时数据查询，主要是9点半到11点半和下午1点到3点，大多数时间段都在Deepseek的高峰时段，恰好是加价最凶猛的区间。\n所以特地测算了下成本。\n我用的是专为Deepseek适配的Harness程序Reasonix——虽然是民间开发，但易用性我觉得胜过Deepseek官方的Harness，类似Json结构补全、对话流顺序固定等优化一应俱全。\n我驱动南方基金的ETFfirst这个skill，依然是查询纳指ETF实时溢价率，用的是Deepseek V4 Flash。\n我偏爱Reasonix，就在于它家提供了极其丰富的数据统计，用了多少token，具体哪些分类，一目了然。\n比如就这个那么简单的查询实时溢价率的要求，合计消耗了54.6万token。一用上Agent，就真是看着token哗哗地流。\n虽然这次消耗的Token中，大量是命中缓存的输入，但因为Deepseek就是这块涨价凶猛，所以影响也不小。\n我写了个小HTML程序特地计算，就这样一个简单功能，遇上高峰时段，成本0.24元。请注意，这只是一次查询，若每天来一次，甚至因为溢价率特殊性往往每天要查好几次，那成本就更高了。\n但如果将查询过程固化成Python程序，每次直接执行程序，那每次的token消耗费用就省下来了。\n当然我知道，不少人是有Coding Plan的，那自然是可以随意花，但如我这样偏爱API调用的，就要精打细算下。\n说到底，Skill和脚本并不是二选一。\n需求还不确定、查询方式经常变化时，用Skill更省心；流程一旦固定，脚本的稳定和低成本就更有价值。尤其是实时溢价率这类高频查询，执行次数越多，这种差别越明显。\n是的，Deepseek涨价之后，API调用需要比过去多算一笔账。\n不过这未必是坏事。至少它提醒我们：该让模型思考的时候不要吝啬，该把流程固化的时候，也别让token继续哗哗地流。\n",
+  "wordCount" : "1086",
+  "inLanguage": "zh-cn",
+  "datePublished": "2026-08-14T09:42:57+08:00",
+  "dateModified": "2026-08-14T09:42:57+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Earl"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://earlmind.com/2026/2026-08-14/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EarlMind",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://earlmind.com/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://earlmind.com/" accesskey="h" title="EarlMind (Alt + H)">EarlMind</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://earlmind.com/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://earlmind.com/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://earlmind.com/">Home</a>&nbsp;»&nbsp;<a href="https://earlmind.com/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      Deepseek涨价后，查一次纳指溢价率0.24元，我更坚定用脚本了
+    </h1>
+    <div class="post-meta"><span title='2026-08-14 09:42:57 +0800 +0800'>August 14, 2026</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Earl</span>
+
+</div>
+  </header> 
+
+  <div class="post-content"><p>昨晚，大家心心念念等待Deepseek V4 Pro正式版的发布，以及Deepseek Harness的发布。</p>
+<p>没想到，顺便还等到了涨价通知。</p>
+<p>下图来自网络，制作者不可考，但也凸显了这波涨价的凶猛，尤其是高峰时段缓存命中的价格，12倍！</p>
+<p><img alt="image-20260814090450930" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260814_093440_376_829263db_tmpjte6k358.png"><!-- local-src: DS涨价.assets/image-20260814090450930.png --></p>
+<p>要知道，Deepseek原先最引以为傲的，就是硬盘缓存技术带来极低的缓存命中读取价格，但现在一下子高了太多。</p>
+<p>这一下子，让昨天写的《<a href="https://mp.weixin.qq.com/s/KP_061A1ikwvdisi9Vko5g">ETF skill用完别收手：固化成脚本，数据查询秒出</a>》含金量更高了。</p>
+<p>原先，我很习惯用Deepseek V4 Flash来驱动各类金融数据查数Skill，这个模型价格便宜速度又快，哪怕不是这波正式版升级，此前也足够应付查数这类简单需求了。</p>
+<p>但涨价之后，就不一样了。</p>
+<p>别忘了金融数据，尤其是实时数据查询，主要是9点半到11点半和下午1点到3点，大多数时间段都在Deepseek的高峰时段，恰好是加价最凶猛的区间。</p>
+<p>所以特地测算了下成本。</p>
+<p>我用的是专为Deepseek适配的Harness程序Reasonix——虽然是民间开发，但易用性我觉得胜过Deepseek官方的Harness，类似Json结构补全、对话流顺序固定等优化一应俱全。</p>
+<p>我驱动南方基金的ETFfirst这个skill，依然是查询纳指ETF实时溢价率，用的是Deepseek V4 Flash。</p>
+<p><img alt="image-20260814091425105" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260814_093440_310_69c24db4_tmpk9wqgioe.png"><!-- local-src: DS涨价.assets/image-20260814091425105.png --></p>
+<p>我偏爱Reasonix，就在于它家提供了极其丰富的数据统计，用了多少token，具体哪些分类，一目了然。</p>
+<p>比如就这个那么简单的查询实时溢价率的要求，合计消耗了54.6万token。一用上Agent，就真是看着token哗哗地流。</p>
+<p><img alt="image-20260814091649810" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260814_093440_247_5370577e_image-20260814091649810.png"><!-- local-src: DS涨价.assets/image-20260814091649810.png --></p>
+<p>虽然这次消耗的Token中，大量是命中缓存的输入，但因为Deepseek就是这块涨价凶猛，所以影响也不小。</p>
+<p>我写了个小HTML程序特地计算，就这样一个简单功能，遇上高峰时段，成本0.24元。请注意，这只是一次查询，若每天来一次，甚至因为溢价率特殊性往往每天要查好几次，那成本就更高了。</p>
+<p><img alt="longshot20260814090259" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260814_093440_415_c9a07c60_tmp_hd68nwe.png"><!-- local-src: DS涨价.assets/longshot20260814090259.png --></p>
+<p>但如果将查询过程固化成Python程序，每次直接执行程序，那每次的token消耗费用就省下来了。</p>
+<p>当然我知道，不少人是有Coding Plan的，那自然是可以随意花，但如我这样偏爱API调用的，就要精打细算下。</p>
+<p>说到底，Skill和脚本并不是二选一。</p>
+<p>需求还不确定、查询方式经常变化时，用Skill更省心；流程一旦固定，脚本的稳定和低成本就更有价值。尤其是实时溢价率这类高频查询，执行次数越多，这种差别越明显。</p>
+<p>是的，Deepseek涨价之后，API调用需要比过去多算一笔账。</p>
+<p>不过这未必是坏事。至少它提醒我们：该让模型思考的时候不要吝啬，该把流程固化的时候，也别让token继续哗哗地流。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://earlmind.com/2026/2026-08-12/">
+    <span class="title"> »</span>
+    <br>
+    <span>易方达、华宝、南方三家ETF skill，哪家更好用</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://earlmind.com/">EarlMind</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a><div style="text-align: center; margin-top: 10px;">
+    <a href="mailto:earlzhang@gmail.com" target="_blank" rel="noopener noreferrer me" title="Email" style="display: inline-block; color: var(--secondary);">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+    </a>
+</div>
+
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
