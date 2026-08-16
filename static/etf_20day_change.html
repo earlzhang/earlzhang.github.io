@@ -192,7 +192,8 @@
     <p>· <b>日K线模式</b>：拉前复权日K（qfq）21根，用首尾收盘价计算 20 日涨跌幅，可作交叉验证</p>
     <p>· <b>BIAS20</b>（仅日K线模式）：乖离率 = (最新价 − MA20) / MA20 × 100%，MA20 为最近20日前复权收盘价均值</p>
     <p>· <b>10%/15% 目标价</b>（仅日K线模式）：令 BIAS20 = 10%/15% 反推价格，目标价 = MA20 × 1.1 / MA20 × 1.15</p>
-    <p>· IOPV = 基金份额参考净值（腾讯 f81，仅 ETF 有值）；溢价率 = (现价 − IOPV) / IOPV × 100%</p>
+    <p>· IOPV（腾讯 f81，仅 ETF 有值）用于计算溢价率 = (现价 − IOPV) / IOPV × 100%，不再单独展示</p>
+    <p>· <b>买一/卖一金额</b>：取腾讯实时盘口买一价×买一量、卖一价×卖一量（1手=100份），金额 = 价 × 量 × 100，以"万"为单位显示</p>
     <p>· 当日涨跌幅、最新价、IOPV 均来自腾讯实时行情；默认按 20 日涨跌幅降序，点击表头可切换排序</p>
     <p>· 手机端表格可横向滚动，列顺序与桌面端一致</p>
   </div>
@@ -223,11 +224,12 @@ const ALL_COLUMNS = [
   { key: 'target10',   label: '10%目标价',    align: 'right', mono: true, klineOnly: true, format: v => v?.toFixed(3) },
   { key: 'target15',   label: '15%目标价',    align: 'right', mono: true, klineOnly: true, format: v => v?.toFixed(3) },
   { key: 'price',      label: '最新价',       align: 'right', mono: true, format: v => v?.toFixed(3) },
-  { key: 'iopv',       label: 'IOPV',         align: 'right', mono: true, format: v => v?.toFixed(4) },
+  { key: 'bidAmt',     label: '买一金额',     align: 'right', mono: true, sortable: true, sortKey: 'bid', format: v => v == null ? '—' : (v/10000).toFixed(2) + '万' },
+  { key: 'askAmt',     label: '卖一金额',     align: 'right', mono: true, sortable: true, sortKey: 'ask', format: v => v == null ? '—' : (v/10000).toFixed(2) + '万' },
 ];
-// 桌面/移动列顺序一致：代码、名称、当日涨跌幅、20日涨跌幅、溢价率、BIAS20、10%目标价、15%目标价、最新价、IOPV
-const DESKTOP_ORDER = ['code', 'name', 'dailyPct', 'd20Pct', 'premium', 'bias20', 'target10', 'target15', 'price', 'iopv'];
-const MOBILE_ORDER  = ['code', 'name', 'dailyPct', 'd20Pct', 'premium', 'bias20', 'target10', 'target15', 'price', 'iopv'];
+// 桌面/移动列顺序一致：代码、名称、当日涨跌幅、20日涨跌幅、溢价率、BIAS20、10%目标价、15%目标价、最新价、买一金额、卖一金额
+const DESKTOP_ORDER = ['code', 'name', 'dailyPct', 'd20Pct', 'premium', 'bias20', 'target10', 'target15', 'price', 'bidAmt', 'askAmt'];
+const MOBILE_ORDER  = ['code', 'name', 'dailyPct', 'd20Pct', 'premium', 'bias20', 'target10', 'target15', 'price', 'bidAmt', 'askAmt'];
 
 createApp({
   setup() {
@@ -243,8 +245,10 @@ createApp({
       bias20: null,         // BIAS20 乖离率 = (price - ma20) / ma20 * 100（仅 kline 模式）
       target10: null,       // BIAS20=10% 时的目标价 = ma20 * 1.1（仅 kline 模式）
       target15: null,       // BIAS20=15% 时的目标价 = ma20 * 1.15（仅 kline 模式）
-      iopv: null,           // f81 IOPV
+      iopv: null,           // f81 IOPV（保留用于算溢价率，不再单独展示）
       premium: null,        // 溢价率 = (price - iopv) / iopv
+      bidAmt: null,         // 买一金额 = 买一价 × 买一量 × 100（元）
+      askAmt: null,         // 卖一金额 = 卖一价 × 卖一量 × 100（元）
       error: false,
     })));
     const rows = ref(etfList);
@@ -281,7 +285,7 @@ createApp({
 
     const sortedRows = computed(() => {
       const arr = [...rows.value];
-      const keyMap = { d20: 'd20Pct', daily: 'dailyPct', prem: 'premium', bias: 'bias20' };
+      const keyMap = { d20: 'd20Pct', daily: 'dailyPct', prem: 'premium', bias: 'bias20', bid: 'bidAmt', ask: 'askAmt' };
       const key = keyMap[sortBy.value] || 'd20Pct';
       // 降序：有效值在前，null 在后
       arr.sort((a, b) => {
@@ -349,7 +353,15 @@ createApp({
             const d70 = d70Raw ? parseFloat(d70Raw) : null;
             // 溢价率 = (现价 - IOPV) / IOPV
             const premium = (iopv && iopv > 0 && price > 0) ? (price - iopv) / iopv * 100 : null;
-            result[code] = { name, price, dailyPct, iopv, premium, d70 };
+            // 买一/卖一：f[9]=买一价, f[10]=买一量(手), f[19]=卖一价, f[20]=卖一量(手)
+            // 金额 = 价 × 量 × 100（1手=100份）
+            const bidPrice = parseFloat(f[9]);
+            const bidVol = parseFloat(f[10]);
+            const askPrice = parseFloat(f[19]);
+            const askVol = parseFloat(f[20]);
+            const bidAmt = (bidPrice > 0 && bidVol > 0) ? bidPrice * bidVol * 100 : null;
+            const askAmt = (askPrice > 0 && askVol > 0) ? askPrice * askVol * 100 : null;
+            result[code] = { name, price, dailyPct, iopv, premium, d70, bidAmt, askAmt };
             delete window['v_' + full]; // 清理全局变量
           }
           s.onload = s.onerror = null; s.remove();
@@ -394,6 +406,7 @@ createApp({
       for (const r of rows.value) {
         r.d20Pct = null; r.d20Fallback = null; r.error = false;
         r.iopv = null; r.premium = null;
+        r.bidAmt = null; r.askAmt = null;
         r.ma20 = null; r.bias20 = null; r.target10 = null; r.target15 = null;
       }
 
@@ -413,6 +426,8 @@ createApp({
               r.dailyPct = q.dailyPct;
               r.iopv = q.iopv;
               r.premium = q.premium;
+              r.bidAmt = q.bidAmt;
+              r.askAmt = q.askAmt;
               r.d20Fallback = q.d70;
             }
           }
