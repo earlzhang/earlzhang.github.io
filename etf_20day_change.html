@@ -191,6 +191,7 @@
     <p>· <b>实时 f70 模式（默认）</b>：20日涨跌幅直接取腾讯实时接口 f70 字段，一次请求拿全部，速度快</p>
     <p>· <b>日K线模式</b>：拉前复权日K（qfq）21根，用首尾收盘价计算 20 日涨跌幅，可作交叉验证</p>
     <p>· <b>BIAS20</b>（仅日K线模式）：乖离率 = (最新价 − MA20) / MA20 × 100%，MA20 为最近20日前复权收盘价均值</p>
+    <p>· <b>10%/15% 目标价</b>（仅日K线模式）：令 BIAS20 = 10%/15% 反推价格，目标价 = MA20 × 1.1 / MA20 × 1.15</p>
     <p>· IOPV = 基金份额参考净值（腾讯 f81，仅 ETF 有值）；溢价率 = (现价 − IOPV) / IOPV × 100%</p>
     <p>· 当日涨跌幅、最新价、IOPV 均来自腾讯实时行情；默认按 20 日涨跌幅降序，点击表头可切换排序</p>
     <p>· 手机端表格可横向滚动，列顺序与桌面端一致</p>
@@ -219,12 +220,14 @@ const ALL_COLUMNS = [
   { key: 'd20Pct',     label: '20日涨跌幅',   align: 'right', mono: true, pct: true, bold: true, sortable: true, sortKey: 'd20' },
   { key: 'premium',    label: '溢价率',       align: 'right', mono: true, pct: true, sortable: true, sortKey: 'prem' },
   { key: 'bias20',     label: 'BIAS20',       align: 'right', mono: true, pct: true, klineOnly: true, sortable: true, sortKey: 'bias' },
+  { key: 'target10',   label: '10%目标价',    align: 'right', mono: true, klineOnly: true, format: v => v?.toFixed(3) },
+  { key: 'target15',   label: '15%目标价',    align: 'right', mono: true, klineOnly: true, format: v => v?.toFixed(3) },
   { key: 'price',      label: '最新价',       align: 'right', mono: true, format: v => v?.toFixed(3) },
   { key: 'iopv',       label: 'IOPV',         align: 'right', mono: true, format: v => v?.toFixed(4) },
 ];
-// 桌面/移动列顺序一致：代码、名称、当日涨跌幅、20日涨跌幅、溢价率、BIAS20、最新价、IOPV
-const DESKTOP_ORDER = ['code', 'name', 'dailyPct', 'd20Pct', 'premium', 'bias20', 'price', 'iopv'];
-const MOBILE_ORDER  = ['code', 'name', 'dailyPct', 'd20Pct', 'premium', 'bias20', 'price', 'iopv'];
+// 桌面/移动列顺序一致：代码、名称、当日涨跌幅、20日涨跌幅、溢价率、BIAS20、10%目标价、15%目标价、最新价、IOPV
+const DESKTOP_ORDER = ['code', 'name', 'dailyPct', 'd20Pct', 'premium', 'bias20', 'target10', 'target15', 'price', 'iopv'];
+const MOBILE_ORDER  = ['code', 'name', 'dailyPct', 'd20Pct', 'premium', 'bias20', 'target10', 'target15', 'price', 'iopv'];
 
 createApp({
   setup() {
@@ -238,6 +241,8 @@ createApp({
       d20Fallback: null,   // 腾讯 f70 兜底
       ma20: null,           // 20日均线（仅 kline 模式）
       bias20: null,         // BIAS20 乖离率 = (price - ma20) / ma20 * 100（仅 kline 模式）
+      target10: null,       // BIAS20=10% 时的目标价 = ma20 * 1.1（仅 kline 模式）
+      target15: null,       // BIAS20=15% 时的目标价 = ma20 * 1.15（仅 kline 模式）
       iopv: null,           // f81 IOPV
       premium: null,        // 溢价率 = (price - iopv) / iopv
       error: false,
@@ -389,7 +394,7 @@ createApp({
       for (const r of rows.value) {
         r.d20Pct = null; r.d20Fallback = null; r.error = false;
         r.iopv = null; r.premium = null;
-        r.ma20 = null; r.bias20 = null;
+        r.ma20 = null; r.bias20 = null; r.target10 = null; r.target15 = null;
       }
 
       try {
@@ -437,9 +442,14 @@ createApp({
               if (ma20 > 0 && px > 0) {
                 r.bias20 = (px - ma20) / ma20 * 100;
               }
+              // BIAS20=10% 时的目标价 = MA20 * 1.1；BIAS20=15% 时的目标价 = MA20 * 1.15
+              if (ma20 > 0) {
+                r.target10 = ma20 * 1.1;
+                r.target15 = ma20 * 1.15;
+              }
             } catch (e) {
               console.warn('[d20]', r.code, e.message);
-              r.d20Pct = null; r.ma20 = null; r.bias20 = null;
+              r.d20Pct = null; r.ma20 = null; r.bias20 = null; r.target10 = null; r.target15 = null;
               r.error = true;
               // kline 模式失败时也用 f70 兜底，避免空白
               if (r.d20Fallback !== null) {
