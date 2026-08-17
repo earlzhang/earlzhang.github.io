@@ -78,8 +78,8 @@
     [5] 成交量
 
   计算：
-    20日涨跌幅 = (days[20].close - days[0].close) / days[0].close * 100
-    MA20       = mean(days[1..20].close)  （最近20根收盘价均值）
+    20日涨跌幅 = (最新价 - days[N-21].close) / days[N-21].close * 100
+    MA20       = mean(days[N-20..N-1].close)  （最近20根K线收盘价均值）
     BIAS20     = (最新价 - MA20) / MA20 * 100
 
   三、分钟K线接口（单标的，本页未用，备查）
@@ -194,7 +194,7 @@
   <!-- 说明 -->
   <div class="mt-4 text-xs text-slate-400 leading-relaxed">
     <p>· <b>实时 f70 模式（默认）</b>：20日涨跌幅直接取腾讯实时接口 f70 字段，一次请求拿全部，速度快</p>
-    <p>· <b>日K线模式</b>：拉前复权日K（qfq）21根，用首尾收盘价计算 20 日涨跌幅，可作交叉验证</p>
+    <p>· <b>日K线模式</b>：拉前复权日K（qfq），取倒数第21根（20交易日前）收盘价与最新价计算 20 日涨跌幅，可作交叉验证</p>
     <p>· <b>BIAS20</b>（仅日K线模式）：乖离率 = (最新价 − MA20) / MA20 × 100%，MA20 为最近20日前复权收盘价均值</p>
     <p>· <b>10%/15% 目标价</b>（仅日K线模式）：令 BIAS20 = 10%/15% 反推价格，目标价 = MA20 × 1.1 / MA20 × 1.15</p>
     <p>· IOPV（腾讯 f78，仅 ETF 有值，盘中每 15 秒更新）用于计算溢价率 = (现价 − IOPV) / IOPV × 100%，不再单独展示</p>
@@ -385,10 +385,10 @@ createApp({
       });
     }
 
-    // ---------- 日K：fetch fqkline（前复权，21根） ----------
+    // ---------- 日K：fetch fqkline（前复权，拉取 30 根确保覆盖） ----------
     // 返回 { d20Pct, ma20 }：20日涨跌幅 + 20日均线
-    async function fetchDayHistory(full) {
-      const url = `https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param=${full},day,,,21,qfq`;
+    async function fetchDayHistory(full, realtimePrice) {
+      const url = `https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param=${full},day,,,30,qfq`;
       const resp = await fetch(url, { cache: 'no-store' });
       if (!resp.ok) throw new Error('HTTP ' + resp.status);
       const json = await resp.json();
@@ -397,13 +397,24 @@ createApp({
       // 带 qfq 参数，返回 qfqday 字段（前复权日K）
       const days = sd.qfqday || sd.day;
       if (!days || days.length < 21) throw new Error('bars < 21');
-      const p0 = parseFloat(days[0][2]);       // 20个交易日前收盘（前复权）
-      const p1 = parseFloat(days[days.length - 1][2]); // 最新收盘（前复权）
+      // 20 个交易日前的收盘价：倒数第 21 根（如最新为第 N-1 根，则 20 天前为第 N-21 根）
+      const p0 = parseFloat(days[days.length - 21][2]);
+      // 最新价：优先使用盘中高精度实时价，兜底用日K最后一根收盘价
+      const p1 = (realtimePrice && realtimePrice > 0)
+        ? realtimePrice
+        : parseFloat(days[days.length - 1][2]);
       if (!(p0 > 0)) throw new Error('invalid p0');
       const d20Pct = (p1 - p0) / p0 * 100;
-      // MA20 = 最近20根收盘价均值（days[1..20]，即去掉最早一根，保留最近20根）
+      // MA20 = 最近20根收盘价均值（取最后20根 days.slice(-20)）
+      const recent20 = days.slice(-20);
       let sum = 0;
-      for (let i = 1; i < days.length; i++) sum += parseFloat(days[i][2]);
+      for (let i = 0; i < recent20.length; i++) {
+        if (i === recent20.length - 1 && realtimePrice && realtimePrice > 0) {
+          sum += realtimePrice; // 最后一根（今日）使用实时价
+        } else {
+          sum += parseFloat(recent20[i][2]);
+        }
+      }
       const ma20 = sum / 20;
       return { d20Pct, ma20 };
     }
@@ -459,7 +470,7 @@ createApp({
           // kline 模式：并发拉前复权日K计算 20日涨跌幅 + BIAS20
           await Promise.all(rows.value.map(async (r) => {
             try {
-              const { d20Pct, ma20 } = await fetchDayHistory(r.full);
+              const { d20Pct, ma20 } = await fetchDayHistory(r.full, r.price);
               r.d20Pct = d20Pct;
               r.ma20 = ma20;
               // BIAS20 = (最新价 - MA20) / MA20 * 100，优先用实时价
