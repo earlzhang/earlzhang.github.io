@@ -110,6 +110,9 @@
   .down { color: #16a34a; } /* 绿跌 */
   .flat { color: #6b7280; }
   table { border-collapse: separate; border-spacing: 0; }
+  /* 绝对动量择时剔除标记：20日涨跌幅 < +1% 的行加淡绿底纹 */
+  .weed-out { background-color: #ecfdf5; }        /* emerald-50 */
+  .weed-out:hover { background-color: #d1fae5; }  /* emerald-100 */
 </style>
 </head>
 <body class="bg-slate-50 min-h-screen text-slate-800">
@@ -167,7 +170,7 @@
           <td :colspan="columns.length" class="text-center py-12 text-slate-400">暂无数据，点击右上角「刷新」</td>
         </tr>
         <tr v-for="r in sortedRows" :key="r.code"
-            class="border-t border-slate-100 hover:bg-slate-50 transition-colors">
+            :class="['border-t border-slate-100 transition-colors', isWeedOut(r) ? 'weed-out' : 'hover:bg-slate-50']">
           <td v-for="col in columns" :key="col.key"
               :class="[col.align === 'right' ? 'text-right' : 'text-left', col.mono ? 'font-mono' : '', cellColor(col, r)]"
               class="px-4 py-3">
@@ -197,6 +200,7 @@
     <p>· IOPV（腾讯 f78，仅 ETF 有值，盘中每 15 秒更新）用于计算溢价率 = (现价 − IOPV) / IOPV × 100%，不再单独展示</p>
     <p>· <b>买一/卖一金额</b>：取腾讯实时盘口买一价×买一量、卖一价×卖一量（1手=100份），金额 = 价 × 量 × 100，以"万"为单位显示</p>
     <p>· 当日涨跌幅、最新价、IOPV 均来自腾讯实时行情；默认按 20 日涨跌幅降序，点击表头可切换排序</p>
+    <p>· <b>淡绿底纹</b>：20日涨跌幅 &lt; +1% 的标的视为绝对动量无趋势，予以剔除标记（仅视觉提示，不改变排序）</p>
     <p>· 手机端表格可横向滚动，列顺序与桌面端一致</p>
   </div>
 </div>
@@ -323,6 +327,10 @@ createApp({
     function cellColor(col, r) {
       if (col.pct) return pctClass(r[col.key]);
       return '';
+    }
+    // 绝对动量择时剔除：20日涨跌幅 < +1% 的标的视为无趋势，加淡绿底纹标记
+    function isWeedOut(r) {
+      return r.d20Pct !== null && r.d20Pct !== undefined && r.d20Pct < 1;
     }
 
     // ---------- 实时价：script 注入 qt.gtimg.cn（绕过 CORS） ----------
@@ -490,7 +498,7 @@ createApp({
     onMounted(() => { refresh(); });
 
     return { etfList, rows, sortedRows, columns, loading, lastUpdate, errorMsg, sortBy,
-             mode, switchMode, refresh, pctClass, fmtPct, cellText, cellColor };
+             mode, switchMode, refresh, pctClass, fmtPct, cellText, cellColor, isWeedOut };
   }
 }).mount('#app');
 </script>
