@@ -123,7 +123,7 @@
       <h1 class="text-xl sm:text-2xl font-bold">ETF 涨跌幅 &amp; IOPV溢价看板</h1>
       <p class="text-xs text-slate-500 mt-1">数据源：腾讯行情 · 共 {{ etfList.length }} 只</p>
     </div>
-    <button @click="refresh" :disabled="loading"
+    <button @click="manualRefresh" :disabled="loading"
       class="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors shadow-sm">
       <span v-if="loading">加载中…</span>
       <span v-else>🔄 刷新</span>
@@ -191,6 +191,11 @@
     {{ errorMsg }}
   </div>
 
+  <!-- 非交易时段提示 -->
+  <div v-if="notice" class="mt-3 text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded px-3 py-2">
+    {{ notice }}
+  </div>
+
   <!-- 说明 -->
   <div class="mt-4 text-xs text-slate-400 leading-relaxed">
     <p>· <b>实时 f70 模式（默认）</b>：20日涨跌幅直接取腾讯实时接口 f70 字段，一次请求拿全部，速度快</p>
@@ -201,6 +206,7 @@
     <p>· <b>买一/卖一金额</b>：取腾讯实时盘口买一价×买一量、卖一价×卖一量（1手=100份），金额 = 价 × 量 × 100，以"万"为单位显示</p>
     <p>· 当日涨跌幅、最新价、IOPV 均来自腾讯实时行情；默认按 20 日涨跌幅降序，点击表头可切换排序</p>
     <p>· <b>淡绿底纹</b>：20日涨跌幅 &lt; +1% 的标的视为绝对动量无趋势，予以剔除标记（仅视觉提示，不改变排序）</p>
+    <p>· <b>刷新策略</b>：不做定时自动刷新；首次打开、切回本页（tab）时自动提取数据；手动「刷新」仅在交易时段（周一至周五 上午 9:30–11:30、下午 13:00–15:00）才会重新请求远程数据，非交易时段按刷新只提示、不重复拉取</p>
     <p>· 手机端表格可横向滚动，列顺序与桌面端一致</p>
   </div>
 </div>
@@ -217,6 +223,14 @@ const ETF_CODES = [
 // 代码 → 带市场前缀（5开头=沪市sh，1开头=深市sz）
 function toFullSymbol(code) {
   return (code.startsWith('5') ? 'sh' : 'sz') + code;
+}
+
+// 交易时段判断：A股周一至周五，上午 9:30–11:30、下午 13:00–15:00（分钟计：570–690、780–900）
+function isTradingTime(now = new Date()) {
+  const day = now.getDay();
+  if (day === 0 || day === 6) return false;   // 周末休市
+  const m = now.getHours() * 60 + now.getMinutes();
+  return (m >= 570 && m < 690) || (m >= 780 && m < 900);
 }
 
 // 列配置（key 对应 row 字段）
@@ -261,6 +275,7 @@ createApp({
     const loading = ref(false);
     const lastUpdate = ref('');
     const errorMsg = ref('');
+    const notice = ref(''); // 非交易时段按「刷新」时的提示
     const sortBy = ref('d20'); // 'd20' | 'daily' | 'prem'
     const mode = ref('f70');  // 'f70'（实时，默认） | 'kline'（日K线计算）
     const isMobile = ref(window.matchMedia('(max-width: 767px)').matches);
@@ -423,6 +438,7 @@ createApp({
     async function refresh() {
       loading.value = true;
       errorMsg.value = '';
+      notice.value = '';
       // 重置（保留 name/price/dailyPct 待会覆盖）
       for (const r of rows.value) {
         r.d20Pct = null; r.d20Fallback = null; r.error = false;
@@ -506,10 +522,26 @@ createApp({
       }
     }
 
+    // 手工「刷新」按钮：仅交易时段才真正重新请求远程数据；
+    // 非交易时段不拉取，只提示当前为最近收盘数据（数据源不会变化，无需重复请求）
+    function manualRefresh() {
+      if (!isTradingTime()) {
+        notice.value = '当前非交易时段（A股 上午 9:30–11:30 / 下午 13:00–15:00），未重新请求数据，当前为最近一次收盘数据';
+        return;
+      }
+      notice.value = '';
+      refresh();
+    }
+
+    // 不做定时自动刷新；切回本 tab（后台→前台）时提取一次最新数据（含非交易时段）
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && !loading.value) refresh();
+    });
+
     onMounted(() => { refresh(); });
 
-    return { etfList, rows, sortedRows, columns, loading, lastUpdate, errorMsg, sortBy,
-             mode, switchMode, refresh, pctClass, fmtPct, cellText, cellColor, isWeedOut };
+    return { etfList, rows, sortedRows, columns, loading, lastUpdate, errorMsg, notice, sortBy,
+             mode, switchMode, refresh, manualRefresh, pctClass, fmtPct, cellText, cellColor, isWeedOut };
   }
 }).mount('#app');
 </script>

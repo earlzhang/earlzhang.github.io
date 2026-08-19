@@ -6,8 +6,18 @@
     <description>Recent content in Posts on EarlMind</description>
     <generator>Hugo -- 0.165.0</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 14 Aug 2026 09:42:57 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 19 Aug 2026 12:22:19 +0800</lastBuildDate>
     <atom:link href="https://earlmind.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>企业微信CLI开放了Agent，但没有开放“微信”</title>
+      <link>https://earlmind.com/2026/2026-08-19/</link>
+      <pubDate>Wed, 19 Aug 2026 12:22:19 +0800</pubDate>
+      <guid>https://earlmind.com/2026/2026-08-19/</guid>
+      <description>&lt;p&gt;昨天看到《&lt;a href=&#34;https://mp.weixin.qq.com/s/tp1EliUYJsW_vaS6ahBHtw&#34;&gt;企微AI开放能力再升级：不限企业规模，十大办公能力全面开放&lt;/a&gt;》，提供了CLI，一条命令就能让Agent操控企业微信，一阵激动。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;帮我安装 npx skills add wecomTeam/wecom-unified -y -g&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;如果能用Agent操控企业微信，岂不是以后很多企业微信上客户的消息，可以让AI辅助回复了？&lt;/p&gt;
+&lt;p&gt;尤其是当我看到下面推文中这段场景描述时，仿佛看到了一个巨大的美好未来：&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Deepseek涨价后，查一次纳指溢价率0.24元，我更坚定用脚本了</title>
       <link>https://earlmind.com/2026/2026-08-14/</link>
