@@ -6,8 +6,17 @@
     <description>Recent content on EarlMind</description>
     <generator>Hugo -- 0.165.0</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 19 Aug 2026 15:56:11 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 21 Aug 2026 11:09:37 +0800</lastBuildDate>
     <atom:link href="https://earlmind.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>几个月让我赚了8%的超长国债，用AI怎么找</title>
+      <link>https://earlmind.com/2026/2026-08-21/</link>
+      <pubDate>Fri, 21 Aug 2026 11:09:37 +0800</pubDate>
+      <guid>https://earlmind.com/2026/2026-08-21/</guid>
+      <description>&lt;p&gt;昨天写了篇《&lt;a href=&#34;https://mp.weixin.qq.com/s/05NIDAIzahh3eAyb21N1KQ&#34;&gt;4月初买的50年国债，赚了8.87%&lt;/a&gt;》，激发了不少读者“抄作业”的兴致，纷纷来问代码。&lt;/p&gt;
+&lt;p&gt;授人以鱼不如授人以渔，国债品种特殊，不仅可选券种非常多，哪怕是相近券种中，哪个是活跃券都有讲究，单单一个券种的代码，是不够的。&lt;/p&gt;
+&lt;p&gt;所以这里就介绍一下，如何找合适的券种。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>谁是最谄媚的大模型？17 款模型的魔镜测试</title>
       <link>https://earlmind.com/2026/2026-08-19-2/</link>
