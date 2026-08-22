@@ -6,8 +6,17 @@
     <description>Recent content on EarlMind</description>
     <generator>Hugo -- 0.165.0</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 21 Aug 2026 11:09:37 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 22 Aug 2026 21:30:06 +0800</lastBuildDate>
     <atom:link href="https://earlmind.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ox Alpha的SVG能力太能打了</title>
+      <link>https://earlmind.com/2026/2026-08-22/</link>
+      <pubDate>Sat, 22 Aug 2026 21:30:06 +0800</pubDate>
+      <guid>https://earlmind.com/2026/2026-08-22/</guid>
+      <description>&lt;p&gt;最近在OpenRouter等多个渠道放出的匿名模型OxAlpha广受好评。&lt;/p&gt;
+&lt;p&gt;作为SVG玩家，自然要测一下模型的SVG能力。&lt;/p&gt;
+&lt;p&gt;为了完全释放模型自身的SVG能力，我用了最朴素的提示词，剩下的全由模型发挥。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>几个月让我赚了8%的超长国债，用AI怎么找</title>
       <link>https://earlmind.com/2026/2026-08-21/</link>
