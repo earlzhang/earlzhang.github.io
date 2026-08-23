@@ -277,7 +277,7 @@
 <p>请查询所有纳指ETF的实时溢价率和当日成交额，按照溢价率从低到高排序</p>
 </blockquote>
 <p>从skill的文档来看，南方基金的skill是三家中唯一支持实时数据的，下表是我在交易时段中提取的，数据对比了下Wind的，溢价率和成交额都挺准。唯一小缺陷就是乱入了纳指生物技术等，不过这个肉眼过滤，或者下次提示词修订即可。</p>
-<p><img alt="image-20260812144309555" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260812_165145_485_e410307e_tmp6p10fvfn.png"><!-- local-src: 三家skill.assets/image-20260812144309555.png --></p>
+<p><img alt="image-20260812144309555" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260812_165145_485_e410307e_tmp6p10fvfn.png"><!-- local-src: 三家skill.assets/image-20260812144309555.png --></p>
 <h2 id="场景二股票反查etf">场景二：股票反查ETF<a hidden class="anchor" aria-hidden="true" href="#场景二股票反查etf">#</a></h2>
 <p>这个功能，韭圈儿当年的“牛股选基”很出名。</p>
 <p>如今在ETF上，通过易方达家的skill，也能做到了，似乎这是他家的一个绝活。</p>
@@ -286,7 +286,7 @@
 </blockquote>
 <p>这里需要说明的是，skill查询的是2季报的10大重仓。</p>
 <p>大模型还挺智能的，因为建设银行跟中国银行往往不会被作为十大重仓股持有，所以它会以任意包含并合计权重的方式来进行计算，下表就是算出的前十大ETF。</p>
-<p><img alt="image-20260812145246759" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260812_165145_475_54ffa4b8_tmpjf0vm_6p.png"><!-- local-src: 三家skill.assets/image-20260812145246759.png --></p>
+<p><img alt="image-20260812145246759" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260812_165145_475_54ffa4b8_tmpjf0vm_6p.png"><!-- local-src: 三家skill.assets/image-20260812145246759.png --></p>
 <p>不过请注意的是，这个功能只支持最新的报告期，并无法做历史数据的回溯。</p>
 <p>而且由于目前刚刚发了二季报，还没有发中报，所以暂时也不知道这个接口是否支持中报全持仓数据的筛选。</p>
 <h2 id="场景三指数申赎净流入">场景三：指数申赎净流入<a hidden class="anchor" aria-hidden="true" href="#场景三指数申赎净流入">#</a></h2>
@@ -297,11 +297,11 @@
 <p>我要所有跟踪中证红利000922指数的ETF，过去5个交易日申赎口径的单日净流入合并数据</p>
 </blockquote>
 <p>他会先列出所有中证红利指数跟踪的ETF清单。</p>
-<p><img alt="image-20260812154331559" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260812_165145_444_a0dfdf89_tmpgq9n5ndb.png"><!-- local-src: 三家skill.assets/image-20260812154331559.png --></p>
+<p><img alt="image-20260812154331559" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260812_165145_444_a0dfdf89_tmpgq9n5ndb.png"><!-- local-src: 三家skill.assets/image-20260812154331559.png --></p>
 <p>然后逐一查询逐日的申赎净流入数据并合并。</p>
-<p><img alt="image-20260812154356428" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260812_165145_432_a43dd8ce_tmpyv57iz58.png"><!-- local-src: 三家skill.assets/image-20260812154356428.png --></p>
+<p><img alt="image-20260812154356428" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260812_165145_432_a43dd8ce_tmpyv57iz58.png"><!-- local-src: 三家skill.assets/image-20260812154356428.png --></p>
 <p>下图是Wind上的数据，除了合并时候小数点上的误差，总体一致。</p>
-<p><img alt="image-20260812154443977" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260812_165145_463_48ab0d94_tmpk9rdxzvf.png"><!-- local-src: 三家skill.assets/image-20260812154443977.png --></p>
+<p><img alt="image-20260812154443977" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260812_165145_463_48ab0d94_tmpk9rdxzvf.png"><!-- local-src: 三家skill.assets/image-20260812154443977.png --></p>
 <p>当然，由于这个接口需要用所有相关的ETF数据来拼接，所以如果是遇上了类似沪深300指数这样ETF产品众多的指数，涉及的数据量就比较大了，这就不如万得金融终端直接有相应的合并数据来得方便。当然，这种场景考虑到真正规模大的ETF也就那几个，其实可以先筛选出规模最大的5个，用它们的申赎流入数据来做替代。</p>
 <h2 id="场景四全收益指数及股息率">场景四：全收益指数及股息率<a hidden class="anchor" aria-hidden="true" href="#场景四全收益指数及股息率">#</a></h2>
 <p>之前在分享南方基金的Skill时就说过，南方基金并不提供指数，尤其是全收益指数长期的收盘价。与此同时，也不提供一个指数的股息率行情序列数据，而只有市盈率和市净率。但是有了<strong>华宝基金的Skill</strong>之后，这些问题就迎刃而解。</p>
@@ -311,21 +311,21 @@
 </blockquote>
 <p>基于华宝基金的skill，大模型会很聪明地先下载了中证红利全收益指数的收盘价，同时发现全收益指数并没有股息率数据，然后就自动去下载中证红利的股息率数据，并将这两者拼接，合并成一个Excel输出给我。</p>
 <p>这个下载的数据还是非常全面，除了我要求的收盘价和股息率之外，还提供了市盈率、市净率以及成分股的数量。</p>
-<p><img alt="image-20260812155516412" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260812_165145_566_44c28770_tmprpsvxz1a.png"><!-- local-src: 三家skill.assets/image-20260812155516412.png --></p>
+<p><img alt="image-20260812155516412" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260812_165145_566_44c28770_tmprpsvxz1a.png"><!-- local-src: 三家skill.assets/image-20260812155516412.png --></p>
 <h2 id="场景五联接基金代码查询">场景五：联接基金代码查询<a hidden class="anchor" aria-hidden="true" href="#场景五联接基金代码查询">#</a></h2>
 <p>平常我关注场内的ETF比较多，但是很多的读者往往是以场外第三方基金平台为主，所以他们最常见的问题就是询问一只ETF对应的场外联接基金是什么。</p>
 <p>这个功能非常高频，也是最基础的。但真正要找到一个快速的查询入口，以往倒还真不容易。不过现在各家基金公司做的这些小程序，倒是有一个不错的查询方式。比如下图是易方达的“指数直通车”查询510300时提供的场外基金的信息，南方基金的“首趋E指”也有类似信息。</p>
-<p><img alt="image-20260812160040871" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260812_165145_535_32732205_image-20260812160040871.png"><!-- local-src: 三家skill.assets/image-20260812160040871.png --></p>
+<p><img alt="image-20260812160040871" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260812_165145_535_32732205_image-20260812160040871.png"><!-- local-src: 三家skill.assets/image-20260812160040871.png --></p>
 <p>反过来，查询联接基金对应的ETF，也是可以的。</p>
 <p>但是大模型驱动 skill 的好处就是可以对大量的基金进行批量查询。比如下面这个应用场景：</p>
 <blockquote>
 <p>请帮我查询价值ETF易方达和成长ETF易方达的场外联接基金，我要所有份额的。</p>
 </blockquote>
 <p>因为都是易方达旗下的产品，所以我就原汤化原食，也用易方达指数直通车的 skill 来进行查询，结果如下：</p>
-<p><img alt="image-20260812161548322" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260812_165145_613_a662f4ea_tmpdi_65hid.png"><!-- local-src: 三家skill.assets/image-20260812161548322.png --></p>
+<p><img alt="image-20260812161548322" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260812_165145_613_a662f4ea_tmpdi_65hid.png"><!-- local-src: 三家skill.assets/image-20260812161548322.png --></p>
 <p>当然，这是一个非常基础的功能，所以你使用华宝基金或者南方基金的skill也都可以完成得很好。不过需要提醒的是，通过 skill 去查询因为需要非常多的步骤，所以速度比较慢，仅适合批量查询多只产品。如果是查询单一产品，其实还是通过小程序的对应页面来得更快。</p>
 <p>值得一提的是，华宝基金返回的数据中含有是否可申购的状态数据。</p>
-<p><img alt="image-20260812162212160" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260812_165145_621_31e857c9_tmp5s_9qh_2.png"><!-- local-src: 三家skill.assets/image-20260812162212160.png --></p>
+<p><img alt="image-20260812162212160" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260812_165145_621_31e857c9_tmp5s_9qh_2.png"><!-- local-src: 三家skill.assets/image-20260812162212160.png --></p>
 <h2 id="场景六历史分红">场景六：历史分红<a hidden class="anchor" aria-hidden="true" href="#场景六历史分红">#</a></h2>
 <p>当下，越来越多的高股息策略ETF的拥趸开始在意定期分红这件事情。无论是每季度分红还是每月度分红，都意味着一笔相对稳健的现金流。</p>
 <p>这个功能目前在易方达、华宝和南方三家的skill来看，只有易方达的skill提供了，也算是一个独门绝活。我特地挑了一个月度分红的产品，来测试一下它的数据。</p>
@@ -333,7 +333,7 @@
 <p>510720请查询这支ETF自成立以来所有的分红的记录。</p>
 </blockquote>
 <p>可以看到它自动概括了28次分红。不过因为整张表格实在太长了，所以我只截取了前面14次的分红记录。在缺省状况下，它返回的包括权益登记日、基准日、每份分红和发放日的四列数据。从下面这个数据也可以看出，国泰的这个 ETF 很有特色，发放日一般都会选在每个月的 18 日前后，有一种ETF发工资的感觉。</p>
-<p><img alt="image-20260812163300443" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260812_165145_651_39e384ae_tmpu8qh2_7r.png"><!-- local-src: 三家skill.assets/image-20260812163300443.png --></p>
+<p><img alt="image-20260812163300443" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260812_165145_651_39e384ae_tmpu8qh2_7r.png"><!-- local-src: 三家skill.assets/image-20260812163300443.png --></p>
 <h2 id="场景七查询主动基金的持仓">场景七：查询主动基金的持仓<a hidden class="anchor" aria-hidden="true" href="#场景七查询主动基金的持仓">#</a></h2>
 <p>虽然这三家的 skill 都是针对 ETF 和指数基金的，但其实华宝基金的 skill 同时也支持主动基金的一些数据查询，或许这和它的后台是由强大的Wind来支撑有关。</p>
 <p>比如我输入：</p>
@@ -341,7 +341,7 @@
 <p>中泰星元价值优选A 006567.OF 的十大持仓</p>
 </blockquote>
 <p>就成功返回了以下数据：</p>
-<p><img alt="image-20260812162755029" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260812_165145_669_93008521_tmpirom0oo6.png"><!-- local-src: 三家skill.assets/image-20260812162755029.png --></p>
+<p><img alt="image-20260812162755029" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260812_165145_669_93008521_tmpirom0oo6.png"><!-- local-src: 三家skill.assets/image-20260812162755029.png --></p>
 <p>如果你需要，也可以让大模型查询2026年一季度和二季度的十大重仓并进行对比，这种功能大模型也是驾轻就熟。</p>
 <h2 id="额度与使用">额度与使用<a hidden class="anchor" aria-hidden="true" href="#额度与使用">#</a></h2>
 <p>Skill 这个东西对于基金公司来说，应该还是一个和用户连接的新方式，所以目前总体都比较豪爽：</p>
@@ -354,10 +354,10 @@
 </li>
 </ol>
 <p>不过从我实际使用的感觉来看，易方达的这个额度应该还是蛮耐用的。在做了比较多的查询之后，也只消耗了三十几次的额度，而且每天还允许临时申请增加一次额度，还算相当友善的。</p>
-<p><img alt="image-20260812163621341" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260812_165145_637_2af3a45e_image-20260812163621341.png"><!-- local-src: 三家skill.assets/image-20260812163621341.png --></p>
+<p><img alt="image-20260812163621341" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260812_165145_637_2af3a45e_image-20260812163621341.png"><!-- local-src: 三家skill.assets/image-20260812163621341.png --></p>
 <p>此外，当你在你的 Agent 里面安装了 3 家的 skill 时，如何精准调用就是一个问题了。我的个人习惯是对每家的特色有一个基础的了解，然后尽可能调用专长的那个 skill。至于哪家的 skill 各自有什么优势，下面有一张我让GLM 5.2整理的详细表格，各位可以参考。</p>
 <p>我一般会通过斜杠的方式来唤醒特定的skill并下命令。虽然现在 skill 的描述区会告诉你这个 skill 大致是怎么用的，并让模型来自动判定调用哪个 skill，但由于这 3 个 skill 的功能其实非常类似，所以我还是习惯了人工指定的方式。</p>
-<p><img alt="表格1" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260812_165135_865_bdcc4ab6_table_1.png"></p>
+<p><img alt="表格1" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260812_165135_865_bdcc4ab6_table_1.png"></p>
 <!-- table-source
 | 基金公司   | skill唤醒入口                           |
 | ---------- | --------------------------------------- |
@@ -370,7 +370,7 @@
 <h2 id="功能清单">功能清单<a hidden class="anchor" aria-hidden="true" href="#功能清单">#</a></h2>
 <p>以下功能清单，由GLM 5.2完成，仅供参考。</p>
 <h3 id="一产品覆盖范围">一、产品覆盖范围<a hidden class="anchor" aria-hidden="true" href="#一产品覆盖范围">#</a></h3>
-<p><img alt="表格2" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260812_165137_015_c85343da_table_2.png"></p>
+<p><img alt="表格2" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260812_165137_015_c85343da_table_2.png"></p>
 <!-- table-source
 | 维度 | 南方基金 (etfirst) | 华宝基金 (fsfund-etf-index) | 易方达 (Index Hub) |
 |------|-------------------|---------------------------|-------------------|
@@ -382,7 +382,7 @@
 <p><strong>小结</strong>：南方和华宝覆盖“指数+ETF+场外”三层；易方达只覆盖“ETF+场外基金”两层，不提供指数本身的数据查询。</p>
 <hr>
 <h3 id="二行情数据">二、行情数据<a hidden class="anchor" aria-hidden="true" href="#二行情数据">#</a></h3>
-<p><img alt="表格3" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260812_165138_115_0ef177b1_table_3.png"></p>
+<p><img alt="表格3" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260812_165138_115_0ef177b1_table_3.png"></p>
 <!-- table-source
 | 数据项 | 南方基金 | 华宝基金 | 易方达 |
 |--------|---------|---------|--------|
@@ -396,7 +396,7 @@
 <p><strong>小结</strong>：<strong>南方基金是唯一提供实时盘中行情的</strong>（5秒刷新，含IOPV、溢折率）；华宝提供日频完整OHLC；易方达不提供任何实时行情类数据。</p>
 <hr>
 <h3 id="三估值数据">三、估值数据<a hidden class="anchor" aria-hidden="true" href="#三估值数据">#</a></h3>
-<p><img alt="表格4" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260812_165139_197_ab49052c_table_4.png"></p>
+<p><img alt="表格4" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260812_165139_197_ab49052c_table_4.png"></p>
 <!-- table-source
 | 数据项 | 南方基金 | 华宝基金 | 易方达 |
 |--------|---------|---------|--------|
@@ -414,7 +414,7 @@
 <p><strong>小结</strong>：南方基金估值数据<strong>最丰富</strong>，独有FED溢价和ROE；华宝估值种类最全（含PCF/PS双口径）但分位需本地算；易方达分位数据现成但种类较少。</p>
 <hr>
 <h3 id="四资金流向">四、资金流向<a hidden class="anchor" aria-hidden="true" href="#四资金流向">#</a></h3>
-<p><img alt="表格5" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260812_165140_373_580e4565_table_5.png"></p>
+<p><img alt="表格5" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260812_165140_373_580e4565_table_5.png"></p>
 <!-- table-source
 | 数据项 | 南方基金 | 华宝基金 | 易方达 |
 |--------|---------|---------|--------|
@@ -427,7 +427,7 @@
 <p><strong>小结</strong>：南方基金资金流向数据最完整，多周期现成+排名；华宝提供两种口径的原始序列；易方达仅ETF产品侧多周期。</p>
 <hr>
 <h3 id="五持仓与行业分布">五、持仓与行业分布<a hidden class="anchor" aria-hidden="true" href="#五持仓与行业分布">#</a></h3>
-<p><img alt="表格6" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260812_165141_468_7065b56a_table_6.png"></p>
+<p><img alt="表格6" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260812_165141_468_7065b56a_table_6.png"></p>
 <!-- table-source
 | 数据项 | 南方基金 | 华宝基金 | 易方达 |
 |--------|---------|---------|--------|
@@ -440,7 +440,7 @@
 <p><strong>小结</strong>：南方基金持仓结构最细（联接基金10类资产拆分）；华宝持仓有指数/积极投资拆分特色；<strong>易方达独有“按股票反查ETF”功能</strong>，但无行业分布数据。</p>
 <hr>
 <h3 id="六业绩与风险指标">六、业绩与风险指标<a hidden class="anchor" aria-hidden="true" href="#六业绩与风险指标">#</a></h3>
-<p><img alt="表格7" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260812_165142_533_f20b9e41_table_7.png"></p>
+<p><img alt="表格7" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260812_165142_533_f20b9e41_table_7.png"></p>
 <!-- table-source
 | 数据项 | 南方基金 | 华宝基金 | 易方达 |
 |--------|---------|---------|--------|
@@ -458,7 +458,7 @@
 <p><strong>小结</strong>：华宝基金风险指标<strong>最专业</strong>（独有Alpha/Beta/信息比率）；南方有同类排名+走势序列；易方达区间最全但缺波动率/Alpha/Beta。</p>
 <hr>
 <h3 id="七基金信息与特色功能">七、基金信息与特色功能<a hidden class="anchor" aria-hidden="true" href="#七基金信息与特色功能">#</a></h3>
-<p><img alt="表格8" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260812_165143_614_f6862523_table_8.png"></p>
+<p><img alt="表格8" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260812_165143_614_f6862523_table_8.png"></p>
 <!-- table-source
 | 数据项 | 南方基金 | 华宝基金 | 易方达 |
 |--------|---------|---------|--------|
@@ -480,7 +480,7 @@
 <hr>
 <h3 id="八综合评价">八、综合评价<a hidden class="anchor" aria-hidden="true" href="#八综合评价">#</a></h3>
 <p><strong>数据丰富性排名</strong></p>
-<p><img alt="表格9" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260812_165144_680_02c1f215_table_9.png"></p>
+<p><img alt="表格9" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260812_165144_680_02c1f215_table_9.png"></p>
 <!-- table-source
 | 排名 | 基金公司 | 核心优势 | 主要短板 |
 |------|---------|---------|---------|

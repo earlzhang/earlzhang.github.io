@@ -230,7 +230,7 @@
 
   <div class="post-content"><p>这个周末，最令人欣喜的，莫过于微信读书发布Skill了。</p>
 <p>在APP Store的版本更新中，悄然放出了这个消息。</p>
-<p><img alt="alt text" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260517_162025_581_23089846_tmphf5qpco5.png"></p>
+<p><img alt="alt text" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260517_162025_581_23089846_tmphf5qpco5.png"></p>
 <p>不过在APP中，这个功能还是藏得比较深，是在“我的”里面选择右上角的设置，下拉后能看到“微信读书 Skill”。</p>
 <p>安装方法也很神奇，直接在微信读书自家的CDN上放了压缩包，没弄一个github也是有意思，看来连骗个Stars的欲望都没，这倒是很微信。</p>
 <blockquote>
@@ -246,7 +246,7 @@
 <p>这年头， Skill其实已经不是一个什么高级的技术，但之所以微信读书这次推出Skill，让大家那么激动，本质上还是欢迎大厂这种开放的态度，因为这套Skill本质上是对微信读书的开放API的一套封装。</p>
 <p>这意味着，即使不使用Skill，不使用大模型，有心的人可以为微信读书基于这套API，再开发许多有意思的东西。这种从封闭走向开放的姿态，是大家欢迎的。而这种转变，也是在Skill时代，才很容易看到。</p>
 <p>微信读书的这套Skill功能还是很强大的。下面是它包含的功能和对应的文件，全部来自微信读书官方的Skill文件。</p>
-<p><img alt="表格1" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260517_162024_708_3bb5389c_table_1.png"></p>
+<p><img alt="表格1" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260517_162024_708_3bb5389c_table_1.png"></p>
 <!-- table-source
 | 能力 | 说明 | 用户示例 | 详细说明 |
 |------|------|----------|----------|
@@ -261,11 +261,11 @@
 -->
 <p>有了那么强大的接口，其实可以做很多有趣的事情。</p>
 <p>比如我下面让它帮我查了一下我收藏了哪些投资理财类的书籍，它不仅会拿到名单，还会根据它的理解做一个简单的分门别类。比如下面的截图就是其中的一部分。</p>
-<p><img alt="alt text" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260517_162025_739_083b3916_tmpqc3sobod.png"></p>
+<p><img alt="alt text" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260517_162025_739_083b3916_tmpqc3sobod.png"></p>
 <p>当然，大模型的一大优点就是不知疲惫，所以很多简单的检索、汇总、排序的工作，就可以交给它来完成。</p>
 <p>比如我就让它帮我搜一搜，在微信读书上有哪些许知远写的书，评价最高的是哪五本？</p>
 <p>下面是反馈的结果，是在Deepseek TUI下驱动Deepseek V4 Flash做的汇总。</p>
-<p><img alt="alt text" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260517_162025_633_ebed73b2_tmpzwmwrkfw.png"></p>
+<p><img alt="alt text" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260517_162025_633_ebed73b2_tmpzwmwrkfw.png"></p>
 <p>接下来，我就让大模型查询《梁启超》所有的评价，并基于所有的评价，写一篇800字的书评。虽然这本书有29人评价，但是写了书评的只有3篇。所以大模型把这3篇的内容都下载下来，并根据我的要求用许知远的文字风格写了一篇报纸风格的书评。书评我会放在文章的最后，有兴趣的不妨一读。</p>
 <p>这个功能一解禁，不知道未来在小红书或者微信公众号渠道，会不会增加许多AI味的书评文章出现？虽然原本就可以人工复制洗稿微信读书的书评，但现在有了大模型，一切可以自动化，可以24小时无休地生产。</p>
 <p>当然，对于广大图书编辑来说，通过大模型去了解自己出版的书籍的评价、读者的书评，并做一些深入的，包括词云、情感分析等，对于图书行业也算是一大好事。</p>
@@ -275,7 +275,7 @@
 <blockquote>
 <p>请帮我获得微信读书给我推荐的书籍，但过滤掉其他的，只保留金融投资相关的，给我五本推荐。如果单次数量不足，则再次获取，直至凑足五本金融投资类相关的书籍。</p>
 </blockquote>
-<p><img alt="alt text" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260517_162025_616_ff421a38_tmpzggexaq1.png"></p>
+<p><img alt="alt text" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260517_162025_616_ff421a38_tmpzggexaq1.png"></p>
 <p>当然，顺着这个思路，你还可以做更多的精细化的二次筛选。比如只要海外作者写的，比如只要评分大于8的，或者是只要聚焦在股市的，其他的不要，诸如此类，一切都靠你的想象力。</p>
 <p>说到底，Skill只是一层薄薄的封装，真正有价值的是封装背后那套开放的API。它意味着你的阅读数据终于不再只是APP里的一串数字，而是可以被检索、被加工、被你按自己的方式重新组织的素材。</p>
 <p>微信读书迈出了这一步，希望更多的大厂也能跟上。毕竟，数据是用户的，不是APP的。</p>

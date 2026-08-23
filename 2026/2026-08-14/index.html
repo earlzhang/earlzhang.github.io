@@ -216,7 +216,7 @@
   <div class="post-content"><p>昨晚，大家心心念念等待Deepseek V4 Pro正式版的发布，以及Deepseek Harness的发布。</p>
 <p>没想到，顺便还等到了涨价通知。</p>
 <p>下图来自网络，制作者不可考，但也凸显了这波涨价的凶猛，尤其是高峰时段缓存命中的价格，12倍！</p>
-<p><img alt="image-20260814090450930" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260814_093440_376_829263db_tmpjte6k358.png"><!-- local-src: DS涨价.assets/image-20260814090450930.png --></p>
+<p><img alt="image-20260814090450930" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260814_093440_376_829263db_tmpjte6k358.png"><!-- local-src: DS涨价.assets/image-20260814090450930.png --></p>
 <p>要知道，Deepseek原先最引以为傲的，就是硬盘缓存技术带来极低的缓存命中读取价格，但现在一下子高了太多。</p>
 <p>这一下子，让昨天写的《<a href="https://mp.weixin.qq.com/s/KP_061A1ikwvdisi9Vko5g">ETF skill用完别收手：固化成脚本，数据查询秒出</a>》含金量更高了。</p>
 <p>原先，我很习惯用Deepseek V4 Flash来驱动各类金融数据查数Skill，这个模型价格便宜速度又快，哪怕不是这波正式版升级，此前也足够应付查数这类简单需求了。</p>
@@ -225,13 +225,13 @@
 <p>所以特地测算了下成本。</p>
 <p>我用的是专为Deepseek适配的Harness程序Reasonix——虽然是民间开发，但易用性我觉得胜过Deepseek官方的Harness，类似Json结构补全、对话流顺序固定等优化一应俱全。</p>
 <p>我驱动南方基金的ETFfirst这个skill，依然是查询纳指ETF实时溢价率，用的是Deepseek V4 Flash。</p>
-<p><img alt="image-20260814091425105" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260814_093440_310_69c24db4_tmpk9wqgioe.png"><!-- local-src: DS涨价.assets/image-20260814091425105.png --></p>
+<p><img alt="image-20260814091425105" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260814_093440_310_69c24db4_tmpk9wqgioe.png"><!-- local-src: DS涨价.assets/image-20260814091425105.png --></p>
 <p>我偏爱Reasonix，就在于它家提供了极其丰富的数据统计，用了多少token，具体哪些分类，一目了然。</p>
 <p>比如就这个那么简单的查询实时溢价率的要求，合计消耗了54.6万token。一用上Agent，就真是看着token哗哗地流。</p>
-<p><img alt="image-20260814091649810" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260814_093440_247_5370577e_image-20260814091649810.png"><!-- local-src: DS涨价.assets/image-20260814091649810.png --></p>
+<p><img alt="image-20260814091649810" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260814_093440_247_5370577e_image-20260814091649810.png"><!-- local-src: DS涨价.assets/image-20260814091649810.png --></p>
 <p>虽然这次消耗的Token中，大量是命中缓存的输入，但因为Deepseek就是这块涨价凶猛，所以影响也不小。</p>
 <p>我写了个小HTML程序特地计算，就这样一个简单功能，遇上高峰时段，成本0.24元。请注意，这只是一次查询，若每天来一次，甚至因为溢价率特殊性往往每天要查好几次，那成本就更高了。</p>
-<p><img alt="longshot20260814090259" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260814_093440_415_c9a07c60_tmp_hd68nwe.png"><!-- local-src: DS涨价.assets/longshot20260814090259.png --></p>
+<p><img alt="longshot20260814090259" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260814_093440_415_c9a07c60_tmp_hd68nwe.png"><!-- local-src: DS涨价.assets/longshot20260814090259.png --></p>
 <p>但如果将查询过程固化成Python程序，每次直接执行程序，那每次的token消耗费用就省下来了。</p>
 <p>当然我知道，不少人是有Coding Plan的，那自然是可以随意花，但如我这样偏爱API调用的，就要精打细算下。</p>
 <p>说到底，Skill和脚本并不是二选一。</p>

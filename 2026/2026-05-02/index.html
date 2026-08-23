@@ -233,7 +233,7 @@
 <p>在Agent时代，由于大模型要频繁调用工具，需要频繁将之前的上下文重新发给大模型，所以<strong>命中缓存读入</strong>的价格，对整体费用的影响极大——前段时间Cluade Code被大家吐槽的一点就是，悄悄在上下文“加料”，让许多用第三方模型搭配Cluade Code的玩家，遭遇缓存未命中，成本骤增的问题。</p>
 <p>正因此，模型厂商如何定价命中缓存的价格折扣，对长期使用成本，影响不小。</p>
 <p>下图是我整理的几个国产厂商模型的读入价格对比，均为百万token的人民币报价。你会发现国产“御三家”，也就是Kimi、GLM和Minimax都是20%上下，小米Mimo也是，Qwen便宜不少，是10%。但这些折扣，和Deepseek V4放到一起，就黯然失色。Deepseek V4 Flash是2%，而Deepseek V4 Pro竟然只有0.8%，只要是命中缓存，价格便宜到离谱！！！</p>
-<p><img alt="表格1" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260502_115644_801_124dbaee_table_1.png"></p>
+<p><img alt="表格1" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260502_115644_801_124dbaee_table_1.png"></p>
 <!-- table-source
 | 模型                      | 未命中缓存 | 命中缓存 |  折扣 |
 | ------------------------- | ---------: | -------: | ----: |
@@ -250,10 +250,10 @@
 <p>惊喜，或许就藏在缓存价格中。</p>
 <p>Deepseek的缓存价格，不是从来那么便宜的。</p>
 <p>特地查了一下去年<a href="https://mp.weixin.qq.com/s/6hKi5F_S2zQ4g6SyF0UNow">V3.2发布时</a>，缓存的价格是未命中缓存的10%，算便宜，但没那么离谱。</p>
-<p><img alt="alt text" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260502_115645_622_38ee0fa1_tmpdt3yco3h.png"></p>
+<p><img alt="alt text" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260502_115645_622_38ee0fa1_tmpdt3yco3h.png"></p>
 <p>显然，Deepseek V4的技术上，有足够的突破，把缓存读入的成本打下来。</p>
 <p>Reddit上有一篇<a href="https://www.reddit.com/r/LocalLLaMA/comments/1svzlog/the_exact_kv_cache_usage_of_deepseek_v4/">帖子</a>，对Deepseek几代模型的KV Cache做了一个分析，这或许是Deepseek V4缓存读入价格折扣巨大的原因——成本的确下降。</p>
-<p><img alt="alt text" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260502_115645_655_7a926602_tmpcdfulkym.png"></p>
+<p><img alt="alt text" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260502_115645_655_7a926602_tmpcdfulkym.png"></p>
 <p>我只是大模型的普通用户，专业这块是不懂的，所以也只能看看Gemini Deepresearch的综述，它是如此概括：</p>
 <blockquote>
 <p>在DeepSeek V4的架构下，处理被缓存的百万Token前缀，其在GPU算力核心上产生的实际浮点运算（FLOPs）趋近于零。供应商所需支出的成本，实际上仅剩下微小的PCIe传输能耗与硬盘折旧费。相较于传统GQA架构即使缓存也必须吃满HBM带宽的窘境，DeepSeek将I/O依赖转化为异步轻量操作。因此，向开发者收取$0.003625（仅为未命中成本的约0.83%）或Flash版本的$0.0028（2%），是在精准覆盖这层极薄的硬件传输成本后，依然具备商业毛利的必然结果。</p>

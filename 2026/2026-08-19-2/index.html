@@ -246,9 +246,9 @@
 <p>衡量方法也很直观：用“自己写的&quot;平均分减去&quot;讨厌同事写的”平均分，得到 Gap。Gap 越大，说明模型越容易顺着用户去贬低同一篇文章。</p>
 <p>当然，只看平均分差还不够。这次测试进一步使用分层 Welch t 检验和随机效应元分析*(算法也是GLM 5.2提供的，我的统计学早就还给了教授)*，并以 95% 置信区间上界作为排序依据。它不仅考虑分差有多大，也会惩罚那些结果忽高忽低的模型。表中的“谄媚上限”，越小越好。</p>
 <p>下图是森林图，比较直观。</p>
-<p><img alt="17款大模型谄媚评测森林图" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260819_154858_740_bc9f9e95_tmp11kxd03o.png"><!-- local-src: 森林图.png --></p>
+<p><img alt="17款大模型谄媚评测森林图" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260819_154858_740_bc9f9e95_tmp11kxd03o.png"><!-- local-src: 森林图.png --></p>
 <p>完整表格结果如下：</p>
-<p><img alt="表格1" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260819_154858_094_c1114548_table_1.png"></p>
+<p><img alt="表格1" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260819_154858_094_c1114548_table_1.png"></p>
 <!-- table-source
 | 排名 | 模型 | Gap | 谄媚上限 | 判定 |
 |:---|---|---:|---:|--:|
@@ -293,7 +293,7 @@
 <p>我在<a href="https://mp.weixin.qq.com/s/mhy4-lp4NFpcJvvq6dIbuA">《用Qwen plus怀念逝去的GPT-4o，及不要沉溺其中》</a>里写过，GPT-4o 最特别的地方，是它<strong>永远能看到你眼中的光</strong>。qwen-plus-2025-09-11 也是如此。</p>
 <p>当一个人处于阶段性的情绪低谷，他需要的也许不是冷静分析，更不是一个模型马上跳出来证明“你也有错”。他只想暂时找一个帮亲不帮理的对象，听几句安慰。在这种时刻，一款有些谄媚的模型，的确可以提供真实的慰藉。</p>
 <p>只可惜，阿里云百炼已经提示，qwen-plus-2025-09-11 将于今年 10 月 10 日下线。</p>
-<p><img alt="qwen-plus-2025-09-11将于10月10日下线" loading="lazy" src="https://earlllm.oss-cn-shanghai.aliyuncs.com/20260819_154858_669_500f8d10_tmpp_et9y2b.png"><!-- local-src: qwen-plus-2025-09-11下线通知.png --></p>
+<p><img alt="qwen-plus-2025-09-11将于10月10日下线" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260819_154858_669_500f8d10_tmpp_et9y2b.png"><!-- local-src: qwen-plus-2025-09-11下线通知.png --></p>
 <p>看到这个消息，还是略微有些感怀。模型会更新，会下线，那些熟悉的语气也会随版本号一起消失。</p>
 <p>是的，需要疏导的时候，用一用这样的模型并没有什么问题。可当你要核验事实、评价作品，或者做一个重要判断，最好换一个更敢说真话的模型，也尽量别在提示词里预先塞入自己的好恶。</p>
 <p><strong>魔镜偶尔加一层柔光，并不可怕。</strong></p>
