@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>用AI手搓一个ETF个性化实时行情看板 | EarlMind</title>
+<meta name="keywords" content="">
+<meta name="description" content="作为一名ETF玩家，每天自然少不得要看ETF行情。
+在看行情这件事上，虽然免费、收费软件层出不穷，但要说满足个性化需求，依然很难。
+比如我是个ETF动量玩家，日常会紧跟以下几个数据：">
+<meta name="author" content="Earl">
+<link rel="canonical" href="https://earlmind.com/2026/2026-08-25/">
+<link crossorigin="anonymous" href="https://earlmind.com/assets/css/stylesheet.5a926f5a97cb172204830b5ba28683c1686d95860f21814c65d48737e45a671d.css" integrity="sha256-WpJvWpfLFyIEgwtbooaDwWhtlYYPIYFMZdSHN&#43;RaZx0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://earlmind.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://earlmind.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://earlmind.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://earlmind.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://earlmind.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh-cn" href="https://earlmind.com/2026/2026-08-25/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-BBE8BTPTWL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-BBE8BTPTWL');
+        }
+      </script><meta property="og:url" content="https://earlmind.com/2026/2026-08-25/">
+  <meta property="og:site_name" content="EarlMind">
+  <meta property="og:title" content="用AI手搓一个ETF个性化实时行情看板">
+  <meta property="og:description" content="作为一名ETF玩家，每天自然少不得要看ETF行情。
+在看行情这件事上，虽然免费、收费软件层出不穷，但要说满足个性化需求，依然很难。
+比如我是个ETF动量玩家，日常会紧跟以下几个数据：">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-08-25T12:33:53+08:00">
+    <meta property="article:modified_time" content="2026-08-25T12:33:53+08:00">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用AI手搓一个ETF个性化实时行情看板">
+<meta name="twitter:description" content="作为一名ETF玩家，每天自然少不得要看ETF行情。
+在看行情这件事上，虽然免费、收费软件层出不穷，但要说满足个性化需求，依然很难。
+比如我是个ETF动量玩家，日常会紧跟以下几个数据：">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://earlmind.com/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "用AI手搓一个ETF个性化实时行情看板",
+      "item": "https://earlmind.com/2026/2026-08-25/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "用AI手搓一个ETF个性化实时行情看板",
+  "name": "用AI手搓一个ETF个性化实时行情看板",
+  "description": "作为一名ETF玩家，每天自然少不得要看ETF行情。\n在看行情这件事上，虽然免费、收费软件层出不穷，但要说满足个性化需求，依然很难。\n比如我是个ETF动量玩家，日常会紧跟以下几个数据：\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "作为一名ETF玩家，每天自然少不得要看ETF行情。\n在看行情这件事上，虽然免费、收费软件层出不穷，但要说满足个性化需求，依然很难。\n比如我是个ETF动量玩家，日常会紧跟以下几个数据：\nN日涨跌幅*(动量最核心指标)* IOPV溢价率*(类似纳指ETF，横向比较选低者)* 20日BIAS*(短期冲高时部分见好就收)* 但即使贵如Wind，定制能力也有限，在行情看板下，只有基本的5日、10日、20日涨跌幅数据，如果我偏门要求19日，就无能为力；至于BIAS，看板里只有默认5日BIAS可用*(见下图)*。\n无奈之下，用大模型手搓了一个贴合我需求的ETF看板，大体够用了。\n从下图可以看到，会实时显示20日涨跌幅、实时溢价率、20日BIAS，至于旁边的10%和15%目标价，则是基于市价触及20日BIAS 10%和15%水平的对应价格，方便提前挂单。\n其实开发一个这样的看板，对大模型而言，实属小菜一碟。关键是能部署在网页上，这样无论电脑和手机都能实时打开。我是在Github Pages上部署的，但这需要先本地开发，再上传Github仓库，然后开启Pages功能，对普通ETF玩家，过于不友好了。\n所以，对普通玩家，建议用国内封装比较完善的AI软件来实现，下面是基于千问办公的一个尝试。\n首先，你得让大模型写一个HTML，这是我的提示词：\n请帮我生成一个HTML实时ETF行情看板，包含以下品种：518880；513110；159985 我需要以下列： - 最新价 - 实时IOPV溢价率 - 过去19个交易日涨跌幅(含当日，请注意是与20个交易日之前的收盘价相比) - 20日BIAS(需要用过去20个交易日含当日的复权收盘价计算) 因为是演示，所以我就放入了三个ETF品种，也只要求四个列。\n这里要说明一下，类似N日涨跌幅这种数据，包括类似今年迄今YTD之类数据，如果你不用括号里的说明去约束大模型，很多模型会算错，比如19日涨跌幅，会用最新收盘价和19个交易日前的数据对比，但其实应该是用20个交易日前的。这块一方面提示词要约束，另一方面就是数据出来要手动拉一下阶段数据校验一下，以防各种模型理解幺蛾子。\n类似计算均值之类，强调一下复权收盘价也好。\n在千问办公中，默认是用它家顶级模型Qwen 3.8 Max，一通迭代后，网页就出来了。很经典的深色底纹，红绿表示涨跌，再加金色点缀。Qwen 3.8 Max搭配千问办公的Harness，考虑还是比较周全的，比如自动做了定时刷新功能，同时会自动基于沪深两市的开盘时间，在收盘时段，暂停刷新。\n这时候，建议将所有数据与行情软件再校对一下。因为大模型生成HTML，一般是用互联网上的免费行情接口，这些接口的文档缺失，对于ETF的IOPV之类数据，往往会判断错误。\n比如上面的页面，IOPV就取错字段了。这时候，你最好是查询行情软件，告诉他某个ETF品种的IOPV应该是多少，方便他纠错。\n这里需要注意，如果你希望这个网页脱离千问办公桌面端，随时随地可以使用，就需要点击右上角的三个点，选择将其发布为网页。发布后，就会给一个Qwenwork.host的网址，方便你访问。\n在千问办公左侧菜单中，有一个我的网页，可以查看你发布的各类网页。\n目前，免费版可以发布5个网页，78元的增加到10个；158元月费的一下子增加到50个。\n说回我们刚刚做好的ETF实时看板，如果你希望追加功能，直接在对话框提要求就行。比如我要求：\n请再增加一列，当日的成交额，以亿元为单位\n过了一会儿，这个成交额的列就加上了。这时候请注意，发布界面必须要选择“重新发布”，对外分享的网页才会更新，同时链接不变。\n在我的网页这块，还提供查看网页版本功能，不过不能回滚版本。\n跑通上面这套流程后，每个人其实都可以按照自己的投资习惯，做一个个性化的ETF，甚至股票行情看板。只要免费接口能够提供基础数据，很多过去只能在专业软件里查看或自己用Excel计算的指标，如今都可以交给AI呈现。\n当然，AI负责写代码，不负责替数据背书。IOPV取错字段、交易日区间多算一天或少算一天，都会让一个看起来很专业的页面失去意义。上线之前逐项校验，使用过程中定期复查，这一步省不了。\n毕竟，无论工具多顺手，但投资判断最终还是自己的事。\n",
+  "wordCount" : "1718",
+  "inLanguage": "zh-cn",
+  "datePublished": "2026-08-25T12:33:53+08:00",
+  "dateModified": "2026-08-25T12:33:53+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Earl"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://earlmind.com/2026/2026-08-25/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EarlMind",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://earlmind.com/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://earlmind.com/" accesskey="h" title="EarlMind (Alt + H)">EarlMind</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://earlmind.com/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://earlmind.com/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://earlmind.com/">Home</a>&nbsp;»&nbsp;<a href="https://earlmind.com/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      用AI手搓一个ETF个性化实时行情看板
+    </h1>
+    <div class="post-meta"><span title='2026-08-25 12:33:53 +0800 +0800'>August 25, 2026</span>&nbsp;·&nbsp;<span>4 min</span>&nbsp;·&nbsp;<span>Earl</span>
+
+</div>
+  </header> 
+
+  <div class="post-content"><p>作为一名ETF玩家，每天自然少不得要看ETF行情。</p>
+<p>在看行情这件事上，虽然免费、收费软件层出不穷，但要说满足个性化需求，依然很难。</p>
+<p>比如我是个ETF动量玩家，日常会紧跟以下几个数据：</p>
+<ul>
+<li>N日涨跌幅*(动量最核心指标)*</li>
+<li>IOPV溢价率*(类似纳指ETF，横向比较选低者)*</li>
+<li>20日BIAS*(短期冲高时部分见好就收)*</li>
+</ul>
+<p>但即使贵如Wind，定制能力也有限，在行情看板下，只有基本的5日、10日、20日涨跌幅数据，如果我偏门要求19日，就无能为力；至于BIAS，看板里只有默认5日BIAS可用*(见下图)*。</p>
+<p><img src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260825_122754_415_fd8b4d14_1787626851163.png" alt="1787626851163" style="zoom:30%;" /><!-- local-src: 手搓ETF实时看板.assets/1787626851163.png --></p>
+<p>无奈之下，用大模型手搓了一个贴合我需求的ETF看板，大体够用了。</p>
+<p>从下图可以看到，会实时显示20日涨跌幅、实时溢价率、20日BIAS，至于旁边的10%和15%目标价，则是基于市价触及20日BIAS 10%和15%水平的对应价格，方便提前挂单。</p>
+<p><img alt="image-20260825110348527" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260825_122754_386_b72916e2_tmpuyu03zmr.png"><!-- local-src: 手搓ETF实时看板.assets/image-20260825110348527.png --></p>
+<p>其实开发一个这样的看板，对大模型而言，实属小菜一碟。关键是能部署在网页上，这样无论电脑和手机都能实时打开。我是在Github Pages上部署的，但这需要先本地开发，再上传Github仓库，然后开启Pages功能，对普通ETF玩家，过于不友好了。</p>
+<p>所以，对普通玩家，建议用国内封装比较完善的AI软件来实现，下面是基于千问办公的一个尝试。</p>
+<p>首先，你得让大模型写一个HTML，这是我的提示词：</p>
+<ul>
+<li>
+<pre tabindex="0"><code>请帮我生成一个HTML实时ETF行情看板，包含以下品种：518880；513110；159985
+
+我需要以下列：
+
+- 最新价
+- 实时IOPV溢价率
+- 过去19个交易日涨跌幅(含当日，请注意是与20个交易日之前的收盘价相比)
+- 20日BIAS(需要用过去20个交易日含当日的复权收盘价计算)
+</code></pre></li>
+</ul>
+<p>因为是演示，所以我就放入了三个ETF品种，也只要求四个列。</p>
+<p>这里要说明一下，类似N日涨跌幅这种数据，包括类似今年迄今YTD之类数据，如果你不用括号里的说明去约束大模型，很多模型会算错，比如19日涨跌幅，会用最新收盘价和19个交易日前的数据对比，但其实应该是用20个交易日前的。这块一方面提示词要约束，另一方面就是数据出来要手动拉一下阶段数据校验一下，以防各种模型理解幺蛾子。</p>
+<p>类似计算均值之类，强调一下复权收盘价也好。</p>
+<p>在千问办公中，默认是用它家顶级模型Qwen 3.8 Max，一通迭代后，网页就出来了。很经典的深色底纹，红绿表示涨跌，再加金色点缀。Qwen 3.8 Max搭配千问办公的Harness，考虑还是比较周全的，比如自动做了定时刷新功能，同时会自动基于沪深两市的开盘时间，在收盘时段，暂停刷新。</p>
+<p><img alt="longshot20260825114538" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260825_122754_228_fd5daf0f_longshot20260825114538.png"><!-- local-src: 手搓ETF实时看板.assets/longshot20260825114538.png --></p>
+<p>这时候，建议将所有数据与行情软件再校对一下。因为大模型生成HTML，一般是用互联网上的免费行情接口，这些接口的文档缺失，对于ETF的IOPV之类数据，往往会判断错误。</p>
+<p>比如上面的页面，IOPV就取错字段了。这时候，你最好是查询行情软件，告诉他某个ETF品种的IOPV应该是多少，方便他纠错。</p>
+<p>这里需要注意，如果你希望这个网页脱离千问办公桌面端，随时随地可以使用，就需要点击右上角的三个点，选择将其发布为网页。发布后，就会给一个Qwenwork.host的网址，方便你访问。</p>
+<p><img src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260825_122754_495_e53add4b_image-20260825120059147.png" alt="image-20260825120059147" style="zoom:25%;" /><!-- local-src: 手搓ETF实时看板.assets/image-20260825120059147.png --></p>
+<p>在千问办公左侧菜单中，有一个我的网页，可以查看你发布的各类网页。</p>
+<p><img alt="image-20260825120213292" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260825_122754_424_43f8b598_tmp93e97fqc.png"><!-- local-src: 手搓ETF实时看板.assets/image-20260825120213292.png --></p>
+<p>目前，免费版可以发布5个网页，78元的增加到10个；158元月费的一下子增加到50个。</p>
+<p><img alt="longshot20260825114630" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260825_122754_602_fee92b58_tmpa7tz9gbu.png"><!-- local-src: 手搓ETF实时看板.assets/longshot20260825114630.png --></p>
+<p>说回我们刚刚做好的ETF实时看板，如果你希望追加功能，直接在对话框提要求就行。比如我要求：</p>
+<blockquote>
+<p>请再增加一列，当日的成交额，以亿元为单位</p>
+</blockquote>
+<p>过了一会儿，这个成交额的列就加上了。这时候请注意，发布界面必须要选择“重新发布”，对外分享的网页才会更新，同时链接不变。</p>
+<p><img alt="image-20260825120528329" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260825_122754_228_84dc9801_image-20260825120528329.png"><!-- local-src: 手搓ETF实时看板.assets/image-20260825120528329.png --></p>
+<p>在我的网页这块，还提供查看网页版本功能，不过不能回滚版本。</p>
+<p><img alt="image-20260825121447987" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260825_122754_383_bd4c3691_image-20260825121447987.png"><!-- local-src: 手搓ETF实时看板.assets/image-20260825121447987.png --></p>
+<p>跑通上面这套流程后，每个人其实都可以按照自己的投资习惯，做一个个性化的ETF，甚至股票行情看板。只要免费接口能够提供基础数据，很多过去只能在专业软件里查看或自己用Excel计算的指标，如今都可以交给AI呈现。</p>
+<p>当然，AI负责写代码，不负责替数据背书。IOPV取错字段、交易日区间多算一天或少算一天，都会让一个看起来很专业的页面失去意义。上线之前逐项校验，使用过程中定期复查，这一步省不了。</p>
+<p>毕竟，无论工具多顺手，但投资判断最终还是自己的事。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://earlmind.com/2026/2026-08-22/">
+    <span class="title"> »</span>
+    <br>
+    <span>Ox Alpha的SVG能力太能打了</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://earlmind.com/">EarlMind</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a><div style="text-align: center; margin-top: 10px;">
+    <a href="mailto:earlzhang@gmail.com" target="_blank" rel="noopener noreferrer me" title="Email" style="display: inline-block; color: var(--secondary);">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+    </a>
+</div>
+
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

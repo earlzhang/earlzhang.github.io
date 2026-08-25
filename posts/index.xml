@@ -6,8 +6,17 @@
     <description>Recent content in Posts on EarlMind</description>
     <generator>Hugo -- 0.165.0</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sat, 22 Aug 2026 21:30:06 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 25 Aug 2026 12:33:53 +0800</lastBuildDate>
     <atom:link href="https://earlmind.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>用AI手搓一个ETF个性化实时行情看板</title>
+      <link>https://earlmind.com/2026/2026-08-25/</link>
+      <pubDate>Tue, 25 Aug 2026 12:33:53 +0800</pubDate>
+      <guid>https://earlmind.com/2026/2026-08-25/</guid>
+      <description>&lt;p&gt;作为一名ETF玩家，每天自然少不得要看ETF行情。&lt;/p&gt;
+&lt;p&gt;在看行情这件事上，虽然免费、收费软件层出不穷，但要说满足个性化需求，依然很难。&lt;/p&gt;
+&lt;p&gt;比如我是个ETF动量玩家，日常会紧跟以下几个数据：&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Ox Alpha的SVG能力太能打了</title>
       <link>https://earlmind.com/2026/2026-08-22/</link>
