@@ -3,16 +3,21 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://earlmind.com/</loc>
-    <lastmod>2026-09-02T14:23:03+08:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.7</priority>
-  </url><url>
-    <loc>https://earlmind.com/2026/2026-09-02/</loc>
-    <lastmod>2026-09-02T14:23:03+08:00</lastmod>
+    <lastmod>2026-09-03T12:44:16+08:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url><url>
     <loc>https://earlmind.com/posts/</loc>
+    <lastmod>2026-09-03T12:44:16+08:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url><url>
+    <loc>https://earlmind.com/2026/2026-09-03/</loc>
+    <lastmod>2026-09-03T12:44:16+08:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url><url>
+    <loc>https://earlmind.com/2026/2026-09-02/</loc>
     <lastmod>2026-09-02T14:23:03+08:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
