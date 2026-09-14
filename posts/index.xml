@@ -6,8 +6,16 @@
     <description>Recent content in Posts on EarlMind</description>
     <generator>Hugo -- 0.166.0</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 13 Sep 2026 11:19:01 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 14 Sep 2026 11:05:04 +0800</lastBuildDate>
     <atom:link href="https://earlmind.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>让macOS空格速览拥有出版级的Markdown渲染</title>
+      <link>https://earlmind.com/2026/2026-09-14/</link>
+      <pubDate>Mon, 14 Sep 2026 11:05:04 +0800</pubDate>
+      <guid>https://earlmind.com/2026/2026-09-14/</guid>
+      <description>&lt;p&gt;macOS的缺省的“预览”功能，算得上是独门绝活，访达中选中文件，点击空格，就能预览，无需打开编辑器。&lt;/p&gt;
+&lt;p&gt;这功能如此好用，以至于Windows上，也有不少补全软件，包括微软官方的PowerToys也内置了Peek（速览）的同类功能。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>有行，有止</title>
       <link>https://earlmind.com/2026/2026-09-13/</link>
