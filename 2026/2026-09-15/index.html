@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>微信公众号后台报“文字重叠”，我把报错扔给 AI 之后发生了什么 | EarlMind</title>
+<meta name="keywords" content="">
+<meta name="description" content="今天写完文章，照例用我的脚本，将Markdown文件“编译”成HTML，然后复制粘贴进微信公众号后台。
+刚贴进去，编辑器上方就跳出了离奇的报错：
+">
+<meta name="author" content="Earl">
+<link rel="canonical" href="https://earlmind.com/2026/2026-09-15/">
+<link crossorigin="anonymous" href="https://earlmind.com/assets/css/stylesheet.5a926f5a97cb172204830b5ba28683c1686d95860f21814c65d48737e45a671d.css" integrity="sha256-WpJvWpfLFyIEgwtbooaDwWhtlYYPIYFMZdSHN&#43;RaZx0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://earlmind.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://earlmind.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://earlmind.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://earlmind.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://earlmind.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh-cn" href="https://earlmind.com/2026/2026-09-15/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-BBE8BTPTWL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-BBE8BTPTWL');
+        }
+      </script><meta property="og:url" content="https://earlmind.com/2026/2026-09-15/">
+  <meta property="og:site_name" content="EarlMind">
+  <meta property="og:title" content="微信公众号后台报“文字重叠”，我把报错扔给 AI 之后发生了什么">
+  <meta property="og:description" content="今天写完文章，照例用我的脚本，将Markdown文件“编译”成HTML，然后复制粘贴进微信公众号后台。
+刚贴进去，编辑器上方就跳出了离奇的报错：">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-09-15T12:26:17+08:00">
+    <meta property="article:modified_time" content="2026-09-15T12:26:17+08:00">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微信公众号后台报“文字重叠”，我把报错扔给 AI 之后发生了什么">
+<meta name="twitter:description" content="今天写完文章，照例用我的脚本，将Markdown文件“编译”成HTML，然后复制粘贴进微信公众号后台。
+刚贴进去，编辑器上方就跳出了离奇的报错：
+">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://earlmind.com/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "微信公众号后台报“文字重叠”，我把报错扔给 AI 之后发生了什么",
+      "item": "https://earlmind.com/2026/2026-09-15/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "微信公众号后台报“文字重叠”，我把报错扔给 AI 之后发生了什么",
+  "name": "微信公众号后台报“文字重叠”，我把报错扔给 AI 之后发生了什么",
+  "description": "今天写完文章，照例用我的脚本，将Markdown文件“编译”成HTML，然后复制粘贴进微信公众号后台。\n刚贴进去，编辑器上方就跳出了离奇的报错：\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "今天写完文章，照例用我的脚本，将Markdown文件“编译”成HTML，然后复制粘贴进微信公众号后台。\n刚贴进去，编辑器上方就跳出了离奇的报错：\n我这个脚本程序用了许久，一直没有出错，所以突然看到这样的报警，有些不知所以然。\n如果放在以前，遇到这种微信平台的“玄学报错”，大概率只能靠猜：把加粗去掉试试，把行距再调大一点试试，或者加两个空行碰碰运气。\n但这回我什么也没折腾，直接把后台弹出来的这几行报错文字，连同刚生成的 HTML 随手复制下来，扔给正在协助我写作的 AI：\n刚刚定稿生成的 HTML，粘贴到微信公众号编辑器中出现下面的提醒，请看看如何优化。\n接下来的几分钟里，AI 展现出来的排查和解决过程，完全超出了我对“让 AI 帮我改改格式”的预期。\nAI 是怎么当侦探的 它没有像传统的问答机器人那样，给我回复一堆“建议您检查 CSS 是否冲突”之类的车轱辘话。\n它先是扫了一眼那几个报错段落的源码，立刻捕捉到一个耐人寻味的规律：\n全文几十个段落，纯文字段落一个都没报警。唯独第 2 段、第 9 段和第 19 段被精准揪了出来——恰好是全篇仅有的三个包含了超链接、斜体注释或加粗文字的地方。\n但这还只是第一步。顺着微信报错提示里的文档链接，AI 竟然找到了微信官方开源的排版检测工具仓库（verify-article-structure-spec）。原来微信公众号后台在粘贴文章时，就是在跑这套工具抓违规。\n紧接着，AI 做了一件极其硬核的事：直接在本地把这套工具克隆下来，调用我电脑里的 Chrome 浏览器，用微信官方的规则实地跑了一遍我的文章。\n终端里随即弹出了和公众号后台一模一样的 3 条红色报错，100% 完整复现。\n顺藤摸瓜揪出微信的“算法乌龙” 既然把工具抓到了本地，源码自然瞒不住了。\nAI 顺着调用栈直接读进了微信检测工具的 TypeScript 源码，几分钟内就帮我把微信底层的判定逻辑扒了个底朝天。\n原来，微信检测“文字是否重叠”，根本不是看你的 CSS 样式表里写了多少 line-height，而是用真实浏览器在后台偷偷去“量”文字的高度。\n算法的设计思路很直接：用浏览器测出文本的总高度，再数一数“一共有多少行”，两者相除算出平均每行的高度。如果平均行高小于字号的 95%，它就判定你多行文字挤在了一起。\n可滑稽的地方，恰恰出在浏览器怎么数“行数”上。\n在浏览器的底层机制里，只要一句话里出现了超链接、加粗或者斜体标签，浏览器在测量文字切片时，就会把同一行字顺着标签切成好几截。\n比如我文中的一句话：写了《科技固收+，不敢认同》，读者有不少讨论。\n在人眼里，这是整整齐齐的 1 行字，总高度大概 22 像素。\n但在微信检测器的切片逻辑里，中间那个带链接的书名号把整行切成了 4 截碎块。检测器傻乎乎地把这 4 个碎块当成了“4 行字”，然后拿 22 像素除以 4，得出了一个“平均行高只有 5.5 像素”的结论。\n5.5 像素自然远远小于 16 像素的字号。于是检测器警铃大作，自作聪明地判定作者把 4 行字叠在了一起，黄色警告就这样直接甩在了我面前。\n顺手修好，一劳永逸 摸清了这个乌龙机制，解法就变得格外轻巧。\nAI 在微信检测器的源码里发现：检测器只去扫描那些直接包含裸文本的段落。\n如果段落内容全部套在一层干净的 标签里，检测器就会自然略过它，不再去执行那套容易犯糊涂的分片测量；而 span 标签本身又不在它的检测名单里。\n这就好比给段落穿上了一件隐形衣：读者看到的样式、字号、暗色模式不受任何影响，但微信那个漏洞百出的检测器却会被直接绕开。\nAI 没让我动手改任何一行代码，直接定位到我本地的 Markdown 转微信 HTML 脚本，在输出段落时自动加上了这层包裹逻辑。改完后在本地重新跑了一遍微信官方检测工具：违规瞬间清零。\n再把新生成的文章往公众号后台一贴，警告消失了。\n这才是 AI 该有的样子 整个排查和修复过程，前前后后不过几分钟。\n作为使用者，我全程只做了一件事：把微信后台弹出的报错复制下来，随手甩给 AI。我不用知道微信的检测工具叫什么名字，不用去读排版规范，更不用在终端里敲任何命令。\n以往面对平台各种莫名其妙的玄学报错，创作者往往只能在论坛里到处打听、不断试错，最后带着将信将疑的心情妥协。\n而现在，AI 就像一个随时待命的资深工程师：看到症状，顺着线索抓出官方工具复现，读源码定位病因，最后直接把修复补丁打进你的工作流里——甚至连这篇分享推文，95%都是由AI完成*(谁让我是甩手掌柜，对修复全程压根说不清)*。\n这种把所有繁琐与不确定性随手交给 AI、然后“被稳稳接住”的体验，大概就是今天技术工具流最迷人的地方。\n",
+  "wordCount" : "1799",
+  "inLanguage": "zh-cn",
+  "datePublished": "2026-09-15T12:26:17+08:00",
+  "dateModified": "2026-09-15T12:26:17+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Earl"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://earlmind.com/2026/2026-09-15/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EarlMind",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://earlmind.com/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://earlmind.com/" accesskey="h" title="EarlMind (Alt + H)">EarlMind</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://earlmind.com/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://earlmind.com/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://earlmind.com/">Home</a>&nbsp;»&nbsp;<a href="https://earlmind.com/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      微信公众号后台报“文字重叠”，我把报错扔给 AI 之后发生了什么
+    </h1>
+    <div class="post-meta"><span title='2026-09-15 12:26:17 +0800 +0800'>September 15, 2026</span>&nbsp;·&nbsp;<span>4 min</span>&nbsp;·&nbsp;<span>Earl</span>
+
+</div>
+  </header> <div class="toc">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#ai-%e6%98%af%e6%80%8e%e4%b9%88%e5%bd%93%e4%be%a6%e6%8e%a2%e7%9a%84" aria-label="AI 是怎么当侦探的">AI 是怎么当侦探的</a></li>
+                <li>
+                    <a href="#%e9%a1%ba%e8%97%a4%e6%91%b8%e7%93%9c%e6%8f%aa%e5%87%ba%e5%be%ae%e4%bf%a1%e7%9a%84%e7%ae%97%e6%b3%95%e4%b9%8c%e9%be%99" aria-label="顺藤摸瓜揪出微信的“算法乌龙”">顺藤摸瓜揪出微信的“算法乌龙”</a></li>
+                <li>
+                    <a href="#%e9%a1%ba%e6%89%8b%e4%bf%ae%e5%a5%bd%e4%b8%80%e5%8a%b3%e6%b0%b8%e9%80%b8" aria-label="顺手修好，一劳永逸">顺手修好，一劳永逸</a></li>
+                <li>
+                    <a href="#%e8%bf%99%e6%89%8d%e6%98%af-ai-%e8%af%a5%e6%9c%89%e7%9a%84%e6%a0%b7%e5%ad%90" aria-label="这才是 AI 该有的样子">这才是 AI 该有的样子</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>今天写完文章，照例用我的脚本，将Markdown文件“编译”成HTML，然后复制粘贴进微信公众号后台。</p>
+<p>刚贴进去，编辑器上方就跳出了离奇的报错：</p>
+<p><img alt="longshot20260915115943" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260915_121853_773_a2f2abb4_longshot20260915115943.png"><!-- local-src: 微信公众号编辑器报错.assets/longshot20260915115943.png --></p>
+<p>我这个脚本程序用了许久，一直没有出错，所以突然看到这样的报警，有些不知所以然。</p>
+<p>如果放在以前，遇到这种微信平台的“玄学报错”，大概率只能靠猜：把加粗去掉试试，把行距再调大一点试试，或者加两个空行碰碰运气。</p>
+<p>但这回我什么也没折腾，直接把后台弹出来的这几行报错文字，连同刚生成的 HTML 随手复制下来，扔给正在协助我写作的 AI：</p>
+<blockquote>
+<p>刚刚定稿生成的 HTML，粘贴到微信公众号编辑器中出现下面的提醒，请看看如何优化。</p>
+</blockquote>
+<p>接下来的几分钟里，AI 展现出来的排查和解决过程，完全超出了我对“让 AI 帮我改改格式”的预期。</p>
+<h2 id="ai-是怎么当侦探的">AI 是怎么当侦探的<a hidden class="anchor" aria-hidden="true" href="#ai-是怎么当侦探的">#</a></h2>
+<p>它没有像传统的问答机器人那样，给我回复一堆“建议您检查 CSS 是否冲突”之类的车轱辘话。</p>
+<p>它先是扫了一眼那几个报错段落的源码，立刻捕捉到一个耐人寻味的规律：</p>
+<p>全文几十个段落，纯文字段落一个都没报警。唯独第 2 段、第 9 段和第 19 段被精准揪了出来——恰好是全篇仅有的三个包含了超链接、斜体注释或加粗文字的地方。</p>
+<p>但这还只是第一步。顺着微信报错提示里的文档链接，AI 竟然找到了微信官方开源的排版检测工具仓库（<code>verify-article-structure-spec</code>）。原来微信公众号后台在粘贴文章时，就是在跑这套工具抓违规。</p>
+<p><img alt="image-20260915121116027" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260915_121854_198_e517f8e8_tmprnholv11.png"><!-- local-src: 微信公众号编辑器报错.assets/image-20260915121116027.png --></p>
+<p>紧接着，AI 做了一件极其硬核的事：直接在本地把这套工具克隆下来，调用我电脑里的 Chrome 浏览器，用微信官方的规则实地跑了一遍我的文章。</p>
+<p>终端里随即弹出了和公众号后台一模一样的 3 条红色报错，100% 完整复现。</p>
+<h2 id="顺藤摸瓜揪出微信的算法乌龙">顺藤摸瓜揪出微信的“算法乌龙”<a hidden class="anchor" aria-hidden="true" href="#顺藤摸瓜揪出微信的算法乌龙">#</a></h2>
+<p>既然把工具抓到了本地，源码自然瞒不住了。</p>
+<p>AI 顺着调用栈直接读进了微信检测工具的 TypeScript 源码，几分钟内就帮我把微信底层的判定逻辑扒了个底朝天。</p>
+<p>原来，微信检测“文字是否重叠”，根本不是看你的 CSS 样式表里写了多少 <code>line-height</code>，而是用真实浏览器在后台偷偷去“量”文字的高度。</p>
+<p>算法的设计思路很直接：用浏览器测出文本的总高度，再数一数“一共有多少行”，两者相除算出平均每行的高度。如果平均行高小于字号的 95%，它就判定你多行文字挤在了一起。</p>
+<p><strong>可滑稽的地方，恰恰出在浏览器怎么数“行数”上。</strong></p>
+<p>在浏览器的底层机制里，只要一句话里出现了超链接、加粗或者斜体标签，浏览器在测量文字切片时，就会把同一行字顺着标签切成好几截。</p>
+<p>比如我文中的一句话：<code>写了《科技固收+，不敢认同》，读者有不少讨论。</code></p>
+<p>在人眼里，这是整整齐齐的 1 行字，总高度大概 22 像素。</p>
+<p>但在微信检测器的切片逻辑里，中间那个带链接的书名号把整行切成了 4 截碎块。检测器傻乎乎地把这 4 个碎块当成了“4 行字”，然后拿 22 像素除以 4，得出了一个“平均行高只有 5.5 像素”的结论。</p>
+<p>5.5 像素自然远远小于 16 像素的字号。于是检测器警铃大作，自作聪明地判定作者把 4 行字叠在了一起，黄色警告就这样直接甩在了我面前。</p>
+<h2 id="顺手修好一劳永逸">顺手修好，一劳永逸<a hidden class="anchor" aria-hidden="true" href="#顺手修好一劳永逸">#</a></h2>
+<p>摸清了这个乌龙机制，解法就变得格外轻巧。</p>
+<p>AI 在微信检测器的源码里发现：<strong>检测器只去扫描那些直接包含裸文本的段落。</strong></p>
+<p>如果段落内容全部套在一层干净的 <code>&lt;span&gt;</code> 标签里，检测器就会自然略过它，不再去执行那套容易犯糊涂的分片测量；而 <code>span</code> 标签本身又不在它的检测名单里。</p>
+<p>这就好比给段落穿上了一件隐形衣：读者看到的样式、字号、暗色模式不受任何影响，但微信那个漏洞百出的检测器却会被直接绕开。</p>
+<p>AI 没让我动手改任何一行代码，直接定位到我本地的 Markdown 转微信 HTML 脚本，在输出段落时自动加上了这层包裹逻辑。改完后在本地重新跑了一遍微信官方检测工具：<strong>违规瞬间清零。</strong></p>
+<p>再把新生成的文章往公众号后台一贴，警告消失了。</p>
+<h2 id="这才是-ai-该有的样子">这才是 AI 该有的样子<a hidden class="anchor" aria-hidden="true" href="#这才是-ai-该有的样子">#</a></h2>
+<p>整个排查和修复过程，前前后后不过几分钟。</p>
+<p>作为使用者，我全程只做了一件事：把微信后台弹出的报错复制下来，随手甩给 AI。我不用知道微信的检测工具叫什么名字，不用去读排版规范，更不用在终端里敲任何命令。</p>
+<p>以往面对平台各种莫名其妙的玄学报错，创作者往往只能在论坛里到处打听、不断试错，最后带着将信将疑的心情妥协。</p>
+<p>而现在，AI 就像一个随时待命的资深工程师：看到症状，顺着线索抓出官方工具复现，读源码定位病因，最后直接把修复补丁打进你的工作流里——甚至连这篇分享推文，95%都是由AI完成*(谁让我是甩手掌柜，对修复全程压根说不清)*。</p>
+<p>这种把所有繁琐与不确定性随手交给 AI、然后“被稳稳接住”的体验，大概就是今天技术工具流最迷人的地方。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://earlmind.com/2026/2026-09-14/">
+    <span class="title"> »</span>
+    <br>
+    <span>让macOS空格速览拥有出版级的Markdown渲染</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://earlmind.com/">EarlMind</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a><div style="text-align: center; margin-top: 10px;">
+    <a href="mailto:earlzhang@gmail.com" target="_blank" rel="noopener noreferrer me" title="Email" style="display: inline-block; color: var(--secondary);">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+    </a>
+</div>
+
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
