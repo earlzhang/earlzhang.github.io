@@ -6,8 +6,15 @@
     <description>Recent content in Posts on EarlMind</description>
     <generator>Hugo -- 0.166.0</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 20 Sep 2026 21:36:04 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 21 Sep 2026 09:43:09 +0800</lastBuildDate>
     <atom:link href="https://earlmind.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>拿Jev做金融交易，亏钱才正常</title>
+      <link>https://earlmind.com/2026/2026-09-21/</link>
+      <pubDate>Mon, 21 Sep 2026 09:43:09 +0800</pubDate>
+      <guid>https://earlmind.com/2026/2026-09-21/</guid>
+      <description>&lt;p&gt;Jev是最近一个新的模型，相比传统强化学习出一堆文本描述充斥幻觉速度还慢的问题，这个模型只会输出一个概率结果，非常快，非常便宜，一下子打开了一篇新天地。之前在《&lt;a href=&#34;https://mp.weixin.qq.com/s/dDaN-qlg_o3mcH21eMVXpw&#34;&gt;Jev与大模型的高频交易时刻，像Flash Boy一样扣动扳机&lt;/a&gt;》也简单聊过，并提及这个范式未来在金融投资领域的价值。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Brooks Brothers的卖身与退步</title>
       <link>https://earlmind.com/2026/2026-09-20/</link>

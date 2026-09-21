@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>拿Jev做金融交易，亏钱才正常 | EarlMind</title>
+<meta name="keywords" content="">
+<meta name="description" content="Jev是最近一个新的模型，相比传统强化学习出一堆文本描述充斥幻觉速度还慢的问题，这个模型只会输出一个概率结果，非常快，非常便宜，一下子打开了一篇新天地。之前在《Jev与大模型的高频交易时刻，像Flash Boy一样扣动扳机》也简单聊过，并提及这个范式未来在金融投资领域的价值。">
+<meta name="author" content="Earl">
+<link rel="canonical" href="https://earlmind.com/2026/2026-09-21/">
+<link crossorigin="anonymous" href="https://earlmind.com/assets/css/stylesheet.5a926f5a97cb172204830b5ba28683c1686d95860f21814c65d48737e45a671d.css" integrity="sha256-WpJvWpfLFyIEgwtbooaDwWhtlYYPIYFMZdSHN&#43;RaZx0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://earlmind.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://earlmind.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://earlmind.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://earlmind.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://earlmind.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh-cn" href="https://earlmind.com/2026/2026-09-21/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-BBE8BTPTWL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-BBE8BTPTWL');
+        }
+      </script><meta property="og:url" content="https://earlmind.com/2026/2026-09-21/">
+  <meta property="og:site_name" content="EarlMind">
+  <meta property="og:title" content="拿Jev做金融交易，亏钱才正常">
+  <meta property="og:description" content="Jev是最近一个新的模型，相比传统强化学习出一堆文本描述充斥幻觉速度还慢的问题，这个模型只会输出一个概率结果，非常快，非常便宜，一下子打开了一篇新天地。之前在《Jev与大模型的高频交易时刻，像Flash Boy一样扣动扳机》也简单聊过，并提及这个范式未来在金融投资领域的价值。">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-09-21T09:43:09+08:00">
+    <meta property="article:modified_time" content="2026-09-21T09:43:09+08:00">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="拿Jev做金融交易，亏钱才正常">
+<meta name="twitter:description" content="Jev是最近一个新的模型，相比传统强化学习出一堆文本描述充斥幻觉速度还慢的问题，这个模型只会输出一个概率结果，非常快，非常便宜，一下子打开了一篇新天地。之前在《Jev与大模型的高频交易时刻，像Flash Boy一样扣动扳机》也简单聊过，并提及这个范式未来在金融投资领域的价值。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://earlmind.com/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "拿Jev做金融交易，亏钱才正常",
+      "item": "https://earlmind.com/2026/2026-09-21/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "拿Jev做金融交易，亏钱才正常",
+  "name": "拿Jev做金融交易，亏钱才正常",
+  "description": "Jev是最近一个新的模型，相比传统强化学习出一堆文本描述充斥幻觉速度还慢的问题，这个模型只会输出一个概率结果，非常快，非常便宜，一下子打开了一篇新天地。之前在《Jev与大模型的高频交易时刻，像Flash Boy一样扣动扳机》也简单聊过，并提及这个范式未来在金融投资领域的价值。\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "Jev是最近一个新的模型，相比传统强化学习出一堆文本描述充斥幻觉速度还慢的问题，这个模型只会输出一个概率结果，非常快，非常便宜，一下子打开了一篇新天地。之前在《Jev与大模型的高频交易时刻，像Flash Boy一样扣动扳机》也简单聊过，并提及这个范式未来在金融投资领域的价值。\n不出意料，Jev发布后，网上就是一堆用Jev做交易的尝试。\n同样不出意料，大多是“整活”，亏钱或者跑输基准是常态。\n让Grok做了一个X上的汇总，截至9月21日，结果如下。\n\u003c!– table-source\n来源 类型 结果 可信度 Watts jev-trader 强制每块买卖，模拟 中文转述：跑约 14 小时「亏了 300% 多」；另有分析约 13 小时、大量小单，模拟亏约 $150 作者承认策略很差；demo 多为模拟 Adrian Cortex 复盘同一套 模拟 10 分钟 1838 次决策、置信度 85–88%，亏 5.2%；加上「置信度 \u003c0.55 就平仓」后另一段 +4.3% 说明「必须出手」本身在亏钱 @sachinskyte 自称实时机器人 纸面亏 $31,680，「幸好是纸面」 数字夸张，有人核对官方仪表盘只有几美元量级亏损 Michael Guo 股票回测 2022-01 起 1182 天，$10 万本金 Jev +$30,828；同期买 S\u0026P 睡大觉 +$59,500 赚了，但跑输持有 Brendan Playford Jev + 自训 12B，纸面 375 笔、胜率 41.1%、盈亏比 1.5、利润因子 1.38，称纸面盈利 不是 Jev 单独交易 TradeRank 公开赛（至 9/20） 模拟 $1 万，日频 +0.00%，约 17 支里排 11–12；同期 BTC +5% 左右 几乎没开仓 TradeRank 142 天回测 规则回放 方向命中约 49.3%，规则盘 -2.58%，最大回撤 18%；实验室两次分别 +17.5% / -17.3% 结论：没有稳定优势 Abol「给 Jev 1 万美元」一类短视频 极短样本 有人说 BTC 下跌日做空赚约 $300 基本是一笔方向赌对，不是策略 @mchlhess 天气数据 + Polymarket 「可能已经亏 $6k，但很美」 随口，无法核账 –\u003e 其实不奇怪。\n当下的社交媒体，无论中美，对绝大多数AI KOL来说，有新模型发布，先“整活”是关键，颜值一定要高，是否有用不重要。\n所以，类似下面这样很专业的仪表盘就特别常见，让你觉得那么专业的界面，应该赚钱能力也很强。\n但上面这个演示的结果，作者@wquguru 也很诚实：\n现在还远没到干死基金经理的程度。动量策略 +6.71%，但同期等权买入持有是 +13.2%，它没跑赢。而另外两个策略表现比较拉胯，一个 −1.0%，一个 −10.3%。\n用大模型辅助金融投资，前景必然广大。\n但路径，其实还是有很多分歧。\n目前看正经的金融机构，还是将大模型当做初级分析师，让其搜索、汇总、输出初级资料，交给高阶分析师作为底料；\n又或者将大模型作为程序员，复刻别家的策略，写自家的策略。我最近写的《民生多资产指数能否复刻，及历史归因》其实就是这个思路。\n但直接让大模型做决策，相对就不那么靠谱。\n这种不靠谱，来自两类问题。\n一类，结构化玩法，早有高山仰止的存在。\n许多AI玩家，总觉得自己是站在时代的前沿。殊不知，在人工智能的应用上，华尔街的玩家，从来不落后，当年招聘苏联火箭科学家的力度，不亚于现在大模型厂商挖人的力度。而类似文艺复兴大奖章基金的西蒙斯，很早就引入了IBM做人工智能语音识别的专家来分析股票。\n在AI辅助金融决策上，类似股票的价格和成交量这些结构化数据，其实早就有深度学习的大量应用，文艺复兴或算鼻祖，类似Deepseek创始人梁文峰起家的幻方及同类，则是中国门徒。《宽客》这本书，说的就是这股浪潮，有兴趣了解的不妨一看。\n这波GPT带动的大模型热潮，是强在对文字这样非结构化数据的处理，但回到传统的结构化数据，恐怕未必强过“宽客”们。\n但许多AI KOL炒股，就非要在这块上较劲，比如用大模型分析K线图，又比如这次Jev出来上面汇总表第一个的Jev-trade，传入的都是结构化数据*(见下图)*，在这个宽客已经优化到相当极致的领域，用大语言模型来应战，本身就希望不大。\n第二类，新闻驱动，归因和回测是问题。\n相比第一类，新闻，的确是传统结构化量化模型不擅长的数据类型。\n比如快速分析美联储议息公告中的言下之意，大语言模型的确有优势，速度快的Jev的确有可能提供增值信息增量。\n但这里面，有很多金融学的问题。\n比如前段时间看到有玩家用大语言模型在七月底到八月交易美股，买了一水的硬件科技股，大赚，并感叹AI赚钱真容易。\n但七月底到八月中，恰好是纳斯达克100经历了7月大调整后反弹的阶段，这段时间赚钱甚至赚得更多，往往是新闻面驱动的动量使然，策略是否能够在漫长的市场中赚钱不得而知，很多可能只是“随机致富的傻瓜”。\n其实新闻面或者基本面投资上，大语言模型最让人吃不准的，恰恰在于大模型强大带来的“后视镜效应”。\n由于顶尖模型几乎囊括了人类历史上所有的文字素材，知识储备也往往到最近一年，所以你将它放到历史环境下去做回测，由于它已经知道所有后来发生的大事件，这就导致这样的回测基本无法进行，至多是以知识库后的数据来训练。\n说到底，大语言模型在金融领域的真正价值，从来不在于直接下场做交易决策，而在于凭借其处理非结构化文本的天赋，提升整个投研流水线的生产效率。\n正经机构的做法很说明问题：让大语言模型做海量研报、新闻与公告等非结构化数据的初筛、清洗与汇总，又或者让它辅助编写与复刻策略代码。在这类明确、狭窄且容易验证的场景下，它的表现扎实且高效。\nJev这类模型的突破在于速度与成本。它把过去笨拙缓慢的文本推理，压缩成了可以极速响应的概率输出。未来将这种非结构化信息的提炼能力，转化为特定因子嵌入多因子库，或是作为事件驱动策略的前置信号，几乎是必然的演进方向。\n但这是量化工程体系上的添砖加瓦，不是单兵盲冲的奇迹。\n如果脱离严谨的量化回测与风控框架，仅仅因为大语言模型跑得快、长得酷，就直接让它接管账户，那么无论是纸面亏损还是实盘回撤，其实都不值得惊讶。\n工具在进化，但市场的法则没有变。能在这个市场里活得长久的，始终是那些明白工具边界、并对风险保持敬畏的人。\n",
+  "wordCount" : "2329",
+  "inLanguage": "zh-cn",
+  "datePublished": "2026-09-21T09:43:09+08:00",
+  "dateModified": "2026-09-21T09:43:09+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Earl"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://earlmind.com/2026/2026-09-21/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EarlMind",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://earlmind.com/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://earlmind.com/" accesskey="h" title="EarlMind (Alt + H)">EarlMind</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://earlmind.com/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://earlmind.com/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://earlmind.com/">Home</a>&nbsp;»&nbsp;<a href="https://earlmind.com/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      拿Jev做金融交易，亏钱才正常
+    </h1>
+    <div class="post-meta"><span title='2026-09-21 09:43:09 +0800 +0800'>September 21, 2026</span>&nbsp;·&nbsp;<span>5 min</span>&nbsp;·&nbsp;<span>Earl</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>Jev是最近一个新的模型，相比传统强化学习出一堆文本描述充斥幻觉速度还慢的问题，这个模型只会输出一个概率结果，非常快，非常便宜，一下子打开了一篇新天地。之前在《<a href="https://mp.weixin.qq.com/s/dDaN-qlg_o3mcH21eMVXpw">Jev与大模型的高频交易时刻，像Flash Boy一样扣动扳机</a>》也简单聊过，并提及这个范式未来在金融投资领域的价值。</p>
+<p>不出意料，Jev发布后，网上就是一堆用Jev做交易的尝试。</p>
+<p>同样不出意料，大多是“整活”，亏钱或者跑输基准是常态。</p>
+<p>让Grok做了一个X上的汇总，截至9月21日，结果如下。</p>
+<p><img alt="表格1" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260921_090542_697_4ade57d5_table_1.png">&lt;!&ndash; table-source</p>
+<table>
+	<thead>
+			<tr>
+					<th>来源</th>
+					<th>类型</th>
+					<th>结果</th>
+					<th>可信度</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Watts <code>jev-trader</code></td>
+					<td>强制每块买卖，模拟</td>
+					<td>中文转述：跑约 14 小时「亏了 300% 多」；另有分析约 13 小时、大量小单，模拟亏约 $150</td>
+					<td>作者承认策略很差；demo 多为模拟</td>
+			</tr>
+			<tr>
+					<td>Adrian Cortex 复盘同一套</td>
+					<td>模拟</td>
+					<td>10 分钟 1838 次决策、置信度 85–88%，<strong>亏 5.2%</strong>；加上「置信度 &lt;0.55 就平仓」后另一段 <strong>+4.3%</strong></td>
+					<td>说明「必须出手」本身在亏钱</td>
+			</tr>
+			<tr>
+					<td>@sachinskyte</td>
+					<td>自称实时机器人</td>
+					<td><strong>纸面亏 $31,680</strong>，「幸好是纸面」</td>
+					<td>数字夸张，有人核对官方仪表盘只有几美元量级亏损</td>
+			</tr>
+			<tr>
+					<td>Michael Guo</td>
+					<td>股票回测 2022-01 起 1182 天，$10 万本金</td>
+					<td>Jev <strong>+$30,828</strong>；同期买 S&amp;P 睡大觉 <strong>+$59,500</strong></td>
+					<td>赚了，但跑输持有</td>
+			</tr>
+			<tr>
+					<td>Brendan Playford</td>
+					<td>Jev + 自训 12B，纸面</td>
+					<td>375 笔、胜率 41.1%、盈亏比 1.5、利润因子 1.38，称纸面盈利</td>
+					<td><strong>不是 Jev 单独交易</strong></td>
+			</tr>
+			<tr>
+					<td>TradeRank 公开赛（至 9/20）</td>
+					<td>模拟 $1 万，日频</td>
+					<td><strong>+0.00%，约 17 支里排 11–12</strong>；同期 BTC +5% 左右</td>
+					<td>几乎没开仓</td>
+			</tr>
+			<tr>
+					<td>TradeRank 142 天回测</td>
+					<td>规则回放</td>
+					<td>方向命中约 <strong>49.3%</strong>，规则盘 <strong>-2.58%</strong>，最大回撤 18%；实验室两次分别 +17.5% / -17.3%</td>
+					<td><strong>结论：没有稳定优势</strong></td>
+			</tr>
+			<tr>
+					<td>Abol「给 Jev 1 万美元」一类短视频</td>
+					<td>极短样本</td>
+					<td>有人说 BTC 下跌日做空赚约 $300</td>
+					<td>基本是一笔方向赌对，不是策略</td>
+			</tr>
+			<tr>
+					<td>@mchlhess</td>
+					<td>天气数据 + Polymarket</td>
+					<td>「可能已经亏 $6k，但很美」</td>
+					<td>随口，无法核账</td>
+			</tr>
+			<tr>
+					<td>&ndash;&gt;</td>
+					<td></td>
+					<td></td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
+<p>其实不奇怪。</p>
+<p>当下的社交媒体，无论中美，对绝大多数AI KOL来说，有新模型发布，<strong>先“整活”是关键</strong>，颜值一定要高，是否有用不重要。</p>
+<p>所以，类似下面这样很专业的仪表盘就特别常见，让你觉得那么专业的界面，应该赚钱能力也很强。</p>
+<p><img alt="longshot20260921081934" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260921_090543_507_0f4d7c66_longshot20260921081934.png"><!-- local-src: jev亏钱.assets/longshot20260921081934.png --></p>
+<p>但上面这个演示的结果，作者<code>@wquguru</code> 也很诚实：</p>
+<blockquote>
+<p>现在还远没到干死基金经理的程度。动量策略 +6.71%，但同期等权买入持有是 +13.2%，它没跑赢。而另外两个策略表现比较拉胯，一个 −1.0%，一个 −10.3%。</p>
+</blockquote>
+<p>用大模型辅助金融投资，前景必然广大。</p>
+<p>但路径，其实还是有很多分歧。</p>
+<p>目前看正经的金融机构，还是将大模型当做初级分析师，让其搜索、汇总、输出初级资料，交给高阶分析师作为底料；</p>
+<p>又或者将大模型作为程序员，复刻别家的策略，写自家的策略。我最近写的《<a href="https://mp.weixin.qq.com/s/J2Grc1L-tgRHEyr6t7VTTw">民生多资产指数能否复刻，及历史归因</a>》其实就是这个思路。</p>
+<p>但直接让大模型做决策，相对就不那么靠谱。</p>
+<p>这种不靠谱，来自两类问题。</p>
+<p>一类，<strong>结构化玩法，早有高山仰止的存在</strong>。</p>
+<p>许多AI玩家，总觉得自己是站在时代的前沿。殊不知，在人工智能的应用上，华尔街的玩家，从来不落后，当年招聘苏联火箭科学家的力度，不亚于现在大模型厂商挖人的力度。而类似文艺复兴大奖章基金的西蒙斯，很早就引入了IBM做人工智能语音识别的专家来分析股票。</p>
+<p>在AI辅助金融决策上，类似股票的价格和成交量这些结构化数据，其实早就有深度学习的大量应用，文艺复兴或算鼻祖，类似Deepseek创始人梁文峰起家的幻方及同类，则是中国门徒。《宽客》这本书，说的就是这股浪潮，有兴趣了解的不妨一看。</p>
+<p>这波GPT带动的大模型热潮，是强在对文字这样非结构化数据的处理，但回到传统的结构化数据，恐怕未必强过“宽客”们。</p>
+<p>但许多AI KOL炒股，就非要在这块上较劲，比如用大模型分析K线图，又比如这次Jev出来上面汇总表第一个的Jev-trade，传入的都是结构化数据*(见下图)*，在这个宽客已经优化到相当极致的领域，用大语言模型来应战，本身就希望不大。</p>
+<p><img alt="image-20260921084608516" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260921_090543_508_065f6dee_image-20260921084608516.png"><!-- local-src: jev亏钱.assets/image-20260921084608516.png --></p>
+<p>第二类，<strong>新闻驱动，归因和回测是问题</strong>。</p>
+<p>相比第一类，新闻，的确是传统结构化量化模型不擅长的数据类型。</p>
+<p>比如快速分析美联储议息公告中的言下之意，大语言模型的确有优势，速度快的Jev的确有可能提供增值信息增量。</p>
+<p>但这里面，有很多金融学的问题。</p>
+<p>比如前段时间看到有玩家用大语言模型在七月底到八月交易美股，买了一水的硬件科技股，大赚，并感叹AI赚钱真容易。</p>
+<p>但七月底到八月中，恰好是纳斯达克100经历了7月大调整后反弹的阶段，这段时间赚钱甚至赚得更多，往往是新闻面驱动的动量使然，策略是否能够在漫长的市场中赚钱不得而知，很多可能只是“随机致富的傻瓜”。</p>
+<p><img alt="1789951998443" loading="lazy" src="https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20260921_090543_795_ed4e31cb_tmpj86b3nqc.png"><!-- local-src: jev亏钱.assets/1789951998443.png --></p>
+<p>其实新闻面或者基本面投资上，大语言模型最让人吃不准的，恰恰在于大模型强大带来的“后视镜效应”。</p>
+<p>由于顶尖模型几乎囊括了人类历史上所有的文字素材，知识储备也往往到最近一年，所以你将它放到历史环境下去做回测，由于它已经知道所有后来发生的大事件，这就导致这样的回测基本无法进行，至多是以知识库后的数据来训练。</p>
+<p>说到底，大语言模型在金融领域的真正价值，从来不在于直接下场做交易决策，而在于凭借其处理非结构化文本的天赋，提升整个投研流水线的生产效率。</p>
+<p>正经机构的做法很说明问题：让大语言模型做海量研报、新闻与公告等非结构化数据的初筛、清洗与汇总，又或者让它辅助编写与复刻策略代码。在这类明确、狭窄且容易验证的场景下，它的表现扎实且高效。</p>
+<p>Jev这类模型的突破在于速度与成本。它把过去笨拙缓慢的文本推理，压缩成了可以极速响应的概率输出。未来将这种非结构化信息的提炼能力，转化为特定因子嵌入多因子库，或是作为事件驱动策略的前置信号，几乎是必然的演进方向。</p>
+<p>但这是量化工程体系上的添砖加瓦，不是单兵盲冲的奇迹。</p>
+<p>如果脱离严谨的量化回测与风控框架，仅仅因为大语言模型跑得快、长得酷，就直接让它接管账户，那么无论是纸面亏损还是实盘回撤，其实都不值得惊讶。</p>
+<p>工具在进化，但市场的法则没有变。能在这个市场里活得长久的，始终是那些明白工具边界、并对风险保持敬畏的人。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://earlmind.com/2026/2026-09-20/">
+    <span class="title"> »</span>
+    <br>
+    <span>Brooks Brothers的卖身与退步</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://earlmind.com/">EarlMind</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a><div style="text-align: center; margin-top: 10px;">
+    <a href="mailto:earlzhang@gmail.com" target="_blank" rel="noopener noreferrer me" title="Email" style="display: inline-block; color: var(--secondary);">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+    </a>
+</div>
+
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
