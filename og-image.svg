@@ -1,0 +1,64 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg" cx="76%" cy="46%" r="75%">
+      <stop offset="0%" stop-color="#1c202a"/>
+      <stop offset="55%" stop-color="#161922"/>
+      <stop offset="100%" stop-color="#10131a"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- 背景星点 -->
+  <g fill="#EDE9E0">
+    <circle cx="120" cy="90" r="1.2" opacity="0.25"/>
+    <circle cx="320" cy="60" r="0.9" opacity="0.18"/>
+    <circle cx="520" cy="110" r="1.4" opacity="0.22"/>
+    <circle cx="690" cy="70" r="1.0" opacity="0.16"/>
+    <circle cx="60" cy="420" r="1.0" opacity="0.14"/>
+    <circle cx="420" cy="560" r="1.2" opacity="0.18"/>
+    <circle cx="630" cy="540" r="0.9" opacity="0.15"/>
+    <circle cx="1150" cy="90" r="1.3" opacity="0.2"/>
+    <circle cx="150" cy="570" r="0.9" opacity="0.14"/>
+    <circle cx="850" cy="90" r="1.1" opacity="0.2"/>
+  </g>
+
+  <!-- 星轨：三组交叠的轨道面 + 虚线环 -->
+  <g transform="translate(890,300)" fill="none" stroke="#EDE9E0">
+    <ellipse rx="260" ry="98" transform="rotate(-24)" stroke-width="1" stroke-opacity="0.16"/>
+    <ellipse rx="260" ry="98" transform="rotate(18)" stroke-width="1" stroke-opacity="0.12"/>
+    <ellipse rx="200" ry="200" stroke-width="1" stroke-opacity="0.08"/>
+    <circle r="235" stroke-width="1" stroke-opacity="0.2" stroke-dasharray="1 7"/>
+  </g>
+
+  <!-- 轨道上的星：三颗亮星对应朱雀张、翼、轸三宿 -->
+  <g fill="#EDE9E0">
+    <circle cx="1028" cy="158" r="3.2" opacity="0.85"/>
+    <circle cx="1028" cy="158" r="9" opacity="0.1"/>
+    <circle cx="1115" cy="392" r="3" opacity="0.8"/>
+    <circle cx="1115" cy="392" r="8" opacity="0.1"/>
+    <circle cx="764" cy="452" r="2.8" opacity="0.75"/>
+    <circle cx="764" cy="452" r="8" opacity="0.1"/>
+    <circle cx="740" cy="196" r="2" opacity="0.4"/>
+    <circle cx="795" cy="500" r="1.8" opacity="0.35"/>
+    <circle cx="1090" cy="230" r="1.6" opacity="0.3"/>
+  </g>
+
+  <!-- 左侧文字区 -->
+  <text x="102" y="146" font-family="'Avenir Next','Helvetica Neue',sans-serif" font-size="19" letter-spacing="7" fill="#7C828C">EARLMIND.COM</text>
+
+  <text x="96" y="308" font-family="Didot,'Bodoni 72',Georgia,serif" font-size="118" font-weight="500" letter-spacing="2" fill="#EDE9E0">EarlMind</text>
+
+  <line x1="102" y1="356" x2="382" y2="356" stroke="#EDE9E0" stroke-width="1" stroke-opacity="0.28"/>
+
+  <text x="102" y="424" font-family="'Songti SC','STSong',serif" font-size="33" letter-spacing="1.5" fill="#B4B8BF">一半是对算力的好奇，一半是对生活的偏见</text>
+
+  <!-- 印章：白文「张翼轸」，三字纵列，自上而下读 -->
+  <g>
+    <rect x="102" y="462" width="92" height="100" rx="8" fill="#C74334"/>
+    <rect x="108" y="468" width="80" height="88" rx="4" fill="none" stroke="#EDE9E0" stroke-width="1" stroke-opacity="0.5"/>
+    <text x="148" y="497" font-family="'Kaiti SC','STKaiti',serif" font-size="27" font-weight="700" fill="#EDE9E0" text-anchor="middle">张</text>
+    <text x="148" y="527" font-family="'Kaiti SC','STKaiti',serif" font-size="27" font-weight="700" fill="#EDE9E0" text-anchor="middle">翼</text>
+    <text x="148" y="557" font-family="'Kaiti SC','STKaiti',serif" font-size="27" font-weight="700" fill="#EDE9E0" text-anchor="middle">轸</text>
+  </g>
+</svg>

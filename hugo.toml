@@ -30,6 +30,11 @@ timeZone = "Asia/Shanghai"
     defaultTheme = "auto"
     disableThemeToggle = false
 
+    # SEO：首页 meta description（列表页无 description 时也会回落到这里）
+    description = "一半是对算力的好奇，一半是对生活的偏见：记录 AI、量化投资与编程实践。"
+    # 社交分享默认缩略图（og:image / twitter:image），源文件 og-image.svg
+    images = ["/og-image.png"]
+
     # 首页显示摘要，不显示全文
     ShowReadingTime = true
     ShowShareButtons = false
