@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-for cmd in git hugo wrangler; do
+for cmd in git hugo wrangler uv; do
   if ! command -v "$cmd" >/dev/null 2>&1; then
     echo "错误: 未找到 $cmd 命令，请先安装。"
     exit 1
@@ -11,6 +11,11 @@ for cmd in git hugo wrangler; do
 done
 
 cd "${SCRIPT_DIR}"
+
+# 先把文章里引用的本地图片上传到 OSS 并改写为远程 URL，
+# 无本地图片时脚本立即退出；上传失败则中断，避免发布失效引用。
+echo "正在检查本地图片并上传至 OSS..."
+uv run "${SCRIPT_DIR}/upload_post_images.py"
 
 echo "正在添加文件..."
 git add .

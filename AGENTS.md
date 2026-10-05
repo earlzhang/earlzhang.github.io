@@ -14,17 +14,19 @@
 | --- | --- |
 | `new_hugo_post.command` | 在 `content/posts/<当年>/` 下按当天日期新建文章草稿 |
 | `start_hugo_server.command` | 本地预览（http://localhost:1313/ ，`hugo server -D`） |
-| `push_blog.command` | 一键发布：git 提交推送 → Hugo 构建 → 部署到 Cloudflare Pages |
+| `push_blog.command` | 一键发布：本地图片上传 OSS → git 提交推送 → Hugo 构建 → 部署到 Cloudflare Pages |
+| `upload_post_images.py` | 被 `push_blog.command` 自动调用：扫描 posts 中的本地图片引用，上传至 OSS `earlmind/blog/` 并改写为带压缩参数的 URL |
 | `downloadl_blog.command` | 拉取远程仓库最新内容 |
 
 ## 如何发布
 
 优先运行 `./push_blog.command`，它会依次完成：
 
-1. `git add .` + 提交（"Update blog content"）+ `git pull --rebase` + `git push`
-2. `hugo --config hugo.toml --minify` 构建到 `public/`
-3. 刷新 Cloudflare OAuth token（refresh_token 会轮换，脚本自动回写到 wrangler 配置）
-4. `wrangler pages deploy public --project-name earlmind --branch main`
+1. `uv run upload_post_images.py`：把文章中引用的本地图片（如 `xxx.assets/`、`./` 相对路径、绝对路径）上传到 OSS `earlmind` bucket 的 `blog/` 前缀并改写引用。无本地图片时跳过；上传失败中断发布；引用的本地文件已丢失时仅警告不阻塞。凭证来自环境变量 / 仓库 `.env` / CSO写作 `script/.env`。
+2. `git add .` + 提交（"Update blog content"）+ `git pull --rebase` + `git push`
+3. `hugo --config hugo.toml --minify` 构建到 `public/`
+4. 刷新 Cloudflare OAuth token（refresh_token 会轮换，脚本自动回写到 wrangler 配置）
+5. `wrangler pages deploy public --project-name earlmind --branch main`
 
 注意事项：
 
