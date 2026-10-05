@@ -19,3 +19,14 @@ code {
         margin-bottom: 20px;
     }
 }
+
+/* 宽表格与行间公式：移动端横向滚动而非溢出页面 */
+.post-content table {
+    display: block;
+    overflow-x: auto;
+}
+
+.post-content .math {
+    overflow-x: auto;
+    overflow-y: hidden;
+}

@@ -71,6 +71,14 @@ timeZone = "Asia/Shanghai"
 # 允许渲染 Markdown 中的 HTML（方便迁移 WordPress 遗留内容）
 [markup]
   [markup.goldmark]
+    [markup.goldmark.extensions]
+      # 数学公式直通：\(...\) 与 \[...\] 原样透传，交由 KaTeX 客户端渲染
+      # 注意：passthrough 无默认定界符，必须显式声明
+      [markup.goldmark.extensions.passthrough]
+        enable = true
+        [markup.goldmark.extensions.passthrough.delimiters]
+          block = [['\[', '\]']]
+          inline = [['\(', '\)']]
     [markup.goldmark.renderer]
       unsafe = true
   [markup.highlight]
