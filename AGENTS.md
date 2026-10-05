@@ -52,6 +52,12 @@ wrangler pages deploy public --project-name earlmind --branch main --commit-hash
 
 改完后按「如何发布」流程构建部署即可生效。
 
+## 数学公式渲染
+
+- 由 `publish_to_blog.py`（CSO写作仓库）发布的文章，会自动将公式图片还原为 `\(...\)`（行内）/`\[...\]`（行间）定界符，并在 frontmatter 写入 `math = true`。
+- `hugo.toml` 的 Goldmark `passthrough` 扩展透传 LaTeX 定界符；`layouts/partials/extend_head.html` 在 `math = true` 时加载 KaTeX auto-render 完成客户端渲染。
+- 手写含公式的文章：frontmatter 加 `math = true`，正文用上述定界符（不要用 `$`，避免与金额符号冲突）。
+
 ## Git 提交规范
 
 - 遵循 Conventional Commits（`feat`、`fix`、`docs` 等），按功能模块原子提交，禁止 `git add .` 混提多个领域（`push_blog.command` 内部的 `git add .` 除外，那是既有脚本行为）。
