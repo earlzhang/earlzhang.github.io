@@ -30,3 +30,9 @@ code {
     overflow-x: auto;
     overflow-y: hidden;
 }
+
+/* 列表页摘要显示完整 description，不做行数截断 */
+.entry-content,
+.first-entry .entry-content {
+    -webkit-line-clamp: unset;
+}
