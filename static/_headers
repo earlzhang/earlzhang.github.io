@@ -1,0 +1,31 @@
+# Cloudflare Pages 响应头规则（Hugo 经 static/ 拷入 public/_headers）
+# 同一请求可命中多条规则，同名头以靠后的规则为准：通用扩展名规则在前，指纹资源在后覆盖。
+
+# 根目录静态文件可能同路径更新（airbnb.css、full.min.js、favicon 等），缓存一天
+/*.png
+  Cache-Control: public, max-age=86400
+/*.jpg
+  Cache-Control: public, max-age=86400
+/*.jpeg
+  Cache-Control: public, max-age=86400
+/*.webp
+  Cache-Control: public, max-age=86400
+/*.svg
+  Cache-Control: public, max-age=86400
+/*.ico
+  Cache-Control: public, max-age=86400
+/*.css
+  Cache-Control: public, max-age=86400
+/*.js
+  Cache-Control: public, max-age=86400
+
+# pages.dev 子域无法关闭，禁止收录（权重归并由 PaperMod 输出的 canonical 保证）
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+# PaperMod 指纹资源（stylesheet.<hash>.css 等，内容变则文件名变）：一年不可变缓存
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable

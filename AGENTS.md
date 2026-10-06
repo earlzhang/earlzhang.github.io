@@ -41,6 +41,8 @@ hugo --config hugo.toml --minify
 wrangler pages deploy public --project-name earlmind --branch main --commit-hash "$(git rev-parse --short HEAD)"
 ```
 
+响应头与缓存由 `static/_headers`（Cloudflare Pages 规则）控制：`/assets/` 下 PaperMod 指纹资源缓存一年且 immutable，根目录静态文件缓存一天，HTML 维持 Pages 默认 `must-revalidate`；`*.pages.dev` 域名加 `X-Robots-Tag: noindex`。canonical 已由 PaperMod 自动输出，无需配置。
+
 ## 如何增加页面底部链接
 
 底部链接区由 `layouts/partials/extend_footer.html` 定义（覆盖 PaperMod 同名 partial），当前包含 Email 图标、SVGArena、大模型谄媚榜单等链接。
