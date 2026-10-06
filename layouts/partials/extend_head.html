@@ -1,3 +1,16 @@
+{{- /* 浏览器地址栏/状态栏颜色跟随页面当前主题（含手动切换） */ -}}
+<script>
+(function () {
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (!m) return;
+    var sync = function () {
+        var c = getComputedStyle(document.documentElement).getPropertyValue('--theme').trim();
+        if (c) m.setAttribute('content', c);
+    };
+    sync();
+    new MutationObserver(sync).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+})();
+</script>
 {{- /* KaTeX 数学公式渲染：仅当文章 frontmatter 声明 math = true 时加载 */ -}}
 {{- if .Params.math }}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">

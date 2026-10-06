@@ -35,6 +35,9 @@ timeZone = "Asia/Shanghai"
     # 社交分享默认缩略图（og:image / twitter:image），源文件 og-image.svg
     images = ["/og-image.png"]
 
+    # 中文日期格式
+    DateFormat = "2006年1月2日"
+
     # 首页显示摘要，不显示全文
     ShowReadingTime = true
     ShowShareButtons = false
@@ -47,7 +50,7 @@ timeZone = "Asia/Shanghai"
     # 首页文章列表配置
     [params.homeInfoParams]
         Title = "EarlMind"
-        Content = "一半是对算力的好奇，一半是对生活的偏见 by张翼轸"
+        Content = "<span class=\"seg\">一半是对算力的好奇，</span><span class=\"seg\">一半是对生活的偏见</span><span class=\"byline\">张翼轸</span>"
 
 [[params.socialIcons]]
     name = "email"

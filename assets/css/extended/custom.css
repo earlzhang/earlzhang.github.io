@@ -1,29 +1,479 @@
+/* ============================================================
+   EarlMind 视觉层 · 黑题宋文
+   ------------------------------------------------------------
+   字体分工（中文书刊惯例）：
+     - 黑体（系统无衬线）：标题、导航、元信息、表格、标签
+     - 宋体（衬线）：正文、摘要、导语、引文
+     iOS/macOS 原生 Songti SC；支持宋体的安卓走 Noto/Source
+     Han Serif；不支持宋体的设备自动回退黑体，体验不降级。
+   西文与数字单独指定一款衬线（见 EM Latin Serif），
+   不使用宋体自带的拉丁字形——后者偏细偏弱，与汉字不匹配。
+   色彩：沿用 PaperMod 中性色，仅加一枚「朱砂印章」色，
+   用于章节标记、选区与 hover 等克制的结构提示。
+   ============================================================ */
+
+/* 西文/数字专用衬线：unicode-range 仅覆盖基本拉丁，
+   引号、破折号、省略号等标点仍交给汉字字体，保持全角宽度 */
+@font-face {
+    font-family: "EM Latin Serif";
+    font-weight: 400;
+    font-style: normal;
+    unicode-range: U+0020-007E, U+00A0-00FF;
+    src: local("Charter"), local("Charter-Roman"), local("Iowan Old Style"),
+        local("IowanOldStyle-Roman"), local("Noto Serif"), local("NotoSerif-Regular"),
+        local("Cambria");
+}
+
+@font-face {
+    font-family: "EM Latin Serif";
+    font-weight: 700;
+    font-style: normal;
+    unicode-range: U+0020-007E, U+00A0-00FF;
+    src: local("Charter Bold"), local("Charter-Bold"), local("Iowan Old Style Bold"),
+        local("IowanOldStyle-Bold"), local("Noto Serif Bold"), local("NotoSerif-Bold"),
+        local("Cambria Bold");
+}
+
+@font-face {
+    font-family: "EM Latin Serif";
+    font-weight: 400;
+    font-style: italic;
+    unicode-range: U+0020-007E, U+00A0-00FF;
+    src: local("Charter Italic"), local("Charter-Italic"), local("Iowan Old Style Italic"),
+        local("IowanOldStyle-Italic"), local("Noto Serif Italic"), local("NotoSerif-Italic"),
+        local("Cambria Italic");
+}
+
+:root {
+    --accent: rgb(168, 59, 41);
+    --accent-soft: rgba(168, 59, 41, 0.12);
+    --font-serif: "EM Latin Serif", "Songti SC", "STSong", "Noto Serif CJK SC",
+        "Noto Serif SC", "Source Han Serif SC", "Source Han Serif CN", "SimSun", serif;
+    --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "MiSans",
+        "HarmonyOS Sans SC", "Source Han Sans SC", "Noto Sans CJK SC",
+        "Noto Sans SC", "Microsoft YaHei", "Segoe UI", Helvetica, Arial, sans-serif;
+    --font-mono: "SF Mono", "Menlo", "Monaco", "Consolas", "Source Code Pro", monospace;
+    --main-width: 740px;
+    --nav-width: var(--main-width);
+}
+
+:root {
+    --primary: rgb(16, 16, 16);
+    --content: rgb(22, 22, 22);
+    --secondary: rgb(80, 80, 80);
+    --tertiary: rgb(188, 188, 188);
+    --border: rgb(224, 224, 224);
+}
+
+:root[data-theme="dark"] {
+    --accent: rgb(217, 130, 105);
+    --accent-soft: rgba(217, 130, 105, 0.16);
+    --primary: rgb(236, 236, 237);
+    --content: rgb(220, 220, 221);
+    --secondary: rgb(172, 173, 175);
+    --tertiary: rgb(88, 89, 92);
+    --border: rgb(62, 63, 66);
+}
+
+/* 浅色背景保持系统默认渲染（macOS 上比 antialiased 更实），仅深色模式用灰度抗锯齿防止字发胀 */
+:root[data-theme="dark"] body {
+    -webkit-font-smoothing: antialiased;
+}
+
 body {
-    font-family: "PingFang SC", "Hiragino Sans GB", "Source Han Sans CN", "Microsoft YaHei", "Segoe UI", Helvetica, Arial, sans-serif;
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    /* 中西文之间自动补间距（盘古之白），不依赖作者手敲空格 */
+    text-autospace: normal;
+    line-break: strict;
 }
 
 code {
-    font-family: "Menlo", "Monaco", "Consolas", "Source Code Pro", "PingFang SC", monospace;
+    font-family: var(--font-mono);
 }
 
-/* 优化首页标题区域的上下留白 */
-.first-entry.home-info {
-    min-height: 120px; /* 覆盖默认的 320px */
-    margin-top: 10px;  /* 减小顶部边距 */
-    margin-bottom: 30px; /* 减小与下方文章列表的边距 */
+::selection {
+    background: var(--accent-soft);
 }
 
-@media screen and (max-width: 768px) {
-    .first-entry.home-info {
-        min-height: 100px;
-        margin-bottom: 20px;
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* 标题子句：折行优先发生在「：，、；」之后，而不是词中间 */
+.seg {
+    display: inline-block;
+    max-width: 100%;
+}
+
+/* ---------- 顶部导航 ---------- */
+
+.header {
+    border-bottom: 1px solid var(--border);
+}
+
+.logo a {
+    font-family: var(--font-serif);
+    font-size: 23px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+#menu a {
+    font-size: 16.5px;
+    letter-spacing: 0.08em;
+}
+
+#menu .active {
+    border-bottom-color: var(--accent);
+}
+
+/* ---------- 列表页：去卡片化的目录索引 ---------- */
+
+.list {
+    background: var(--theme);
+}
+
+.post-entry {
+    margin-bottom: 0;
+    padding: 22px 0;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+    transition: none;
+}
+
+.post-entry:active {
+    transform: none;
+}
+
+.entry-header h2 {
+    font-size: 23px;
+    font-weight: 600;
+    line-height: 1.45;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+}
+
+/* 悬停时在标题左侧留白处浮出朱砂方章（与正文章节标记同源），不占布局、不位移文字 */
+.entry-header h2,
+.archive-entry-title {
+    position: relative;
+}
+
+.entry-header h2::before,
+.archive-entry-title::before {
+    content: "";
+    position: absolute;
+    left: -0.9em;
+    top: 0.72em;
+    width: 0.3em;
+    height: 0.3em;
+    background: var(--accent);
+    border-radius: 1px;
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+
+@media (hover: hover) and (min-width: 769px) {
+    .post-entry:hover .entry-header h2,
+    .archive-entry:hover .archive-entry-title {
+        color: var(--accent);
+    }
+
+    .post-entry:hover .entry-header h2::before,
+    .archive-entry:hover .archive-entry-title::before {
+        opacity: 1;
     }
 }
 
-/* 宽表格与行间公式：移动端横向滚动而非溢出页面 */
+.entry-content {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    line-height: 1.8;
+    letter-spacing: 0.01em;
+    color: var(--secondary);
+    margin: 10px 0;
+    text-wrap: pretty;
+    /* 列表页摘要显示完整 description，不做行数截断 */
+    -webkit-line-clamp: unset;
+}
+
+.entry-footer {
+    font-size: 14.5px;
+    letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 首页刊头：一副对子 + 落款 ---------- */
+
+.first-entry.home-info {
+    min-height: unset;
+    margin: 14px 0 0;
+    padding-bottom: 26px;
+    border-bottom: 1px solid var(--border);
+    justify-content: flex-start;
+}
+
+/* 站名已在导航栏，h1 仅保留给搜索引擎与读屏 */
+.first-entry.home-info .entry-header {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.first-entry.home-info .entry-content {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.85;
+    letter-spacing: 0.05em;
+    color: var(--content);
+}
+
+/* 落款前的朱砂方章，与正文 h2 标记同一枚 */
+.first-entry.home-info .byline::before {
+    content: "";
+    display: inline-block;
+    width: 0.42em;
+    height: 0.42em;
+    margin-inline-end: 0.7em;
+    vertical-align: 0.06em;
+    background: var(--accent);
+    border-radius: 1px;
+}
+
+.first-entry.home-info .byline {
+    display: inline-block;
+    margin-inline-start: 1.1em;
+    font-family: var(--font-sans);
+    font-size: 14.5px;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    color: var(--secondary);
+}
+
+.first-entry.home-info .social-icons {
+    display: none;
+}
+
+/* ---------- 文章页头：标题 / 导语 / 元信息三级 ---------- */
+
+.post-header {
+    padding-bottom: 22px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--border);
+}
+
+.breadcrumbs {
+    font-size: 14.5px;
+    margin-bottom: 14px;
+    letter-spacing: 0.04em;
+}
+
+.breadcrumbs a {
+    font-size: 14.5px;
+}
+
+.breadcrumbs a:last-child {
+    color: var(--secondary);
+}
+
+.post-title {
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 1.38;
+    letter-spacing: 0.01em;
+    margin-bottom: 16px;
+    text-wrap: balance;
+}
+
+/* 导语：宋体灰字，与正文黑题拉开层级 */
+.post-description {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    line-height: 1.85;
+    letter-spacing: 0.015em;
+    color: var(--secondary);
+    margin: 0 0 16px;
+    text-wrap: pretty;
+}
+
+.post-meta {
+    font-size: 14.5px;
+    letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+}
+
+.page-header h1 {
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+/* ---------- 正文：宋体长文 ---------- */
+
+.post-content {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    line-height: 1.9;
+    letter-spacing: 0.02em;
+    font-variant-numeric: lining-nums;
+    text-align: justify;
+    text-justify: inter-character;
+    hanging-punctuation: first allow-end;
+}
+
+/* 避免段尾只剩一两个字（孤字） */
+.post-content p,
+.post-content li {
+    text-wrap: pretty;
+}
+
+.post-content h1,
+.post-content h2,
+.post-content h3,
+.post-content h4,
+.post-content h5,
+.post-content h6 {
+    font-family: var(--font-sans);
+    letter-spacing: 0.01em;
+    text-align: start;
+    text-wrap: balance;
+}
+
+.post-content h1 {
+    margin: 2em auto 1.2em;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.post-content h2 {
+    margin: 2.6em auto 1.1em;
+    font-size: 25px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+/* 章节前的朱砂方章，全站唯一的装饰性标记 */
+.post-content h2::before {
+    content: "";
+    display: inline-block;
+    width: 0.34em;
+    height: 0.34em;
+    margin-inline-end: 0.5em;
+    vertical-align: 0.12em;
+    background: var(--accent);
+    border-radius: 1px;
+}
+
+.post-content h3 {
+    margin: 2em auto 0.9em;
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.45;
+}
+
+.post-content h4 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.post-content h3,
+.post-content h4,
+.post-content h5,
+.post-content h6 {
+    margin-top: 1.8em;
+    margin-bottom: 0.8em;
+}
+
+.post-content ol,
+.post-content ul {
+    padding-inline-start: 1.4em;
+}
+
+.post-content li::marker {
+    color: var(--secondary);
+}
+
+.post-content strong {
+    font-weight: 700;
+}
+
+/* 链接：细下划线 + 朱砂 hover，避免黑体下划线压字 */
+.post-content a {
+    box-shadow: none;
+    text-decoration: underline;
+    text-decoration-color: var(--tertiary);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    word-break: break-all;
+}
+
+.post-content a:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+}
+
+.post-content a code {
+    box-shadow: none;
+}
+
+/* 引文：收小一档、灰字细边，与正文分明 */
+.post-content blockquote {
+    margin: 1.6em 0;
+    padding: 2px 0 2px 16px;
+    border-inline-start: 2px solid var(--tertiary);
+    color: var(--secondary);
+    font-size: 0.95em;
+    line-height: 1.8;
+}
+
+.post-content blockquote p:last-child {
+    margin-bottom: 0;
+}
+
+/* 分隔线：居中的短细线 */
+.post-content hr {
+    margin: 3em auto;
+    width: 34%;
+    height: 1px;
+    background: var(--tertiary);
+    border: 0;
+}
+
+/* 表格：三线表（顶线、表头线、底线）；数据切回黑体 + 等宽数字，宽表横向滚动 */
 .post-content table {
     display: block;
     overflow-x: auto;
+    font-family: var(--font-sans);
+    font-size: 16.5px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0;
+    text-align: start;
+    -webkit-overflow-scrolling: touch;
+}
+
+.post-content table th {
+    border-top: 1.5px solid var(--primary);
+    border-bottom: 1px solid var(--primary);
+    font-weight: 600;
+}
+
+.post-content table tr:last-child td {
+    border-bottom: 1.5px solid var(--primary);
+}
+
+.post-content img {
+    border-radius: 4px;
+    margin: 1.4em auto;
 }
 
 .post-content .math {
@@ -31,8 +481,181 @@ code {
     overflow-y: hidden;
 }
 
-/* 列表页摘要显示完整 description，不做行数截断 */
-.entry-content,
-.first-entry .entry-content {
-    -webkit-line-clamp: unset;
+.post-content pre,
+.post-content .highlight,
+.post-content code {
+    text-align: start;
+    letter-spacing: 0;
+}
+
+.post-content code {
+    font-size: 0.8em;
+}
+
+.post-content figure > figcaption,
+.post-content figcaption p {
+    font-family: var(--font-sans);
+    text-align: start;
+}
+
+/* ---------- 文章页脚 ---------- */
+
+.post-footer {
+    margin-top: 1.4em;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+}
+
+.post-tags a {
+    font-size: 14.5px;
+}
+
+.paginav {
+    background: transparent;
+}
+
+.paginav span:not(.title) {
+    text-wrap: balance;
+}
+
+.paginav .title {
+    font-size: 13px;
+    letter-spacing: 0.1em;
+}
+
+.footer {
+    letter-spacing: 0.04em;
+}
+
+/* ---------- 归档页 ---------- */
+
+.archive-posts {
+    font-family: var(--font-sans);
+}
+
+.archive-year {
+    margin-top: 32px;
+    border-bottom: 0 !important;
+}
+
+.archive-year-header {
+    font-size: 30px;
+    letter-spacing: 0.02em;
+    font-variant-numeric: lining-nums;
+}
+
+.archive-month {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.archive-month:last-of-type {
+    border-bottom: 0;
+}
+
+.archive-month-header {
+    margin: 12px 0 4px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--secondary);
+}
+
+.archive-entry {
+    padding: 4px 0;
+    margin: 8px 0;
+}
+
+.archive-entry-title {
+    margin: 0 0 2px;
+    font-size: 18px;
+    line-height: 1.5;
+    text-wrap: balance;
+}
+
+@media (hover: hover) {
+    .archive-entry:hover .archive-entry-title {
+        color: var(--accent);
+    }
+}
+
+.archive-count,
+.archive-meta {
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 移动端 ---------- */
+
+@media screen and (max-width: 768px) {
+    :root {
+        --gap: 18px;
+    }
+
+    body {
+        font-size: 16.5px;
+    }
+
+    .logo a {
+        font-size: 19px;
+    }
+
+    .first-entry.home-info .entry-content {
+        font-size: 17.5px;
+    }
+
+    .first-entry.home-info .byline {
+        display: block;
+        margin: 8px 0 0;
+    }
+
+    .post-title {
+        font-size: 25px;
+        line-height: 1.42;
+    }
+
+    .page-header h1 {
+        font-size: 26px;
+    }
+
+    .post-description {
+        font-size: 15px;
+    }
+
+    .post-content {
+        font-size: 16.5px;
+        line-height: 1.85;
+    }
+
+    .post-content h1 {
+        font-size: 22px;
+    }
+
+    .post-content h2 {
+        font-size: 19px;
+    }
+
+    .post-content h3 {
+        font-size: 16.5px;
+    }
+
+    .entry-header h2 {
+        font-size: 17.5px;
+    }
+
+    .entry-content {
+        font-size: 14.5px;
+    }
+}
+
+/* ---------- 大屏（5K iMac 等）：整体等比放大，保持阅读视角下的字号 ---------- */
+
+@media screen and (min-width: 1600px) {
+    body {
+        zoom: 1.1;
+    }
+}
+
+@media screen and (min-width: 2200px) {
+    body {
+        zoom: 1.2;
+    }
 }
