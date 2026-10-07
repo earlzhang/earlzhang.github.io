@@ -39,7 +39,8 @@ timeZone = "Asia/Shanghai"
     DateFormat = "2006年1月2日"
 
     # 首页显示摘要，不显示全文
-    ShowReadingTime = true
+    ShowReadingTime = false
+    ShowWordCount = true
     ShowShareButtons = false
     ShowPostNavLinks = true
     ShowBreadCrumbs = true
