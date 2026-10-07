@@ -26,7 +26,7 @@ timeZone = "Asia/Shanghai"
 
 [params]
     # 全局作者信息
-    author = "Earl" 
+    author = "张翼轸"
     defaultTheme = "auto"
     disableThemeToggle = false
 
