@@ -58,15 +58,15 @@ timeZone = "Asia/Shanghai"
     url = "mailto:earlzhang@gmail.com"
 # 侧边栏与菜单设置
 [[menu.main]]
-    identifier = "posts"
-    name = "文章"
-    url = "/posts/"
-    weight = 10
-
-[[menu.main]]
     identifier = "archive"
     name = "归档"
     url = "/archives/"
+    weight = 10
+
+[[menu.main]]
+    identifier = "search"
+    name = "搜索"
+    url = "/search/"
     weight = 20
 
 # 搜索优化（PaperMod 特色）
