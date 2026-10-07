@@ -2,7 +2,7 @@
 title: "Typst 文稿纸模板分享：20×20 淡绿色作文格"
 date: 2026-10-07T21:00:00+08:00
 draft: false
-tags: ["Typst", "作文", "模板", "中文排版"]
+tags: ["AI工具", "写作", "育儿", "效率工具"]
 categories: ["工具"]
 author: "张翼轸 & SWE-2"
 ---

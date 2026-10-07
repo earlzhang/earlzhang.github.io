@@ -17,6 +17,12 @@
 | `push_blog.command` | 一键发布：本地图片上传 OSS → git 提交推送 → Hugo 构建 → 部署到 Cloudflare Pages |
 | `upload_post_images.py` | 被 `push_blog.command` 自动调用：扫描 posts 中的本地图片引用，上传至 OSS `earlmind/blog/` 并改写为带压缩参数的 URL |
 | `downloadl_blog.command` | 拉取远程仓库最新内容 |
+| `add_blog_tags.py` | 批量为历史文章生成 tags：`uv run add_blog_tags.py content/posts/2026 [--dry-run] [--limit N] [--skip-tagged]`，按 `blog_tags.txt` 词表调用 deepseek-flash 选 3-5 个 tag 写回 frontmatter（兼容 TOML/YAML，已有 tags 默认重新归一） |
+
+## Tags 词表
+
+- 词表文件：`blog_tags.txt`（仓库根目录），每行一个 tag，`#` 为注释。批量脚本与 CSO写作 `script/publish_to_blog.py` 共用此文件。
+- 发布新文章时 `publish_to_blog.py` 会按词表生成 tags，并允许补充至多 1 个词表外新 tag，自动追加到文件末尾「自动追加」段——定期人工归并，避免同义 tag 发散。
 
 ## 如何发布
 
