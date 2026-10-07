@@ -209,6 +209,12 @@ summary:focus-visible {
     font-variant-numeric: tabular-nums;
 }
 
+/* 列表与归档页隐藏作者署名（首页刊头已有落款，正文页 .post-meta 仍显示） */
+.entry-footer .meta-author,
+.archive-meta .meta-author {
+    display: none;
+}
+
 /* ---------- 首页刊头：一副对子 + 落款 ---------- */
 
 .first-entry.home-info {
