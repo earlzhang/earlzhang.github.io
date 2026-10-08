@@ -67,7 +67,7 @@ AI时代，自己动手丰衣足食。
 
 ### 示例效果
 
-![20×20 文稿纸排版效果](https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20261007_211851_627_26b7f065_yuangao-demo.png?x-oss-process=image/resize,w_1200/format,webp/quality,q_80)
+![20×20 文稿纸排版效果](https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20261008_181922_802_4526ebdc_yuangao-demo.png?x-oss-process=image/resize,w_1200/format,webp/quality,q_80)
 
 ### 源码说明
 
