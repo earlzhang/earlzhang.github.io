@@ -32,8 +32,8 @@ timeZone = "Asia/Shanghai"
 
     # SEO：首页 meta description（列表页无 description 时也会回落到这里）
     description = "一半是对算力的好奇，一半是对生活的偏见：记录 AI、量化投资与编程实践。"
-    # 社交分享默认缩略图（og:image / twitter:image），源文件 og-image.svg
-    images = ["/og-image.png"]
+    # 社交分享默认缩略图（og:image / twitter:image），源文件 static/brand/og-image.svg
+    images = ["/brand/og-image.png"]
 
     # 中文日期格式
     DateFormat = "2006年1月2日"
@@ -52,6 +52,12 @@ timeZone = "Asia/Shanghai"
     [params.homeInfoParams]
         Title = "EarlMind"
         Content = "<span class=\"seg\">一半是对算力的好奇，</span><span class=\"seg\">一半是对生活的偏见</span><span class=\"byline\">张翼轸</span>"
+
+[params.assets]
+    favicon = "/brand/favicon.svg"
+    favicon16x16 = "/brand/favicon-16x16.png"
+    favicon32x32 = "/brand/favicon-32x32.png"
+    apple_touch_icon = "/brand/apple-touch-icon.png"
 
 [[params.socialIcons]]
     name = "email"
