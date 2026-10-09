@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+  <title>EarlMind</title>
+  <defs>
+    <pattern id="px" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M60 0H0V60" fill="none" stroke="#F5F7FA" stroke-width="2"/>
+    </pattern>
+    <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.07"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0.02"/>
+    </linearGradient>
+    <mask id="half">
+      <rect width="600" height="1200" fill="url(#fade)"/>
+    </mask>
+  </defs>
+
+  <rect width="1200" height="1200" fill="#0F3A86"/>
+  <!-- 左半画布：像素网格（算力）；右半画布留白（生活） -->
+  <rect width="600" height="1200" fill="url(#px)" mask="url(#half)"/>
+
+  <!-- 标志：与 favicon 同一 16 格几何，放大 60 倍 -->
+  <g transform="translate(120 120) scale(60)">
+    <path fill="#F5F7FA" d="M8 2H6V3H4V4H3V6H2V10H3V12H4V13H6V14H8V12H6V11H5V10H4V6H5V5H6V4H8Z"/>
+    <path fill="#F5F7FA" d="M8 2A6 6 0 0 1 8 14V12A4 4 0 0 0 8 4Z"/>
+    <circle cx="9.5" cy="6.5" r="1.5" fill="#F2483C"/>
+  </g>
+
+  <!-- 真正的圆心：标出红点“偏”了多少 -->
+  <g stroke="#F5F7FA" stroke-opacity="0.35" stroke-width="3" stroke-linecap="round">
+    <path d="M600 582V618M582 600H618"/>
+  </g>
+
+  <text x="600" y="1086" text-anchor="middle" fill="#F5F7FA" fill-opacity="0.6"
+        font-family="SF Mono, Menlo, monospace" font-size="34" letter-spacing="10">earlmind.com</text>
+</svg>
