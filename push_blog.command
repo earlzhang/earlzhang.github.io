@@ -84,3 +84,6 @@ export CLOUDFLARE_ACCOUNT_ID="f44fa8564dc0270da8eb3b69daa20c57"
 wrangler pages deploy public --project-name earlmind --branch main --commit-hash "$(git rev-parse --short HEAD)"
 
 echo "推送完成！已部署到 https://earlmind.com"
+
+# 部署完成，打开网站确认线上状态
+open "https://earlmind.com"
