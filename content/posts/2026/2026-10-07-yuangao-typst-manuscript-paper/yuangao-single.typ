@@ -15,7 +15,6 @@
   "Kaiti SC",
   "STKaiti",
   "KaiTi",
-  "TW-MOE-Std-Kai",
   "Songti SC",
   "SimSun",
   "PingFang SC",
