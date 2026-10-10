@@ -18,6 +18,7 @@
 | `upload_post_images.py` | 被 `push_blog.command` 自动调用：扫描 posts 中的本地图片引用，上传至 OSS `earlmind/blog/` 并改写为带压缩参数的 URL |
 | `downloadl_blog.command` | 拉取远程仓库最新内容 |
 | `add_blog_tags.py` | 批量为历史文章生成 tags：`uv run add_blog_tags.py content/posts/2026 [--dry-run] [--limit N] [--skip-tagged]`，按 `blog_tags.txt` 词表调用 deepseek-flash 选 3-5 个 tag 写回 frontmatter（兼容 TOML/YAML，已有 tags 默认重新归一） |
+| `refresh_blog_meta.py` | 一次性刷新存量博文的 description 与 tags：`uv run refresh_blog_meta.py content/posts/2026 [--dry-run] [--limit N]`。每篇只调用一次 `generate_metadata`（新 prompt：先 thesis/topics 再写字段），同时更新两行 frontmatter，兼容 TOML/YAML；slug 不改动。批量刷新优先用本脚本，勿再分别跑 `add_blog_tags.py` + `regen_blog_descriptions.py`（两次模型调用，浪费） |
 
 ## Tags 词表
 
