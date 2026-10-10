@@ -1,8 +1,11 @@
-// yuangao:0.1.0 lib.typ - Typst Chinese Manuscript Paper (文稿纸 / 原稿纸)
+// 20×20 淡绿色文稿纸通用模板 —— 单文件版
+// lib.typ 已内联，无外部依赖，可直接整段粘贴到 https://typst.app/play/ 使用
+// 编译命令：typst compile yuangao-single.typ
+
+// ---------- lib.typ 内联开始 ----------
+// yuangao:0.1.0 - Typst Chinese Manuscript Paper (文稿纸 / 原稿纸)
 // Author: 张翼轸 <me@earlmind.com>
-// AI Assistant: SWE-2 (Cognition Devin)
 // License: MIT
-// Repository: https://earlmind.com/2026/2026-10-07-yuangao-typst-manuscript-paper/
 
 /// 稿纸字体回退链（macOS / Windows / typst.app / Linux 多端兼容）：
 /// 楷体优先：Kaiti SC / STKaiti（macOS）→ KaiTi（Windows）→ TW-MOE-Std-Kai（typst.app 内置）
@@ -111,7 +114,7 @@
   // 2. 正文分段排入格子
   let raw-str = extract-text(body-text)
   let raw-paras = raw-str.split(regex("\r?\n+"))
-  
+
   // 中文标点避头与避尾规则
   let avoid-start-punct = (
     "，", "。", "、", "！", "？", "；", "：", "”", "’", "》", "）", "】", "…", "—",
@@ -238,7 +241,7 @@
     let cell-boxes = ()
     for c in range(cols) {
       let char-val = if c < line-cells.len() { line-cells.at(c) } else { "" }
-      
+
       // 单个方格
       cell-boxes.push(
         box(
@@ -430,3 +433,18 @@
     }
   }
 }
+// ---------- lib.typ 内联结束 ----------
+
+// ---------- 模板调用 ----------
+#show: yuangao.with(
+  cols: 20,                   // 每行20格
+  rows: 20,                   // 每页20行（共400格）
+  grid-color: rgb("#70a174"), // 淡绿色方格
+  title: "标题",              // 作文标题（自动居中排在第一行方格）
+  date: "日期",               // 如不需要日期，直接注释掉或设为 none 即可
+  paper-title: "文 稿 纸",     // 顶部标题
+  show-word-count: true,      // 右侧显示 100/200/300/400 字标记
+  title-in-grid: true,        // 标题排在方格内（第一行）
+)
+
+正文

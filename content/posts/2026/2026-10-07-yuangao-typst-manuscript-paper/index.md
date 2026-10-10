@@ -31,6 +31,8 @@ AI时代，自己动手丰衣足食。
 - [lib.typ 插件源码](lib.typ)
 - [yuangao-template.typ 空白模板](yuangao-template.typ)
 
+当然，你也可以下载[二合一版](yuangao-single.typ)，在类似https://typst.app/play/ 现在渲染时更方便。
+
 ### 使用方法
 
 1. 把 `lib.typ` 和 `yuangao-template.typ` 放在同一目录。
