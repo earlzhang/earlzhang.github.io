@@ -4,7 +4,7 @@
 
 - 基于 **Hugo** 的个人博客，主题为 **PaperMod**（位于 `themes/PaperMod`，主题文件不要直接修改；自定义内容放在根目录 `layouts/` 覆盖）。
 - 站点配置：`hugo.toml`（baseURL 为 https://earlmind.com/ ，语言 zh-cn，时区 Asia/Shanghai）。
-- 文章目录：`content/posts/<年份>/YYYY-MM-DD.md`，永久链接格式为 `/:year/:contentbasename/`。
+- 文章目录：`content/posts/<年份>/YYYY-MM-DD.md`，永久链接格式为 `/:year/:contentbasename/`。含附件的文章用 leaf bundle：`YYYY-MM-DD-slug/` 目录 + `index.md`，附件平铺为 page resource，正文用相对文件名引用。
 - 部署目标：**Cloudflare Pages**（项目名 `earlmind`，生产分支 `main`），由本地 `public/` 构建产物直接部署，GitHub 仓库仅作源码备份。
 - Google Analytics ID：`G-BBE8BTPTWL`（配置在 `hugo.toml`）。
 
