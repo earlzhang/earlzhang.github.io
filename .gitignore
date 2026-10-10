@@ -19,3 +19,6 @@ public/
 
 # 本地密钥配置
 .env
+
+# Python 缓存
+__pycache__/
