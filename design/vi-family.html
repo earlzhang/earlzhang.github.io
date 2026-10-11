@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Earl 品牌家族 · 方形标识提案</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@400;700&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+@theme {
+  --color-paper: #EDEEEA;
+  --color-ink: #17181A;
+  --color-mute: #6B6D70;
+  --color-line: #D3D4CF;
+  --color-earl: #033888;
+  --color-bias: #F2483C;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  --font-sans: "Noto Sans SC", "PingFang SC", system-ui, sans-serif;
+  --font-display: "Instrument Serif", "Noto Serif SC", Georgia, serif;
+}
+.pixelated { image-rendering: pixelated; }
+.eyebrow { @apply font-mono text-[11px] uppercase tracking-[0.18em] text-mute; }
+</style>
+</head>
+<body class="bg-paper text-ink font-sans antialiased">
+<main class="mx-auto max-w-6xl px-5 py-12 md:py-16">
+  <header class="border-b border-line pb-10">
+    <p class="eyebrow">Earl brand family · square marks</p>
+    <h1 class="mt-3 font-display text-5xl md:text-6xl">Earl 品牌家族 · 方形标识提案</h1>
+
+    <div class="mt-10 grid gap-8 md:grid-cols-3">
+      <div>
+        <p class="eyebrow">品牌架构</p>
+        <p class="mt-2 text-sm leading-relaxed">Earl 是母品牌，就是张翼轸本人。<b>EarlETF</b> 讲基金、ETF 与多资产配置，气质是理性；<b>EarlMind</b> 讲 AI、量化与编程，气质是好奇与偏见。</p>
+      </div>
+      <div>
+        <p class="eyebrow">家族规则</p>
+        <p class="mt-2 text-sm leading-relaxed">两个号共用同一块 Earl 蓝方底和白色几何笔画。<b class="text-bias">红色只属于 EarlMind</b>：它是「偏见」的符号，也是在订阅列表里区分两个号的唯一开关。</p>
+      </div>
+      <div>
+        <p class="eyebrow">交付约束</p>
+        <p class="mt-2 text-sm leading-relaxed">只做方形。微信头像会由同一张图生成圆形与方形两版，并压缩到约 240px，上传仅支持 JPG/BMP/GIF；favicon 最小 16px。所以图形全部落在内切圆 84% 的安全区内，纯色平涂，不用细线和渐变。</p>
+      </div>
+    </div>
+
+    <ul class="mt-8 flex flex-wrap gap-6" id="tokens"></ul>
+
+    <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+      <nav class="flex flex-wrap gap-2 font-mono text-xs" id="toc"></nav>
+      <label class="ml-auto flex cursor-pointer items-center gap-2 font-mono text-xs text-mute">
+        <input type="checkbox" id="guides" class="accent-earl">
+        显示构造线（16 格网格 · 圆形裁切 · 84% 安全区）
+      </label>
+    </div>
+  </header>
+
+  <div id="directions" class="mt-16 space-y-24"></div>
+</main>
+
+<script>
+const TAU = Math.PI * 2;
+const DPR = Math.min(window.devicePixelRatio || 1, 3);
+const K = { blue: '#033888', white: '#F6F7FA', red: '#F2483C' };
+const TOKENS = [
+  ['Earl 蓝', K.blue, '家族底色，取自 EarlETF 定稿'],
+  ['纸白', K.white, '笔画'],
+  ['偏见红', K.red, '仅 EarlMind 使用'],
+];
+let showGuides = false;
+
+/* ---------- 基础绘制 ---------- */
+function tile(ctx, s, shape) {
+  ctx.save();
+  ctx.beginPath();
+  shape === 'round' ? ctx.roundRect(0, 0, s, s, s * 0.22) : ctx.rect(0, 0, s, s);
+  ctx.clip();
+  ctx.fillStyle = K.blue;
+  ctx.fillRect(0, 0, s, s);
+}
+
+function guides(ctx, s) {
+  const u = s / 16;
+  ctx.save();
+  ctx.strokeStyle = 'rgba(255,255,255,.14)';
+  ctx.lineWidth = 1;
+  for (let i = 1; i < 16; i++) {
+    const p = Math.round(i * u) + 0.5;
+    ctx.beginPath(); ctx.moveTo(p, 0); ctx.lineTo(p, s); ctx.moveTo(0, p); ctx.lineTo(s, p); ctx.stroke();
+  }
+  ctx.setLineDash([4, 4]);
+  ctx.strokeStyle = 'rgba(255,255,255,.55)';
+  ctx.beginPath(); ctx.arc(s / 2, s / 2, s / 2 - 0.5, 0, TAU); ctx.stroke();
+  ctx.strokeStyle = 'rgba(242,72,60,.9)';
+  ctx.beginPath(); ctx.arc(s / 2, s / 2, s * 0.42, 0, TAU); ctx.stroke();
+  ctx.restore();
+}
+
+// shapes 在 16×16 单位网格内作画；s 为实际像素，用于小尺寸简化
+const mark = shapes => (ctx, s, shape = 'round', g = false) => {
+  tile(ctx, s, shape);
+  ctx.save(); ctx.scale(s / 16, s / 16); shapes(ctx, s); ctx.restore();
+  if (g) guides(ctx, s);
+  ctx.restore();
+};
+
+function rr(ctx, x, y, w, h, r) {
+  ctx.beginPath(); ctx.roundRect(x, y, w, h, r); ctx.fill();
+}
+
+function dot(ctx, x, y, r, color = K.red) {
+  ctx.fillStyle = color; ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.fill();
+}
+
+/* ---------- EarlETF 现有 E（按 1080 定稿描摹，单位 0..1） ---------- */
+const OLD_E = new Path2D();
+OLD_E.moveTo(.280, .353);
+OLD_E.bezierCurveTo(.300, .262, .360, .218, .440, .218);
+OLD_E.lineTo(.870, .218);
+OLD_E.bezierCurveTo(.930, .218, .959, .262, .959, .353);
+OLD_E.closePath();
+OLD_E.moveTo(.049, .560);
+OLD_E.bezierCurveTo(.049, .480, .080, .429, .137, .429);
+OLD_E.lineTo(.673, .429);
+OLD_E.bezierCurveTo(.668, .500, .645, .560, .603, .560);
+OLD_E.lineTo(.406, .560);
+OLD_E.bezierCurveTo(.385, .575, .369, .600, .369, .637);
+OLD_E.lineTo(.876, .637);
+OLD_E.bezierCurveTo(.870, .720, .820, .780, .731, .780);
+OLD_E.lineTo(.293, .780);
+OLD_E.bezierCurveTo(.230, .780, .212, .730, .212, .690);
+OLD_E.bezierCurveTo(.212, .620, .250, .575, .293, .560);
+OLD_E.closePath();
+
+// 在 16 格单位内切换到 E 的 0..1 坐标系，k 为占方底的比例
+function inE(ctx, k, draw) {
+  ctx.save(); ctx.translate(8, 8); ctx.scale(16 * k, 16 * k); ctx.translate(-.5, -.5);
+  ctx.fillStyle = K.white; draw(); ctx.restore();
+}
+const ETF_K = 0.8;
+const oldEScaled = k => ctx => inE(ctx, k, () => ctx.fill(OLD_E));
+
+/* ---------- 方向 1 · 扫描线 ---------- */
+const LEFT_PIX = new Path2D('M8 2H6V3H4V4H3V6H2V10H3V12H4V13H6V14H8V12H6V11H5V10H4V6H5V5H6V4H8Z');
+const RIGHT_RING = new Path2D('M8 2A6 6 0 0 1 8 14V12A4 4 0 0 0 8 4Z');
+function scanRing(ctx, s) {
+  ctx.fillStyle = K.white;
+  if (s <= 32) ctx.fill(LEFT_PIX);
+  else {
+    const th = 0.62;
+    for (let i = 0; i < 12; i++) {
+      const y = 2.5 + i, dy = y - 8;
+      const ox = 8 - Math.sqrt(36 - dy * dy);
+      const toCenter = Math.abs(dy) >= 4;
+      const ix = toCenter ? 8 : 8 - Math.sqrt(16 - dy * dy);
+      const r = th / 2;
+      rr(ctx, ox, y - th / 2, ix - ox, th, toCenter ? [r, 0, 0, r] : r);
+    }
+  }
+  ctx.fill(RIGHT_RING);
+  dot(ctx, 9.5, 6.5, 1.5);
+}
+
+/* ---------- 方向 2 · 半像素 E ---------- */
+// 行边界贴合 E 的三条横带与两道间隙（每带 3 行、每隙 2 行），列宽取近似行高
+const BANDS = [[.218, .353, 3], [.353, .429, 2], [.429, .560, 3], [.560, .637, 2], [.637, .780, 3]];
+const PX = {
+  x0: .049, c: .045, cols: 11,
+  rows: [.218, ...BANDS.flatMap(([a, b, n]) => Array.from({ length: n }, (_, i) => a + (b - a) * (i + 1) / n))],
+};
+const SPLIT = PX.x0 + PX.cols * PX.c;
+const PIX_HALF = (() => {
+  const probe = document.createElement('canvas').getContext('2d');
+  const p = new Path2D();
+  for (let r = 0; r < PX.rows.length - 1; r++) {
+    const y0 = PX.rows[r], y1 = PX.rows[r + 1], cy = (y0 + y1) / 2;
+    let start = -1;
+    for (let j = 0; j <= PX.cols; j++) {
+      const inside = j < PX.cols && probe.isPointInPath(OLD_E, PX.x0 + (j + .5) * PX.c, cy);
+      if (inside && start < 0) start = j;
+      if (!inside && start >= 0) { p.rect(PX.x0 + start * PX.c, y0, (j - start) * PX.c, y1 - y0); start = -1; }
+    }
+  }
+  return p;
+})();
+function halfPixelE(ctx, s) {
+  inE(ctx, ETF_K, () => {
+    if (s <= 16) ctx.fill(OLD_E);
+    else {
+      ctx.fill(PIX_HALF);
+      ctx.save(); ctx.beginPath(); ctx.rect(SPLIT - .02, 0, 1, 1); ctx.clip(); ctx.fill(OLD_E); ctx.restore();
+    }
+    dot(ctx, .80, .48, .066);
+  });
+}
+
+/* ---------- 方向 3 · 同字族 m ---------- */
+// 坐标与 E 同系：顶横 = E 上横，基线 = E 下横底；翼尖取 E 中横左端，右上取 E 上横右端，右下取 E 下横右端
+const SISTER_M = (() => {
+  const top = .218, bar = .353, base = .780, w = .135, g = .09, tip = .035, a = tip + .17, r = .045;
+  const L = [a, a + w + g, a + 2 * (w + g)], R = L[2] + w;
+  const p = new Path2D();
+  p.moveTo(tip, bar);
+  p.bezierCurveTo(tip, .273, tip + .031, top, tip + .088, top);
+  p.lineTo(R - .09, top);
+  p.bezierCurveTo(R - .03, top, R, .262, R, bar);
+  p.lineTo(R, base - .09);
+  p.bezierCurveTo(R, base - .035, R - .032, base, R - .09, base);
+  p.lineTo(L[2], base);
+  p.lineTo(L[2], bar + r); p.quadraticCurveTo(L[2], bar, L[2] - r, bar);
+  p.lineTo(L[1] + w, bar); p.lineTo(L[1] + w, base); p.lineTo(L[1], base);
+  p.lineTo(L[1], bar + r); p.quadraticCurveTo(L[1], bar, L[1] - r, bar);
+  p.lineTo(L[0] + w, bar); p.lineTo(L[0] + w, base); p.lineTo(L[0], base);
+  p.lineTo(L[0], bar);
+  p.closePath();
+  return { path: p, dot: [R + .04 + w / 2, base - w / 2, w / 2] };
+})();
+function sisterM(ctx) {
+  inE(ctx, ETF_K, () => { ctx.fill(SISTER_M.path); dot(ctx, ...SISTER_M.dot); });
+}
+
+/* ---------- 三个方向 ---------- */
+const DIRECTIONS = [
+  {
+    id: 'scanline', no: 1, kind: '演进', cn: '扫描线', en: 'Scanline',
+    concept: '保留现有的像素环和偏心红点。大尺寸下，左半环从像素台阶改为水平扫描线：这正是计算机光栅化一个圆的方式，也和 EarlETF 的横向笔画呼应。圆形轮廓因此完整，不再读成字母 D。',
+    family: 'EarlETF 字形不动，只做两件事：底色统一为 Earl 蓝；整体缩到 80%，因为原版中横的左端会被微信圆形头像裁掉（见第三张）。',
+    small: '≤32px 沿用现有的像素台阶版，16px 表现与今天一致。',
+    etf: mark(oldEScaled(ETF_K)),
+    mind: mark(scanRing),
+    extra: 'oldCrop',
+  },
+  {
+    id: 'half-pixel-e', no: 2, kind: '继承', cn: '半像素 E', en: 'Half-Pixel E',
+    concept: 'EarlMind 直接借用 EarlETF 的 E。左半边按 8 行网格量化成像素（算力），右半边保留原版的弧形端头（生活）；中横让出的右侧空位放一颗红点（偏见）。这和博客现有标识是同一个想法，只是载体换成了 EarlETF 的 E。',
+    family: 'EarlETF 一笔不改。两个号是同一个 E 的两种状态：完整的矢量 E 是 EarlETF，被算力改写了一半、多了一颗红点的是 EarlMind。',
+    small: '16px 下像素格不足 1px，改用矢量 E 加红点；32px 起出现像素台阶。在列表头像里，两者的区分主要靠红点。',
+    etf: mark(oldEScaled(ETF_K)),
+    mind: mark(halfPixelE),
+  },
+  {
+    id: 'sister-m', no: 3, kind: '继承', cn: '同字族 m', en: 'Sister m',
+    concept: '把 EarlETF 当作一套定制字体里的 E，再按同样的规则画一个 m：顶横与 E 的上横同高同厚；左上角伸出的翼尖取自 E 中横的左端；右上角和右下角的弧线分别取自 E 上横和下横的右端。红色句点是 EarlMind 独有的偏见。',
+    family: 'EarlETF 一笔不改。字母不同，列表里不会混；端头曲线全部从 E 身上取样，放在一起像同一套字体。',
+    small: '全部为矢量，没有小尺寸特殊处理。16px 下翼尖和弧线会弱化，家族感主要靠底色和笔画粗细。',
+    etf: mark(oldEScaled(ETF_K)),
+    mind: mark(sisterM),
+  },
+];
+
+/* ---------- 画布与导出 ---------- */
+function canvasOf(draw, px, css, shape = 'round', g = false, cls = '') {
+  const c = document.createElement('canvas');
+  c.width = c.height = px;
+  c.style.width = c.style.height = css + 'px';
+  if (cls) c.className = cls;
+  draw(c.getContext('2d'), px, shape, g);
+  return c;
+}
+
+function download(canvas, name, type = 'image/png') {
+  canvas.toBlob(b => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(b); a.download = name; a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }, type, 0.95);
+}
+
+function jpegSim(draw) {
+  const c = canvasOf(draw, 240, 240, 'square');
+  const img = new Image();
+  img.src = c.toDataURL('image/jpeg', 0.7);
+  img.width = img.height = 112;
+  img.className = 'rounded-full';
+  img.alt = '';
+  return img;
+}
+
+/* ---------- 页面组装 ---------- */
+const btnCls = 'rounded-full border border-ink/20 px-3 py-1.5 font-mono text-xs transition-colors hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink';
+
+function sectionHTML(d) {
+  return `
+  <section id="${d.id}" class="scroll-mt-8">
+    <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-line pb-3">
+      <span class="font-mono text-xs text-mute">方向 ${d.no} · ${d.kind}</span>
+      <h2 class="font-display text-4xl md:text-5xl">${d.cn} <span class="italic text-mute">${d.en}</span></h2>
+    </div>
+    <div class="mt-8 grid gap-10 lg:grid-cols-12">
+      <div class="space-y-6 lg:col-span-4">
+        <p class="leading-relaxed">${d.concept}</p>
+        <div><p class="eyebrow">与 EarlETF 的关系</p><p class="mt-1 text-sm leading-relaxed text-mute">${d.family}</p></div>
+        <div><p class="eyebrow">小尺寸</p><p class="mt-1 text-sm leading-relaxed text-mute">${d.small}</p></div>
+        <div><p class="eyebrow">导出</p><div data-slot="export" class="mt-2 flex flex-wrap gap-2"></div></div>
+      </div>
+      <div class="space-y-10 lg:col-span-8">
+        <div data-slot="family" class="flex flex-wrap items-start gap-6"></div>
+        <div>
+          <p class="eyebrow">微信</p>
+          <div class="mt-3 grid gap-6 md:grid-cols-[1fr_auto]">
+            <div data-slot="wxlist" class="divide-y divide-black/5 overflow-hidden rounded-xl bg-white ring-1 ring-black/5"></div>
+            <div data-slot="wxsim" class="flex items-start gap-5"></div>
+          </div>
+        </div>
+        <div>
+          <p class="eyebrow">Favicon · EarlMind</p>
+          <div class="mt-3 grid items-end gap-6 md:grid-cols-[auto_1fr]">
+            <div data-slot="ladder" class="flex items-end gap-5"></div>
+            <div data-slot="tabs" class="grid gap-3"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function captioned(node, label, sub = '') {
+  const d = document.createElement('figure');
+  d.className = 'flex flex-col items-center gap-2';
+  d.append(node);
+  d.insertAdjacentHTML('beforeend', `<figcaption class="text-center"><span class="font-mono text-[11px] text-ink">${label}</span>${sub ? `<br><span class="text-[11px] text-mute">${sub}</span>` : ''}</figcaption>`);
+  return d;
+}
+
+function wxRow(draw, name, text) {
+  const row = document.createElement('div');
+  row.className = 'flex items-center gap-3 px-4 py-3';
+  row.append(canvasOf(draw, Math.round(44 * DPR), 44, 'square', false, 'shrink-0 rounded-full'));
+  row.insertAdjacentHTML('beforeend', `
+    <div class="min-w-0 flex-1" style="font-family: system-ui, sans-serif">
+      <div class="flex items-baseline justify-between"><span class="text-[15px] text-[#191919]">${name}</span><span class="text-[11px] text-[#B2B2B2]">10:24</span></div>
+      <p class="truncate text-[13px] text-[#999]">${text}</p>
+    </div>`);
+  return row;
+}
+
+function tabBar(draw, dark) {
+  const bar = document.createElement('div');
+  bar.className = 'flex items-end gap-1 rounded-lg px-2 pt-2';
+  bar.style.background = dark ? '#202124' : '#DEE1E6';
+  const tab = (active, title, icon) => {
+    const t = document.createElement('div');
+    t.className = 'flex min-w-0 flex-1 items-center gap-2 rounded-t-lg px-3 py-2 text-[12px]';
+    t.style.background = active ? (dark ? '#35363A' : '#FFFFFF') : 'transparent';
+    t.style.color = dark ? (active ? '#E8EAED' : '#9AA0A6') : (active ? '#202124' : '#5F6368');
+    t.style.fontFamily = 'system-ui, sans-serif';
+    t.append(icon);
+    t.insertAdjacentHTML('beforeend', `<span class="truncate">${title}</span>`);
+    return t;
+  };
+  const dummy = document.createElement('span');
+  dummy.className = 'inline-block h-4 w-4 shrink-0 rounded-full';
+  dummy.style.background = dark ? '#5F6368' : '#BDC1C6';
+  bar.append(tab(true, 'EarlMind', canvasOf(draw, Math.round(16 * DPR), 16, 'round', false, 'shrink-0')), tab(false, 'GitHub', dummy));
+  return bar;
+}
+
+function renderAll() {
+  document.getElementById('tokens').innerHTML = TOKENS.map(([n, hex, role]) => `
+    <li class="flex items-center gap-3">
+      <span class="h-10 w-10 rounded-md ring-1 ring-black/10" style="background:${hex}"></span>
+      <span><span class="text-sm">${n}</span> <span class="font-mono text-xs text-mute">${hex}</span><br><span class="text-xs text-mute">${role}</span></span>
+    </li>`).join('');
+  document.getElementById('toc').innerHTML = DIRECTIONS.map(d =>
+    `<a href="#${d.id}" class="${btnCls}">${d.no} · ${d.cn}</a>`).join('');
+  document.getElementById('directions').innerHTML = DIRECTIONS.map(sectionHTML).join('');
+
+  DIRECTIONS.forEach(d => {
+    const sec = document.getElementById(d.id);
+    const slot = n => sec.querySelector(`[data-slot="${n}"]`);
+    const big = Math.round(176 * DPR);
+
+    const fam = slot('family');
+    fam.append(
+      captioned(canvasOf(d.etf, big, 176, 'round', showGuides), 'EarlETF', '字形不变 · 缩至 80%'),
+      captioned(canvasOf(d.mind, big, 176, 'round', showGuides), 'EarlMind'),
+    );
+    if (d.extra === 'oldCrop') {
+      fam.append(captioned(canvasOf(mark(oldEScaled(1)), big, 176, 'square', showGuides, 'rounded-full'), 'EarlETF 原尺寸', '圆形头像会切掉中横左端'));
+    }
+
+    const list = slot('wxlist');
+    list.append(
+      wxRow(d.etf, 'EarlETF', '[文章] 多资产配置月度复盘'),
+      wxRow(d.mind, 'EarlMind', '[文章] 一半是对算力的好奇'),
+    );
+    const sim = slot('wxsim');
+    sim.append(
+      captioned(canvasOf(d.mind, Math.round(112 * DPR), 112, 'square', false, 'rounded-full'), '圆形', '资料页'),
+      captioned(jpegSim(d.mind), '240 · JPEG 70%', '模拟微信压缩'),
+    );
+
+    const lad = slot('ladder');
+    lad.append(
+      captioned(canvasOf(d.mind, Math.round(60 * DPR), 60), '180'),
+      captioned(canvasOf(d.mind, Math.round(32 * DPR), 32), '32'),
+      captioned(canvasOf(d.mind, 16, 16), '16 实际'),
+      captioned(canvasOf(d.mind, 16, 64, 'round', false, 'pixelated'), '16 ×4'),
+    );
+    slot('tabs').append(tabBar(d.mind, false), tabBar(d.mind, true));
+
+    const ex = slot('export');
+    [
+      ['EarlMind favicon-16.png', () => download(canvasOf(d.mind, 16, 16), `earlmind-${d.id}-favicon-16.png`)],
+      ['favicon-32.png', () => download(canvasOf(d.mind, 32, 32), `earlmind-${d.id}-favicon-32.png`)],
+      ['apple-touch-icon.png', () => download(canvasOf(d.mind, 180, 180, 'square'), `earlmind-${d.id}-apple-touch-icon.png`)],
+      ['icon-512.png', () => download(canvasOf(d.mind, 512, 512, 'square'), `earlmind-${d.id}-icon-512.png`)],
+      ['微信头像 1080.jpg', () => download(canvasOf(d.mind, 1080, 1080, 'square'), `earlmind-${d.id}-wechat-1080.jpg`, 'image/jpeg')],
+      ...(d.no === 1 ? [['EarlETF 微信头像 1080.jpg', () => download(canvasOf(d.etf, 1080, 1080, 'square'), 'earletf-wechat-1080.jpg', 'image/jpeg')]] : []),
+    ].forEach(([label, fn]) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = btnCls; b.textContent = label;
+      b.addEventListener('click', fn);
+      ex.append(b);
+    });
+  });
+}
+
+document.getElementById('guides').addEventListener('change', e => { showGuides = e.target.checked; renderAll(); });
+renderAll();
+</script>
+</body>
+</html>
