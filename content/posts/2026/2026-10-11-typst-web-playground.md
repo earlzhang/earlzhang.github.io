@@ -18,7 +18,7 @@ tags = ["Typst", "排版", "效率工具"]
 
 Typst在官网上，提供了一个名为 [Typst Playground(https://typst.app/play/)](https://typst.app/play/) 的在线免费编辑器，左边是代码，右边是预览，和很多编辑器非常类似。
 
-![image-20261011101129801](https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20261011_101339_604_e972e207_tmpks473b0i.png?x-oss-process=image/resize,w_1200/format,webp/quality,q_80)
+![image-20261011101129801](https://earlmind.oss-cn-shanghai.aliyuncs.com/blog/20261011_101757_249_b0400bcd_longshot20261011101509.png?x-oss-process=image/resize,w_1200/format,webp/quality,q_80)
 
 下载的typ扩展名的文件，你如果有类似VS code之类的编辑器，可以拖入直接打开，typ本质上是一个纯文本文件，只是用了自己的扩展名。所以如果你电脑上没装VS code之类编辑器，将其扩展名改成txt，用系统文本编辑器打开就行。
 
