@@ -65,7 +65,13 @@
     #text(size: 10pt)[第 #counter(page).display() 页 / 共 #counter(page).final().first() 页]
   ],
 )
-#set text(font: ("Times New Roman", "Songti SC"), size: 14pt)
+// 字体回退链（Windows / macOS / typst.app 在线版三端兼容）：
+// 西文：Times New Roman（Win/macOS 自带）→ Liberation Serif（TNR 度量兼容克隆，typst.app 内置）
+// 中文：Songti SC（macOS 宋体）→ SimSun（Windows 宋体）→ Noto Serif CJK SC（typst.app / Linux）
+#set text(
+  font: ("Times New Roman", "Liberation Serif", "Songti SC", "SimSun", "Noto Serif CJK SC"),
+  size: 14pt,
+)
 
 // ---------- 伪随机数（线性同余发生器） ----------
 #let M = 2147483648
