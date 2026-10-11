@@ -203,10 +203,42 @@ def emit(out: Path, *, favicon: str, ico: dict[int, str], square: str, wechat: s
     logger.success("{} 素材已输出到 {}", out.name, out.relative_to(DESIGN.parent.parent))
 
 
+def og_square() -> str:
+    k = 30
+    tx, ty = 600 - 8 * k, 470 - 8 * k
+    text = (
+        f'<text x="600" y="800" text-anchor="middle" fill="{WHITE}" font-family="Helvetica Neue, sans-serif" '
+        f'font-weight="700" font-size="150" letter-spacing="-2">EarlMind</text>'
+        f'<text x="600" y="890" text-anchor="middle" fill="{WHITE}" fill-opacity=".8" '
+        f'font-family="HarmonyOS Sans SC, Helvetica Neue, sans-serif" font-weight="500" font-size="42">'
+        f"一半是对算力的好奇，一半是对生活的偏见</text>"
+        f'<text x="600" y="1040" text-anchor="middle" fill="{WHITE}" fill-opacity=".5" '
+        f'font-family="Menlo, Andale Mono, monospace" font-size="30" letter-spacing="8">earlmind.com</text>'
+    )
+    grid = (
+        f'<defs><pattern id="px" width="60" height="60" patternUnits="userSpaceOnUse">'
+        f'<path d="M60 0H0V60" fill="none" stroke="{WHITE}" stroke-opacity=".07" stroke-width="2"/></pattern></defs>'
+        f'<rect width="600" height="1200" fill="url(#px)"/>'
+    )
+    mark = f'<g transform="translate({tx} {ty}) scale({k})">{mind_mark(scanline=True)}</g>'
+    return doc(1200, 1200, bg(1200, 1200) + grid + mark + text)
+
+
+def write_og(out: Path) -> None:
+    og = og_square()
+    src = out / "source"
+    src.mkdir(parents=True, exist_ok=True)
+    (src / "og-image.svg").write_text(og, encoding="utf-8")
+    with tempfile.TemporaryDirectory() as td:
+        raster(og, 1200, out / "og-image.png", Path(td))
+    logger.success("OG 已输出到 {}", (out / "og-image.png").relative_to(DESIGN.parent.parent))
+
+
 def main() -> None:
     try:
         mind = earlmind_set()
         emit(DESIGN / "earlmind", **mind)
+        write_og(DESIGN / "earlmind")
         etf = earletf_set()
         emit(DESIGN / "earletf", **etf)
     except ValueError as e:
