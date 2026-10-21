@@ -32,19 +32,22 @@
 1. `uv run upload_post_images.py`：把文章中引用的本地图片（如 `xxx.assets/`、`./` 相对路径、绝对路径）上传到 OSS `earlmind` bucket 的 `blog/` 前缀并改写引用。无本地图片时跳过；上传失败中断发布；引用的本地文件已丢失时仅警告不阻塞。凭证来自环境变量 / 仓库 `.env` / CSO写作 `script/.env`。
 2. `git add .` + 提交（"Update blog content"）+ `git pull --rebase` + `git push`
 3. `hugo --config hugo.toml --minify` 构建到 `public/`
-4. 刷新 Cloudflare OAuth token（refresh_token 会轮换，脚本自动回写到 wrangler 配置）
-5. `wrangler pages deploy public --project-name earlmind --branch main`
+4. `npx -y pagefind@1.5.2 --site public` 生成全文搜索索引到 `public/pagefind/`（分片索引，按需加载）
+5. 刷新 Cloudflare OAuth token（refresh_token 会轮换，脚本自动回写到 wrangler 配置）
+6. `wrangler pages deploy public --project-name earlmind --branch main`
 
 注意事项：
 
 - 脚本开了 `set -euo pipefail`，若工作区无改动，`git commit` 会失败并中断，此时可手动执行构建和部署部分。
 - 访问 Cloudflare 不稳定时，脚本会自动检测本地代理（Clash/Mihomo，127.0.0.1:7897）并启用。
 - wrangler access_token 有效期约 1 小时，过期需先运行 `wrangler login`。
+- 全文检索由 Pagefind 驱动（`layouts/_default/pagefind.html` + `content/search.md`，`layout: "pagefind"`）：索引只覆盖标了 `data-pagefind-body` 的正文页，列表/归档/搜索页用 `data-pagefind-ignore` 排除。`hugo server` 本地预览时 `/pagefind/` 不存在，搜索页会显示提示信息，属正常现象。
 
 手动发布（等价命令）：
 
 ```bash
 hugo --config hugo.toml --minify
+npx -y pagefind@1.5.2 --site public
 wrangler pages deploy public --project-name earlmind --branch main --commit-hash "$(git rev-parse --short HEAD)"
 ```
 

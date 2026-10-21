@@ -589,6 +589,51 @@ summary:focus-visible {
     font-variant-numeric: tabular-nums;
 }
 
+/* ---------- 搜索页：Pagefind UI 贴站主题 ---------- */
+
+:root {
+    --pagefind-ui-scale: 1;
+    --pagefind-ui-primary: var(--primary);
+    --pagefind-ui-text: var(--primary);
+    --pagefind-ui-background: var(--theme);
+    --pagefind-ui-border: var(--border);
+    --pagefind-ui-tag: var(--secondary);
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 4px;
+    --pagefind-ui-font: var(--font-sans);
+}
+
+.pagefind-ui__result {
+    border: 0;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+    padding: 18px 0;
+}
+
+.pagefind-ui__result:last-of-type {
+    border-bottom: 0;
+}
+
+.pagefind-ui__result-link:hover {
+    color: var(--accent);
+}
+
+.pagefind-ui__result-excerpt {
+    font-family: var(--font-serif);
+    color: var(--secondary);
+}
+
+.pagefind-ui__result-excerpt mark {
+    background: var(--accent-soft);
+    color: inherit;
+}
+
+.pagefind-ui__message,
+.pagefind-missing {
+    color: var(--secondary);
+    font-size: 15px;
+}
+
 /* ---------- 移动端 ---------- */
 
 @media screen and (max-width: 768px) {

@@ -1,5 +1,8 @@
 {{- define "main" }}
 
+{{- /* data-pagefind-ignore：聚合页全是文章标题，进索引会干扰全文搜索结果排序 */}}
+<div data-pagefind-ignore>
+
 <header class="page-header">
   <h1>
     {{ .Title }}
@@ -79,5 +82,7 @@
 </div>
 {{- end }}
 {{- end }}
+
+</div>
 
 {{- end }}{{/* end main */}}

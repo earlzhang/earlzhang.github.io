@@ -75,9 +75,9 @@ timeZone = "Asia/Shanghai"
     url = "/search/"
     weight = 20
 
-# 搜索优化（PaperMod 特色）
+# 输出格式。搜索已由 Pagefind 接管，不再生成 PaperMod Fuse.js 用的全量 index.json
 [outputs]
-    home = ["HTML", "RSS", "JSON"]
+    home = ["HTML", "RSS"]
 
 # 永久链接格式设置：保持 URL 简洁
 [permalinks]

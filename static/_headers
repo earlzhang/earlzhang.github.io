@@ -29,3 +29,15 @@ https://:version.:project.pages.dev/*
 # PaperMod 指纹资源（stylesheet.<hash>.css 等，内容变则文件名变）：一年不可变缓存
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
+
+# Pagefind 入口文件（pagefind.js、pagefind-ui.* 等）不带内容哈希，短缓存防索引失配
+/pagefind/*
+  Cache-Control: public, max-age=3600
+
+# Pagefind 索引分片文件名含内容哈希：一年不可变缓存（规则靠后，覆盖上一条）
+/pagefind/index/*
+  Cache-Control: public, max-age=31536000, immutable
+/pagefind/fragment/*
+  Cache-Control: public, max-age=31536000, immutable
+/pagefind/filter/*
+  Cache-Control: public, max-age=31536000, immutable

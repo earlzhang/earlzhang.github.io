@@ -1,5 +1,8 @@
 {{- define "main" }}
 
+{{- /* data-pagefind-ignore：列表/首页/标签页只含标题与摘要，不进入 Pagefind 索引 */}}
+<div data-pagefind-ignore>
+
 {{- if (and site.Params.profileMode.enabled .IsHome) }}
 {{- partial "index_profile.html" . }}
 {{- else }} {{/* if not profileMode */}}
@@ -117,5 +120,7 @@
 {{- end }}
 
 {{- end }}{{/* end profileMode */}}
+
+</div>
 
 {{- end }}{{- /* end main */ -}}

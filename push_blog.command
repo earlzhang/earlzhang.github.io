@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-for cmd in git hugo wrangler uv; do
+for cmd in git hugo wrangler uv npx; do
   if ! command -v "$cmd" >/dev/null 2>&1; then
     echo "错误: 未找到 $cmd 命令，请先安装。"
     exit 1
@@ -30,7 +30,10 @@ echo "正在推送到 GitHub..."
 git push
 
 echo "正在构建 Hugo 站点..."
-hugo --config hugo.toml --minify
+hugo --config hugo.toml --minify --cleanDestinationDir
+
+echo "正在生成 Pagefind 搜索索引..."
+npx -y pagefind@1.5.2 --site "${SCRIPT_DIR}/public"
 
 echo "正在部署到 Cloudflare Pages..."
 

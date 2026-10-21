@@ -1,9 +1,9 @@
 {{- define "main" }}
 
-<article class="post-single">
+<article class="post-single" data-pagefind-body>
   <header class="post-header">
     {{ partial "breadcrumbs.html" . }}
-    <h1 class="post-title entry-hint-parent">
+    <h1 class="post-title entry-hint-parent" data-pagefind-meta="title">
       <span>{{ partial "seg_title.html" .Title }}</span>
       {{- if .Draft }}
       <span class="entry-hint" title="Draft">

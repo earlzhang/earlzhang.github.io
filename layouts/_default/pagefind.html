@@ -1,0 +1,49 @@
+{{- define "main" }}
+
+<header class="page-header">
+    <h1>{{- .Title -}}</h1>
+    {{- if .Description }}
+    <div class="post-description">
+        {{ .Description }}
+    </div>
+    {{- end }}
+</header>
+
+{{- /* data-pagefind-ignore：搜索页自身不进入 Pagefind 索引 */}}
+<div id="search" data-pagefind-ignore></div>
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', function () {
+        if (typeof PagefindUI === 'undefined') {
+            // 本地 hugo server 预览时没有索引（/pagefind/ 由构建产物生成）
+            document.getElementById('search').innerHTML =
+                '<p class="pagefind-missing">搜索索引尚未生成：执行 <code>hugo --minify &amp;&amp; npx pagefind --site public</code> 后生效。</p>';
+            return;
+        }
+        new PagefindUI({
+            element: '#search',
+            showSubResults: true,
+            showImages: false,
+            autofocus: true,
+            excerptLength: 24,
+            debounceTimeoutMs: 200,
+            translations: {
+                placeholder: '搜索文章',
+                clear_search: '清除',
+                load_more: '加载更多结果',
+                search_label: '站内搜索',
+                filters_label: '筛选',
+                zero_results: '没有找到与「[SEARCH_TERM]」相关的内容',
+                many_results: '「[SEARCH_TERM]」共 [COUNT] 条结果',
+                one_result: '「[SEARCH_TERM]」共 [COUNT] 条结果',
+                alt_search: '未找到「[SEARCH_TERM]」，以下为「[DIFFERENT_TERM]」的结果',
+                search_suggestion: '未找到「[SEARCH_TERM]」，可试试：',
+                searching: '正在搜索「[SEARCH_TERM]」…'
+            }
+        });
+    });
+</script>
+
+{{- end }}{{/* end main */}}
