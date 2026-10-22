@@ -1,5 +1,6 @@
 # Cloudflare Pages 响应头规则（Hugo 经 static/ 拷入 public/_headers）
-# 同一请求可命中多条规则，同名头以靠后的规则为准：通用扩展名规则在前，指纹资源在后覆盖。
+# 注意：同名头命中多条规则时值会按逗号合并（而非后者覆盖前者），
+# 因此路径可能重叠的规则必须靠扩展名/目录错开，避免一个文件命中两条 Cache-Control。
 
 # 根目录静态文件可能同路径更新（airbnb.css、full.min.js、favicon 等），缓存一天
 /*.png
@@ -30,11 +31,20 @@ https://:version.:project.pages.dev/*
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Pagefind 入口文件（pagefind.js、pagefind-ui.* 等）不带内容哈希，短缓存防索引失配
-/pagefind/*
+# Pagefind 入口文件（pagefind.js、pagefind-ui.*、wasm、pf_meta 清单等，均在顶层且不带
+# 内容哈希）：短缓存防索引失配。按扩展名列规则，与子目录分片规则互不重叠。
+/pagefind/*.js
+  Cache-Control: public, max-age=3600
+/pagefind/*.css
+  Cache-Control: public, max-age=3600
+/pagefind/*.json
+  Cache-Control: public, max-age=3600
+/pagefind/*.pagefind
+  Cache-Control: public, max-age=3600
+/pagefind/*.pf_meta
   Cache-Control: public, max-age=3600
 
-# Pagefind 索引分片文件名含内容哈希：一年不可变缓存（规则靠后，覆盖上一条）
+# Pagefind 索引分片（子目录内，文件名含内容哈希）：一年不可变缓存
 /pagefind/index/*
   Cache-Control: public, max-age=31536000, immutable
 /pagefind/fragment/*
