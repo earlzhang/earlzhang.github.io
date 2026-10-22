@@ -34,6 +34,8 @@ hugo --config hugo.toml --minify --cleanDestinationDir
 
 echo "正在生成 Pagefind 搜索索引..."
 npx -y pagefind@1.5.2 --site "${SCRIPT_DIR}/public"
+# 删除未使用的 UI 变体（站点用 Default UI），减少约 240K 部署体积
+rm -f "${SCRIPT_DIR}"/public/pagefind/pagefind-component-ui.* "${SCRIPT_DIR}"/public/pagefind/pagefind-modular-ui.*
 
 echo "正在部署到 Cloudflare Pages..."
 
