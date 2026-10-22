@@ -51,7 +51,7 @@ npx -y pagefind@1.5.2 --site public
 wrangler pages deploy public --project-name earlmind --branch main --commit-hash "$(git rev-parse --short HEAD)"
 ```
 
-响应头与缓存由 `static/_headers`（Cloudflare Pages 规则）控制：`/assets/` 下 PaperMod 指纹资源缓存一年且 immutable，根目录静态文件缓存一天，HTML 维持 Pages 默认 `must-revalidate`；`*.pages.dev` 域名加 `X-Robots-Tag: noindex`。canonical 已由 PaperMod 自动输出，无需配置。
+响应头与缓存由 `static/_headers`（Cloudflare Pages 规则）控制：`/assets/` 下 PaperMod 指纹资源缓存一年且 immutable，根目录静态文件缓存一天，HTML 维持 Pages 默认 `must-revalidate`；`/pagefind/` 下索引分片（index/fragment/filter，文件名含内容哈希）一年 immutable，顶层入口文件短缓存；`*.pages.dev` 域名加 `X-Robots-Tag: noindex`。注意同名响应头命中多条规则时会逗号合并而非覆盖，规则须设计为互不重叠。canonical 已由 PaperMod 自动输出，无需配置。
 
 ## 如何增加页面底部链接
 
