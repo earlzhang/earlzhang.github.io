@@ -6,7 +6,7 @@ description = "刚复活的博客在 Chrome 里满屏红字，域名被 Google �
 tags = ["域名", "创作者生态", "网站安全"]
 +++
 
-之前说到[“捡”](2026-10-21-reclaim-earlzhang-net.md)回了`earlzhang.net`这个域名，并将古老的“理性谈风月”，以https://blog.earlzhang.net/ 复活。
+之前说到[“捡”](2026-10-21-reclaim-earlzhang-net.md)回了`earlzhang.net`这个域名，并将古老的“理性谈风月”，以 https://blog.earlzhang.net/ 复活。
 
 一切操作都是在Edge上，一切太平。
 
@@ -34,7 +34,7 @@ Gemini说：
 
 因为我当年的blog下线许久，域名都丢了许久，也不知道什么原因。反正先申请申诉，说这是我新买的域名。
 
-在等申诉结果的过程中，去https://web.archive.org/ 查了一下这个域名过去几年到底发生了什么。
+在等申诉结果的过程中，去 https://web.archive.org/ 查了一下这个域名过去几年到底发生了什么。
 
 才发现，竟然被人抢注变成了足球转播，虽然看不出特别离谱的，但想想估计也有问题。
 
