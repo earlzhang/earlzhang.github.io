@@ -39,13 +39,18 @@ rm -f "${SCRIPT_DIR}"/public/pagefind/pagefind-component-ui.* "${SCRIPT_DIR}"/pu
 
 echo "正在部署到 Cloudflare Pages..."
 
-# Cloudflare API 直连在本机不稳定，检测本地代理（Clash/Mihomo 7897 端口）在跑则自动启用；
-# 代理未运行时回落为直连。
+# Cloudflare API 直连在本机不稳定，检测本地代理在跑则自动启用；
+# 依次探测 Clash/Mihomo(7897) 与 MonoProxy(8118 http / 8119 socks5)；均未运行则回落为直连。
 if nc -z 127.0.0.1 7897 2>/dev/null; then
   export http_proxy="http://127.0.0.1:7897"
   export https_proxy="http://127.0.0.1:7897"
   export all_proxy="socks5://127.0.0.1:7897"
   echo "检测到本地代理 127.0.0.1:7897，经代理访问 Cloudflare"
+elif nc -z 127.0.0.1 8118 2>/dev/null; then
+  export http_proxy="http://127.0.0.1:8118"
+  export https_proxy="http://127.0.0.1:8118"
+  export all_proxy="socks5://127.0.0.1:8119"
+  echo "检测到本地代理 127.0.0.1:8118，经代理访问 Cloudflare"
 fi
 
 # wrangler access_token 有效期约 1 小时。用 refresh_token 换新 token 并回写配置
