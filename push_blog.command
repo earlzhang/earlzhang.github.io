@@ -39,18 +39,24 @@ rm -f "${SCRIPT_DIR}"/public/pagefind/pagefind-component-ui.* "${SCRIPT_DIR}"/pu
 
 echo "正在部署到 Cloudflare Pages..."
 
-# Cloudflare API 直连在本机不稳定，检测本地代理在跑则自动启用；
-# 依次探测 Clash/Mihomo(7897) 与 MonoProxy(8118 http / 8119 socks5)；均未运行则回落为直连。
-if nc -z 127.0.0.1 7897 2>/dev/null; then
-  export http_proxy="http://127.0.0.1:7897"
-  export https_proxy="http://127.0.0.1:7897"
-  export all_proxy="socks5://127.0.0.1:7897"
-  echo "检测到本地代理 127.0.0.1:7897，经代理访问 Cloudflare"
-elif nc -z 127.0.0.1 8118 2>/dev/null; then
-  export http_proxy="http://127.0.0.1:8118"
-  export https_proxy="http://127.0.0.1:8118"
-  export all_proxy="socks5://127.0.0.1:8119"
-  echo "检测到本地代理 127.0.0.1:8118，经代理访问 Cloudflare"
+# Cloudflare API 直连在本机不稳定，本地代理可用则自动启用；
+# 依次实测 Clash/Mihomo(7897) 与 MonoProxy(8118 http / 8119 socks5)——用真实代理请求验证，
+# 而非 nc 探测端口：TUN/增强模式可能接走连接却不提供有效代理，造成假阳性。均不可用则回落直连。
+PROXY_OK=""
+for spec in "http://127.0.0.1:7897 socks5://127.0.0.1:7897" "http://127.0.0.1:8118 socks5://127.0.0.1:8119"; do
+  http_p="${spec%% *}"; socks_p="${spec##* }"
+  if curl -s -o /dev/null --connect-timeout 2 --max-time 4 -x "$http_p" https://dash.cloudflare.com 2>/dev/null; then
+    export http_proxy="$http_p"
+    export https_proxy="$http_p"
+    export all_proxy="$socks_p"
+    echo "检测到可用代理 ${http_p}，经代理访问 Cloudflare"
+    PROXY_OK=1
+    break
+  fi
+done
+if [ -z "$PROXY_OK" ]; then
+  # 无可用代理：清掉环境中可能残留的死代理变量，回落直连
+  unset http_proxy https_proxy all_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY
 fi
 
 # wrangler access_token 有效期约 1 小时。用 refresh_token 换新 token 并回写配置
