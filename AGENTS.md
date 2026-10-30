@@ -39,7 +39,7 @@
 注意事项：
 
 - 脚本开了 `set -euo pipefail`，若工作区无改动，`git commit` 会失败并中断，此时可手动执行构建和部署部分。
-- 访问 Cloudflare 不稳定时，脚本会自动启用本地代理：依次实测 Clash/Mihomo（127.0.0.1:7897）和 MonoProxy（127.0.0.1:8118）能否真实转发请求（不用端口探测，TUN 模式会造成假阳性），都不可用则清空代理变量直连。注意 git 的代理在 `git config`（`http.proxy`/`https.proxy`）中单独配置，与本探测无关，换代理工具时须同步修改。
+- 访问 Cloudflare 不稳定时，脚本会自动启用本地代理：依次实测 Clash/Mihomo（127.0.0.1:7897）和 MonoProxy（127.0.0.1:8118）能否真实转发请求（不用端口探测，TUN 模式会造成假阳性），都不可用则清空代理变量直连。git/wrangler 均不单独配置代理：git 已无 `git config` 代理项，两者统一走 `~/.zshenv` 中 `syncproxy` 按 macOS 系统代理设置的环境变量，切换代理客户端无需改仓库。
 - wrangler access_token 有效期约 1 小时，过期需先运行 `wrangler login`。
 - 全文检索由 Pagefind 驱动（`layouts/_default/pagefind.html` + `content/search.md`，`layout: "pagefind"`）：索引只覆盖标了 `data-pagefind-body` 的正文页，列表/归档/搜索页用 `data-pagefind-ignore` 排除。`hugo server` 本地预览时 `/pagefind/` 不存在，搜索页会显示提示信息，属正常现象。
 
